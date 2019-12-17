@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tabs',
@@ -7,6 +9,17 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  
+  private subscribeLogin: Subscription;
+
+  constructor(
+    public authService: AuthService,) {}
+
+
+  ionViewWillLeave() {
+    this.subscribeLogin.unsubscribe();
+  }
+
+
 
 }

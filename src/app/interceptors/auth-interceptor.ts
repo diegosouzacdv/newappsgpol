@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { StorageService } from '../services/storage.service';
 import { API_CONFIG } from '../config/api.config';
@@ -14,8 +14,18 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let localUser = this.storage.getLocalUser();
 
+        if(!localUser) {
+            console.log('aq entrando')
+            if (req.withCredentials === undefined) {
+                const authReq = req = req.clone({
+                   withCredentials: true,
+                });
+                return next.handle(authReq)
+              }
+        }
+
         if (localUser) {
-            const authReq = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + localUser.token) });
+            const authReq = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + localUser.token)});
             return next.handle(authReq)
                 .pipe(
                     catchError(error => {

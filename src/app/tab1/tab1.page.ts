@@ -5,6 +5,7 @@ import { PolicialDTO } from '../models/policial.dto';
 import { PolicialService } from '../services/domain/policial.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocalizacaoDTO } from '../models/localizacao.dto';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tab1',
@@ -19,11 +20,13 @@ export class Tab1Page {
 
   constructor(
     private route: ActivatedRoute,
-    public policialService: PolicialService) {}
+    public policialService: PolicialService,
+    public authService: AuthService) {}
 
   public resolverUser() {
     this.subscribeUser = this.route.data.subscribe((resolvedRouteData) => {
       this.policial = resolvedRouteData['data'];
+      console.log(this.policial)
       this.policialService.getLocalization();
     });
   }
@@ -31,6 +34,13 @@ export class Tab1Page {
   async ionViewWillEnter() {
     this.resolverUser();
 
+  }
+
+  refreshToken() {
+    this.authService.refreshToken()
+      .subscribe(response => {
+        console.log(response)
+      })
   }
 
   ionViewWillLeave() {

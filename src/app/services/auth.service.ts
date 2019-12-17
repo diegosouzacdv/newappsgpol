@@ -11,6 +11,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   })
 export class AuthService {
 
+    private httpOptions = {
+        headers: new HttpHeaders({ 
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic YXBwc2dwb2w6QHBwc2dwQGw='
+        })
+      };
+
     private helper = new JwtHelperService();
 
     constructor(
@@ -21,19 +28,28 @@ export class AuthService {
         }
 
     authenticate(creds: CredenciaisDTO) {
-        const httpOptions = {
-            headers: new HttpHeaders({ 
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'Authorization': 'Basic YXBwc2dwb2w6QHBwc2dwQGw='
-            })
-          };
-
         const body = `login=appsgpol&username=${creds.username}&password=${creds.password}&grant_type=password`;
 
         return this.http.post(
             `${API_CONFIG.baseUrl}/oauth/token`,
             body,
-            httpOptions)
+            this.httpOptions)
+    }
+
+    refreshToken() {
+        let headers = {
+            headers: new HttpHeaders({ 
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization': 'Basic YXBwc2dwb2w6QHBwc2dwQGw='
+            }),
+            withCredentials: true
+          };
+        const body = `grant_type=refresh_token`;
+        console.log('REFRESH TOKEN DO SERVICE')
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/oauth/token`,
+            body,
+            headers,)
     }
 
     successfullLogin(authorizationValue: string) {
