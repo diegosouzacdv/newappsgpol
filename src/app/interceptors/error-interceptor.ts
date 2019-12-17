@@ -1,73 +1,133 @@
+
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
-import { StorageService } from '../services/storage.service';
-
-
+import { ToastController } from '@ionic/angular';
+import { FieldMessage } from '../models/field.message';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-    constructor(
-        public storage: StorageService,
-        public alertCtrl: AlertController
-        ) {
-    }
 
+    public message: string;
+
+    constructor(public alertCtrl: AlertController,
+                public toastController: ToastController
+                ) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log('Passou pelo error interceptor');
-        return next.handle(req).pipe(
-            catchError((error) => {
-                let errorObj = error;
-                if (!errorObj.status) {
-                    errorObj = JSON.parse(errorObj);
-                }
-
-                console.log(errorObj);
-
-                switch (errorObj.status) {
-                    case 401:
-                        this.handle401();
-                        break;
-                    case 403:
-                        this.handle403();
-                        break;
-                    case 500:
-                        this.handle500();
-                        break;
-                    default:
-                        this.handleDefaultError(errorObj);
-                }
-                return throwError(errorObj);
-        }) as any);
+        console.log("passou")
+        return next.handle(req)
+                .pipe(
+                    catchError(error => {
+                        console.log(error)
+                       /* let errorObj = error;
+                        if (errorObj.error) {
+                            errorObj = errorObj.error;
+                        }
+                        let e: any;
+                        if ( !errorObj.status || errorObj.status != undefined) {
+                            if (this.isJson(errorObj)) {
+                                e = this.convertError(errorObj);
+                            }
+                            errorObj = e;
+                        }*/
+                        switch (error.status) {
+                            case 403: this.handle403();
+                                      break;
+                            case 401: this.handle401();
+                                      break;
+                            case 422: this.handle422(error);
+                                      break;
+                            case 0: this.handle0();
+                                    break;
+                            default:
+                                this.handleDefaultError(error);
+                        }
+                        return throwError(error);
+                    })) as any;
     }
 
-    handle401() {
-        this.alertCtrl.create({
-            message: 'Falha na autenticação',
-            subHeader: 'Usuário ou senhas incorretos!',
-            buttons: ['Ok']}).then(alert => alert.present());
-        this.storage.setLocalUser(null);
+    public isJson(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            console.log(e)
+            return false;
+        }
+        return true;
     }
 
-    handle403() {
-        this.storage.setLocalUser(null);
+    public convertError(error: any){
+            return JSON.parse(error);
     }
 
-    handle500() {
-        this.alertCtrl.create({
-            message: 'Erro no servidor',
-            subHeader: 'Não foi possível executar a operação!',
-            buttons: ['Ok']}).then(alert => alert.present());;
+    public async handle0() {
+        const toast = await this.toastController.create({
+            message: 'Serviço temporariamente indisponível!',
+            duration: 3000,
+            mode: 'ios',
+            translucent: true
+          });
+        toast.present();
+        //this.authService.logout();
+        }
+
+    public async handle403() {
+    const toast =  await this.toastController.create({
+        message: 'Usuario ou senha errada!',
+        duration: 3000,
+        mode: 'ios',
+        translucent: true
+      });
+    toast.present();
+    //this.authService.logout();
     }
 
-    handleDefaultError(errorObj) {
-        this.alertCtrl.create({
-            message: 'Erro ' + errorObj.status + ': ' + errorObj.error,
-            subHeader: errorObj.message,
-            buttons: ['Ok']}).then(alert => alert.present());
+    public async handle401() {
+    const toast = await this.toastController.create({
+        message: 'Usuario ou senha errada!',
+        duration: 3000,
+        mode: 'ios',
+        translucent: true
+      });
+    toast.present();
     }
+
+    public handle422(errorObj) {
+        const alert = this.alertCtrl.create({
+            header: 'Campo Obrigatório',
+            message: this.listErrors(errorObj.errors),
+            backdropDismiss: false,
+            buttons: [
+                {text: 'Ok'}
+            ]
+        // tslint:disable-next-line: no-shadowed-variable
+        }).then(alert => alert.present());
+        }
+
+    public handleDefaultError(errorObj) {
+    const alert = this.alertCtrl.create({
+        header: 'Error ' + errorObj.status + ': ' + errorObj.error,
+        message: errorObj.message,
+        backdropDismiss: false,
+        buttons: [
+            {text: 'Ok'}
+        ]
+    // tslint:disable-next-line: no-shadowed-variable
+    }).then(alert => alert.present());
+    }
+
+   private listErrors(messages: FieldMessage[]): string {
+        let s = '';
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < messages.length; i++) {
+            s = s + '<p><strong>' + messages[i].fieldName + '</strong>: ' + messages[i].message + '</p>';
+        }
+        return s;
+    }
+
 }
+
 
 export const ErrorInterceptorProvider = {
     provide: HTTP_INTERCEPTORS,

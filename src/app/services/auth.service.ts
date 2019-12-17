@@ -1,31 +1,32 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StorageService } from './storage.service';
 import { CredenciaisDTO } from '../models/credencias.dto';
 import { API_CONFIG } from '../config/api.config';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { LocalUser } from '../models/local_user';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const httpOptions = {
-    headers: new HttpHeaders({ 
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic YXBwc2dwb2w6QHBwc2dwQGw='
-    })
-  };
-
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+  })
 export class AuthService {
 
     private helper = new JwtHelperService();
 
     constructor(
         public http: HttpClient,
-        public storage: StorageService,
+        public storage: StorageService
         ){
 
         }
 
     authenticate(creds: CredenciaisDTO) {
+        const httpOptions = {
+            headers: new HttpHeaders({ 
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization': 'Basic YXBwc2dwb2w6QHBwc2dwQGw='
+            })
+          };
 
         const body = `login=appsgpol&username=${creds.username}&password=${creds.password}&grant_type=password`;
 

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StorageService } from '../storage.service';
 import { Observable } from 'rxjs';
-import { ViaturaDTO } from 'src/models/viatura.dto';
-import { API_CONFIG } from 'src/config/api.config';
+import { ViaturaDTO } from 'src/app/models/viatura.dto';
+import { API_CONFIG } from 'src/app/config/api.config';
 
 @Injectable()
 export class ViaturaService {

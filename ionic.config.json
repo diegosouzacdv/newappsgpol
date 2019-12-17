@@ -1,5 +1,7 @@
 {
   "name": "NewAppSGPOL",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

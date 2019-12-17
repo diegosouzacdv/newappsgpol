@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from '../storage.service';
 import { Observable } from 'rxjs';
-import { EfetivoUnidadeDTO } from 'src/models/efetivo.dto';
-import { API_CONFIG } from 'src/config/api.config';
 import { HttpClient } from '@angular/common/http';
+import { EfetivoUnidadeDTO } from 'src/app/models/efetivo.dto';
+import { API_CONFIG } from 'src/app/config/api.config';
 
 @Injectable()
 export class EfetivoUnidadeService {

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_CONFIG } from 'src/config/api.config';
-import { ItensVistoriaDTO } from 'src/models/itens-vistoria.dto';
+import { ItensVistoriaDTO } from 'src/app/models/itens-vistoria.dto';
 import { Observable } from 'rxjs';
-import { VistoriaVistoriaDTO } from 'src/models/vistoria-viatura.dto';
+import { API_CONFIG } from 'src/app/config/api.config';
+import { VistoriaVistoriaDTO } from 'src/app/models/vistoria-viatura.dto';
 
 @Injectable()
 export class ItensVistoriaService {
