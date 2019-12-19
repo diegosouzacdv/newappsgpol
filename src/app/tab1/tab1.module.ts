@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
 import { ResolverUser } from '../resolvers/ResolverUser';
-import { ResolverFoto } from '../resolvers/ResolverFoto';
+import { ShellModule } from 'src/app/shell/shell.module';
 
 const routes: Routes = [
   {
@@ -22,6 +22,7 @@ const routes: Routes = [
   imports: [
     IonicModule,
     CommonModule,
+    ShellModule,
     FormsModule,
     RouterModule.forChild(routes)
   ],

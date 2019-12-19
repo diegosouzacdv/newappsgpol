@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
 import { API_CONFIG } from 'src/app/config/api.config';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class ViaturaService {
 
     constructor(public http: HttpClient, public storage: StorageService) {

@@ -1,9 +1,93 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Tab Two
-    </ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="primary"></ion-buttons>
+    <ion-title>Vistoria de Viatura</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+  <ion-card>
+    <ion-item>
+      <ion-avatar class="user-avatar" slot="start">
+        <img [src]="policial?.foto || '../assets/imgs/noimage.gif'">
+      </ion-avatar>
+      {{policial?.posto}} {{policial?.nomeGuerra}}
+      <br>{{policial?.lotacao}}
+    </ion-item>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>Carteira de Habilitação</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col><strong>Categoria: </strong>
+            <app-text-shell [data]="policial?.cnh?.categoria"></app-text-shell>
+          </ion-col>
+          <ion-col><strong>Validade: </strong>
+            <app-text-shell [data]="policial?.cnh?.dataValidade | date:'dd/MM/yyyy'"></app-text-shell>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Vistoria Prévia</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Para realizar a vistoria informe a placa da viatura abaixo.
+      <ion-item>
+        <ion-label position="floating">Placa</ion-label>
+        <ion-input clearInput name="busca" [(ngModel)]="busca"></ion-input>
+      </ion-item>
+      <ion-toolbar>
+        <ion-button slot="end" (click)="consultarViatura(busca)">
+          <ion-icon slot="end" name="search"></ion-icon>
+          Buscar
+        </ion-button>
+      </ion-toolbar>
+    </ion-card-content>
+    <ion-item *ngFor="let viatura of viaturas" (click)="fichaViatura(viatura)" color="medium">
+      <ion-avatar class="logo" slot="start"><img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
+      </ion-avatar>
+      <ion-label>Prefixo: {{viatura?.prefixo}}</ion-label>
+      <ion-button color="success" slot="end" (click)="buscarViatura(viatura, viatura.placa)">Vistoriar</ion-button>
+    </ion-item>
+    <ion-card-content *ngIf="viatura?.modelo">
+      <strong>Viatura: </strong>{{viatura?.modelo}} - {{viatura?.placa}} <br>
+      <strong>Unidade: </strong>{{viatura?.lotacao}}
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Viaturas da Unidade</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button *ngIf="!showViaturaUnidade; else show" size="small"
+        (click)="showViaturaUnidade = !showViaturaUnidade">
+        Visualizar Viaturas
+      </ion-button>
+      <ng-template #show>
+        <ion-button color="danger" size="small" (click)="showViaturaUnidade = !showViaturaUnidade">
+          Fechar
+        </ion-button>
+      </ng-template>
+      <div *ngIf="showViaturaUnidade">
+        <ion-item *ngFor="let viatura of viaturasUnidade" (click)="fichaViatura(viatura)">
+          <ion-thumbnail slot="start">
+            <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
+          </ion-thumbnail>
+          <ion-label>
+            <h3>{{viatura?.modelo}}</h3>
+            <p>{{viatura?.placa}}</p>
+          </ion-label>
+          <ion-button fill="outline" slot="end">Disponível</ion-button>
+        </ion-item>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -10,7 +10,8 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
-  styleUrls: ['./perfil.page.scss'],
+  styleUrls: ['./perfil.page.scss', 
+  'perfil.shell.scss'],
 })
 export class PerfilPage implements OnInit {
 
@@ -19,7 +20,7 @@ export class PerfilPage implements OnInit {
 
   constructor(
     public storage: StorageService,
-    public policiaService: PolicialService,) { }
+    public policialService: PolicialService,) { }
 
   ngOnInit() {
     this.getPolicial();
@@ -28,7 +29,7 @@ export class PerfilPage implements OnInit {
   getPolicial() {
     let localUser = this.storage.getLocalUser();
     if (localUser && localUser.id) {
-     this.subscribeUser = this.policiaService.usuarioLogado()
+     this.subscribeUser = this.policialService.usuarioLogado()
         .subscribe(response => {
           console.log(response)
           this.policial = response;

@@ -37,8 +37,11 @@
         
           <ion-item href="#">
             <ion-icon name="walk" slot="start"></ion-icon>
-            <ion-label>TAF</ion-label>{{policial?.taf?.data}}
-            <ion-icon  name="remove-circle" slot="end"  [color]="policial?.taf?.status == 'AGENDADO'? 'success' : 'danger'"></ion-icon>
+            <ion-label>TAF</ion-label><app-text-shell [data]="policial?.taf?.data ? policial?.taf?.data : policial?.taf?.status | lowercase"></app-text-shell>
+            <ion-icon *ngIf="policial?.taf?.status == 'AGENDADO'; else taf" name="checkmark-circle" slot="end"  color="success"></ion-icon>
+            <ng-template #taf>
+              <ion-icon name="remove-circle" slot="end" color="danger"></ion-icon>
+            </ng-template>
           </ion-item>
         
           <ion-item class="activated">
@@ -49,8 +52,11 @@
         
           <ion-item>
             <ion-icon name="list-box" slot="start"></ion-icon>
-            <ion-label>Cadastro</ion-label>{{ policial?.recadastramento?.validade | date:'dd/MM/yyy'}}
-            <ion-icon name="checkmark-circle" slot="end"  [color]="policial?.recadastramento?.status == 'HOMOLOGADO'? 'success' : 'danger'"></ion-icon>
+            <ion-label>Cadastro</ion-label><app-text-shell [data]="policial?.recadastramento?.validade | date:'dd/MM/yyy'"></app-text-shell>
+            <ion-icon *ngIf="policial?.recadastramento?.status == 'HOMOLOGADO'; else status" name="checkmark-circle" slot="end"  color="success"></ion-icon>
+            <ng-template #status>
+              <ion-icon name="remove-circle" slot="end" color="danger"></ion-icon>
+            </ng-template>
           </ion-item>
         </ion-card>
         <ion-card>
@@ -72,7 +78,7 @@
         </ion-item>
       
         <ion-card-content>
-          {{policial?.previsaoFerias}}
+         <strong><app-text-shell [data]="policial?.previsaoFerias"></app-text-shell></strong>
         </ion-card-content>
       </ion-card>
 </ion-content>

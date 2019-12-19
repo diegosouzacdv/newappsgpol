@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { API_CONFIG } from 'src/app/config/api.config';
 import { VistoriaVistoriaDTO } from 'src/app/models/vistoria-viatura.dto';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class ItensVistoriaService {
 
     private id
