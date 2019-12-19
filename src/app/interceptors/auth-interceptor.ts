@@ -14,15 +14,15 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let localUser = this.storage.getLocalUser();
 
-        if(!localUser) {
-            console.log('aq entrando')
-            if (req.withCredentials === undefined) {
-                const authReq = req = req.clone({
-                   withCredentials: true,
-                });
-                return next.handle(authReq)
-              }
-        }
+        // if(!localUser) {
+        //     console.log('aq entrando')
+        //     if (req.withCredentials === undefined) {
+        //         const authReq = req = req.clone({
+        //            withCredentials: true,
+        //         });
+        //         return next.handle(authReq)
+        //       }
+        // }
 
         if (localUser) {
             const authReq = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + localUser.token)});

@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    <ion-title>
+      Cadastro
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="cog"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-card>
+    <ion-item>
+      <ion-avatar class="user-profile user-avatar" slot="start">
+         <img [src]="policial?.foto || '../../../assets/imgs/noimage.gif'"> 
+      </ion-avatar>
+      {{policial?.posto}} {{policial?.nomeGuerra}}<br>
+      {{policial?.lotacao}}
+    </ion-item>
+    <ion-item-divider color="light">
+        <strong>Dados Pessoais:</strong> 
+      </ion-item-divider>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <label>Nome:</label> <div class="dado">{{policial?.nome}} - {{policial?.posto}} {{policial?.quadro}}</div>              
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <label>CPF:</label> <div class="dado">{{policial?.cpf}}</div>
+        </ion-col>
+       <ion-col>
+            <label>RG:</label> <div class="dado">{{policial?.rg}} {{policial?.orgaoexpedidorrg}}</div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <label>CNH:</label> <div class="dado">{{policial?.cnh?.cnhRegistro}}</div>
+        </ion-col>
+        <ion-col col-3>
+            <label>Cat.:</label> <div class="dado">{{policial?.cnh?.categoria}}</div>
+        </ion-col>
+        <ion-col>
+            <label>Val.:</label> <div class="dado">{{policial?.cnh?.dataValidade | date:'dd/MM/yyyy'}}</div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <label>Inclusão:</label> <div class="dado">{{policial?.dataAdmissao | date:'dd/MM/yyyy'}}</div>
+        </ion-col>
+        <ion-col>
+            <label>T. Serv.:</label> <div class="dado">{{policial?.tempoServico?.tempoAverbado?.anos}} a -
+                {{policial?.tempoServico?.tempoAverbado?.meses}} m - 
+                {{policial?.tempoServico?.tempoAverbado?.dias}} d
+            </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <label>Matrícula:</label> <div class="dado">{{policial?.matricula}}</div>
+        </ion-col>
+        <ion-col>
+            <label>SIAPE:</label> <div class="dado">{{policial?.siape}}</div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-list>
+      <ion-item-divider color="light">
+        <strong>Formação:</strong> 
+      </ion-item-divider>
+     <!-- <ion-item *ngFor="let formacao of policial.pessoa.formacoes">
+        <p>{{formacao.cursoFormacao?.nome}} {{formacao.ano}}</p>
+      </ion-item>
+      <ion-item-divider color="light">
+        <strong>Dependentes:</strong> 
+      </ion-item-divider>
+      <ion-item *ngFor="let dependente of policial.pessoa.dependentes">
+        <p>{{dependente?.nome}} - {{dependente?.tipo}}</p>
+      </ion-item>-->
+    </ion-list>
+  </ion-card>
+</ion-content>
+

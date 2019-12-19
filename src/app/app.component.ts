@@ -6,6 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { PolicialDTO } from './models/policial.dto';
 import { StorageService } from './services/storage.service';
 import { PolicialService } from './services/domain/policial.service';
+import { AuthService } from './services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +35,7 @@ export class AppComponent {
   ];
 
   public policial: PolicialDTO;
+  private subscribeUser: Subscription;
 
   constructor(
     private platform: Platform,
@@ -40,6 +43,7 @@ export class AppComponent {
     private statusBar: StatusBar,
     private storage: StorageService,
     public policialService: PolicialService,
+    public authService: AuthService
   ) {
     this.initializeApp();
   }
@@ -59,7 +63,7 @@ export class AppComponent {
   getPolicial() {
     let localUser = this.storage.getLocalUser();
     if (localUser && localUser.id) {
-      this.policialService.usuarioLogado()
+      this.subscribeUser = this.policialService.usuarioLogado()
         .subscribe(response => {
           this.policial = response;
           console.log(this.policial);
@@ -67,5 +71,13 @@ export class AppComponent {
         error => {}
         );
     }
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  ionViewWillLeave() {
+    this.subscribeUser.unsubscribe();
   }
 }
