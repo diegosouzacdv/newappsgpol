@@ -1,5 +1,6 @@
 import { CnhDTO } from './cnh.dto';
 import { RecadastramentoDTO } from './recadastramento.dto';
+import { TempoServico } from './tempo-servico.dto';
 
 export interface PolicialDTO {
     codigo?: string;
@@ -23,6 +24,7 @@ export interface PolicialDTO {
     telefonefixo?: string;
     celular?: string;
     dataAdmissao?: string;
+    tempoServico?: TempoServico
     status?: string;
     situacaoFuncional?: string;
     dataDesligamento?: string;

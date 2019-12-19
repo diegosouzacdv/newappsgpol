@@ -33,7 +33,6 @@ export class Tab1Page {
 
   async ionViewWillEnter() {
     this.resolverUser();
-
   }
 
   refreshToken() {

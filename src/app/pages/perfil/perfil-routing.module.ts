@@ -2,11 +2,16 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PerfilPage } from './perfil.page';
+import { ResolverUser } from 'src/app/resolvers/ResolverUser';
 
 const routes: Routes = [
   {
     path: '',
-    component: PerfilPage
+    component: PerfilPage,
+    resolve: {
+      data: ResolverUser,
+
+    }
   }
 ];
 

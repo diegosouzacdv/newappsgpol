@@ -30,8 +30,11 @@ export class PerfilPage implements OnInit {
     if (localUser && localUser.id) {
      this.subscribeUser = this.policiaService.usuarioLogado()
         .subscribe(response => {
+          console.log(response)
           this.policial = response;
-          console.log(this.policial);
+          this.policial.nome = `${this.policial.nome} - ${this.policial.posto} ${this.policial.quadro}`
+          this.policial.rg = `${this.policial.rg} ${this.policial.orgaoexpedidorrg}`
+          this.policial.tempoServico.tempoAverbado.total = `${this.policial.tempoServico.tempoAverbado.anos} a - ${this.policial.tempoServico.tempoAverbado.meses} m - ${this.policial.tempoServico.tempoAverbado.dias} d`
         },
         error => {}
         );

@@ -29,45 +29,42 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <label>Nome:</label> <div class="dado">{{policial?.nome}} - {{policial?.posto}} {{policial?.quadro}}</div>              
+          <label>Nome:</label> <div class="dado"><app-text-shell [data]="policial?.nome"></app-text-shell> </div>              
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-            <label>CPF:</label> <div class="dado">{{policial?.cpf}}</div>
+            <label>CPF:</label> <div class="dado"><app-text-shell [data]="policial?.cpf"></app-text-shell></div>
         </ion-col>
        <ion-col>
-            <label>RG:</label> <div class="dado">{{policial?.rg}} {{policial?.orgaoexpedidorrg}}</div>
+            <label>RG:</label> <div class="dado"><app-text-shell [data]="policial?.rg"></app-text-shell></div>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-            <label>CNH:</label> <div class="dado">{{policial?.cnh?.cnhRegistro}}</div>
+            <label>CNH:</label> <div class="dado"><app-text-shell [data]="policial?.cnh?.cnhRegistro"></app-text-shell></div>
         </ion-col>
         <ion-col col-3>
-            <label>Cat.:</label> <div class="dado">{{policial?.cnh?.categoria}}</div>
+            <label>Cat.:</label> <div class="dado"><app-text-shell [data]="policial?.cnh?.categoria"></app-text-shell></div>
         </ion-col>
         <ion-col>
-            <label>Val.:</label> <div class="dado">{{policial?.cnh?.dataValidade | date:'dd/MM/yyyy'}}</div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-            <label>Inclusão:</label> <div class="dado">{{policial?.dataAdmissao | date:'dd/MM/yyyy'}}</div>
-        </ion-col>
-        <ion-col>
-            <label>T. Serv.:</label> <div class="dado">{{policial?.tempoServico?.tempoAverbado?.anos}} a -
-                {{policial?.tempoServico?.tempoAverbado?.meses}} m - 
-                {{policial?.tempoServico?.tempoAverbado?.dias}} d
-            </div>
+            <label>Val.:</label> <div class="dado"><app-text-shell [data]="policial?.cnh?.dataValidade | date:'dd/MM/yyyy'"></app-text-shell></div>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-            <label>Matrícula:</label> <div class="dado">{{policial?.matricula}}</div>
+            <label>Inclusão:</label> <div class="dado"><app-text-shell [data]="policial?.dataAdmissao | date:'dd/MM/yyyy'"></app-text-shell></div>
         </ion-col>
         <ion-col>
-            <label>SIAPE:</label> <div class="dado">{{policial?.siape}}</div>
+            <label>T. Serv.:</label> <div class="dado"><app-text-shell [data]="policial?.tempoServico?.tempoAverbado?.total"></app-text-shell></div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <label>Matrícula:</label> <div class="dado"><app-text-shell [data]="policial?.matricula"></app-text-shell></div>
+        </ion-col>
+        <ion-col>
+            <label>SIAPE:</label> <div class="dado"><app-text-shell [data]="policial?.siape"></app-text-shell></div>
         </ion-col>
       </ion-row>
     </ion-grid>
