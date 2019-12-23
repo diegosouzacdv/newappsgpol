@@ -63,6 +63,15 @@ export class AuthService {
     this.storage.setLocalUser(user);
   }
 
+  isTokenValid(token) {
+    if (!this.helper.isTokenExpired(token)) {
+      return false;
+    } else {
+        return true;
+      }
+
+  }
+
   logout() {
     this.storage.setLocalUser(null);
     this.navCtrl.navigateRoot('/login');

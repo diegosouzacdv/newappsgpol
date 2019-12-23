@@ -24,11 +24,16 @@ export class Tab1Page {
     public authService: AuthService) {}
 
   public resolverUser() {
-    this.subscribeUser = this.route.data.subscribe((resolvedRouteData) => {
-      this.policial = resolvedRouteData['data'];
+    this.subscribeUser = this.policialService.usuarioLogado()
+    .subscribe((response) => {
+      this.policial = response;
       console.log(this.policial)
       this.policialService.getLocalization();
     });
+  }
+
+  ngOnInit(){
+    this.resolverUser();
   }
 
   async ionViewWillEnter() {

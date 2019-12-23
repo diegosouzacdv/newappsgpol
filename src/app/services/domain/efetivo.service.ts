@@ -5,7 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { EfetivoUnidadeDTO } from 'src/app/models/efetivo.dto';
 import { API_CONFIG } from 'src/app/config/api.config';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class EfetivoUnidadeService {
 
     constructor(public http: HttpClient, public storage: StorageService) {

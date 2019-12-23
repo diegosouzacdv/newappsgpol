@@ -37,7 +37,7 @@ export class PolicialService {
             console.log(resp.coords)
           return resp.coords;
          }).catch((error) => {
-           console.log('Error getting location', error);
+            console.log('Error getting location ' + error);
          });
       }
 }

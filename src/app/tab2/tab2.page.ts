@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs';
 export class Tab2Page {
 
   viaturas: ViaturaDTO[];
-  viaturasUnidade: ViaturaDTO[];
+  viaturasUnidade: ViaturaDTO[] = [];
   viatura: ViaturaDTO;
   public policial: PolicialDTO;
   public page: number = 0;

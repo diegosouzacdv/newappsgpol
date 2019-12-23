@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
 import { ResolverUser } from '../resolvers/ResolverUser';
 import { ShellModule } from 'src/app/shell/shell.module';
+import { DadosBasicoPolicialModule } from '../pages/dados-basico-policial/dados-basico-policial.module';
 
 const routes: Routes = [
   {
@@ -24,11 +25,13 @@ const routes: Routes = [
     CommonModule,
     ShellModule,
     FormsModule,
+    DadosBasicoPolicialModule,
     RouterModule.forChild(routes)
   ],
   declarations: [Tab1Page],
   providers: [
     ResolverUser,
-  ]
+  ],
+  exports: []
 })
 export class Tab1PageModule {}

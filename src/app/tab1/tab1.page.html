@@ -14,28 +14,16 @@
 
 <ion-content>
     <ion-card>
-        <ion-item>
-          <ion-avatar class="user-avatar" slot="start">
-            <img [src]="policial?.foto || '../assets/imgs/noimage.gif'">
-          </ion-avatar>
-            {{policial?.posto}} {{policial?.nomeGuerra}}
-            <br>{{policial?.lotacao}}
-          </ion-item>
-        <ion-card-content>
-          Função
-          <ion-button (click)="refreshToken()">
-            Click me
-          </ion-button>
-        </ion-card-content>
+        <app-dados-basico-policial></app-dados-basico-policial>
       </ion-card>
       <ion-card>
-          <ion-item href="#" class="activated">
+          <ion-item class="activated">
             <ion-icon name="medkit" slot="start"></ion-icon>
             <ion-label>Bienal</ion-label>00/00/0000
             <ion-icon name="remove-circle" slot="end" color="warning"></ion-icon>
           </ion-item>
         
-          <ion-item href="#">
+          <ion-item>
             <ion-icon name="walk" slot="start"></ion-icon>
             <ion-label>TAF</ion-label><app-text-shell [data]="policial?.taf?.data ? policial?.taf?.data : policial?.taf?.status | lowercase"></app-text-shell>
             <ion-icon *ngIf="policial?.taf?.status == 'AGENDADO'; else taf" name="checkmark-circle" slot="end"  color="success"></ion-icon>

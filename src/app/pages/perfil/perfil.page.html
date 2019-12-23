@@ -16,13 +16,7 @@
 
 <ion-content>
 <ion-card>
-    <ion-item>
-      <ion-avatar class="user-profile user-avatar" slot="start">
-         <img [src]="policial?.foto || '../../../assets/imgs/noimage.gif'"> 
-      </ion-avatar>
-      {{policial?.posto}} {{policial?.nomeGuerra}}<br>
-      {{policial?.lotacao}}
-    </ion-item>
+  <app-dados-basico-policial></app-dados-basico-policial>
     <ion-item-divider color="light">
         <strong>Dados Pessoais:</strong> 
       </ion-item-divider>

@@ -5,11 +5,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 import { ShellModule } from '../shell/shell.module';
+import { DadosBasicoPolicialModule } from '../pages/dados-basico-policial/dados-basico-policial.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
+    DadosBasicoPolicialModule,
     FormsModule,
     ShellModule,
     RouterModule.forChild([{ path: '', component: Tab2Page }])

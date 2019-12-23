@@ -11,11 +11,12 @@ import { AppComponent } from './app.component';
 import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
 import { ErrorInterceptorProvider } from './interceptors/error-interceptor';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { FichaPolicialPageModule } from './pages/ficha-policial/ficha-policial.module';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FichaPolicialPageModule],
   providers: [
     StatusBar,
     SplashScreen,

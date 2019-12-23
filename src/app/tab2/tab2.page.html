@@ -10,13 +10,7 @@
 
 <ion-content>
   <ion-card>
-    <ion-item>
-      <ion-avatar class="user-avatar" slot="start">
-        <img [src]="policial?.foto || '../assets/imgs/noimage.gif'">
-      </ion-avatar>
-      {{policial?.posto}} {{policial?.nomeGuerra}}
-      <br>{{policial?.lotacao}}
-    </ion-item>
+    <app-dados-basico-policial></app-dados-basico-policial>
     <ion-card-content>
       <ion-grid>
         <ion-row>
@@ -62,20 +56,24 @@
       <strong>Unidade: </strong>{{viatura?.lotacao}}
     </ion-card-content>
   </ion-card>
-  <ion-card>
+  <ion-card *ngIf="viaturasUnidade.length !== 0">
     <ion-card-header>
       <ion-card-title>Viaturas da Unidade</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-button *ngIf="!showViaturaUnidade; else show" size="small"
-        (click)="showViaturaUnidade = !showViaturaUnidade">
-        Visualizar Viaturas
-      </ion-button>
-      <ng-template #show>
-        <ion-button color="danger" size="small" (click)="showViaturaUnidade = !showViaturaUnidade">
-          Fechar
-        </ion-button>
-      </ng-template>
+      <ion-item>
+        <div slot="end">
+          <ion-button *ngIf="!showViaturaUnidade; else show" size="small"
+            (click)="showViaturaUnidade = !showViaturaUnidade">
+            Visualizar Viaturas
+          </ion-button>
+          <ng-template #show>
+            <ion-button fill="outline" size="small" (click)="showViaturaUnidade = !showViaturaUnidade">
+              Fechar
+            </ion-button>
+          </ng-template>
+        </div>
+      </ion-item>
       <div *ngIf="showViaturaUnidade">
         <ion-item *ngFor="let viatura of viaturasUnidade" (click)="fichaViatura(viatura)">
           <ion-thumbnail slot="start">

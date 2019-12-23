@@ -1,0 +1,59 @@
+
+<ion-content>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="secondary">
+      <ion-button slot="end" (click)="dismiss()"> Fechar
+        <ion-icon mode="ios" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-card>
+      <app-dados-basico-policial></app-dados-basico-policial>
+      <ion-item-divider color="light">
+          <strong>Dados Pessoais:</strong> 
+        </ion-item-divider>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <label>Nome:</label> <div class="dado">{{policial?.nome}} - {{policial?.posto}} {{policial?.quadro}}</div>              
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+              <label>CPF:</label> <div class="dado">{{policial?.cpf}}</div>
+          </ion-col>
+         <ion-col>
+              <label>RG:</label> <div class="dado">{{policial?.rg}} {{policial?.orgaoexpedidorrg}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+              <label>Dt. Nascimento:</label> <div class="dado">{{policial?.dataNascimento | date:'dd/MM/yyyy'}}</div>
+          </ion-col>
+          <ion-col>
+              <label>Inclusão:</label> <div class="dado">{{policial?.dataAdmissao | date:'dd/MM/yyyy'}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+              <label>Matrícula:</label> <div class="dado">{{policial?.matricula}}</div>
+          </ion-col>
+          <ion-col>
+              <label>SIAPE:</label> <div class="dado">{{policial?.siape}}</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <label>Endereço:</label> <div class="dado">{{policial?.endereco}}</div>              
+          </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+                <label>Telefones:</label> <div class="dado">{{policial?.telefoneFixo}}</div>
+            </ion-col>
+          </ion-row>
+      </ion-grid>
+    </ion-card>
+  </ion-content>
+  
+  
