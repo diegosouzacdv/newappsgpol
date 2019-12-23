@@ -40,7 +40,7 @@
         
           <ion-item>
             <ion-icon name="list-box" slot="start"></ion-icon>
-            <ion-label>Cadastro</ion-label><app-text-shell [data]="policial?.recadastramento?.validade | date:'dd/MM/yyy'"></app-text-shell>
+            <ion-label>Recadastramento</ion-label><app-text-shell [data]="policial?.recadastramento?.validade | date:'dd/MM/yyy'"></app-text-shell>
             <ion-icon *ngIf="policial?.recadastramento?.status == 'HOMOLOGADO'; else status" name="checkmark-circle" slot="end"  color="success"></ion-icon>
             <ng-template #status>
               <ion-icon name="remove-circle" slot="end" color="danger"></ion-icon>

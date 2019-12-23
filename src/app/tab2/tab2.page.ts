@@ -65,7 +65,6 @@ export class Tab2Page {
       if (this.busca !== '') {
         this.subscribePesquisa = this.viaturaService.pesquisarViatura(3, this.page, this.busca)
             .subscribe(response => {
-              console.log(response)
               //Solicitar que a API retorne somente um array e não um objeto
               const vtrs = Object.keys(response).map(content => response[content]);
               this.viaturas = vtrs[0];
@@ -88,7 +87,6 @@ export class Tab2Page {
         this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
           .subscribe(response => {
             this.viaturasUnidade = response['content'];
-            console.log(this.viaturasUnidade);
           })
       }
     }
@@ -97,6 +95,7 @@ export class Tab2Page {
       this.inserirInicioVistoria(viatura);
       this.subscribeViaId = this.viaturaService.buscarViatura(id)
           .subscribe(response => {
+            console.log(response)
             const vtr = Object.keys(response).map(content => response[content]);
   
             let navExtras: NavigationExtras = {
@@ -116,8 +115,6 @@ export class Tab2Page {
     }
 
     fichaViatura(viatura: ViaturaDTO) {
-      console.log("Mostrando viatura atual");
-      console.log(viatura);
       this.viatura = viatura
       let navExtras: NavigationExtras = {
         state: {

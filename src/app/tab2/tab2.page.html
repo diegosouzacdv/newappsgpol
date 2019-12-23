@@ -45,16 +45,21 @@
         </ion-button>
       </ion-toolbar>
     </ion-card-content>
-    <ion-item *ngFor="let viatura of viaturas" (click)="fichaViatura(viatura)" color="medium">
-      <ion-avatar class="logo" slot="start"><img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
+    <ion-card mode="ios" *ngFor="let viatura of viaturas" (click)="fichaViatura(viatura)" color="medium">
+      <div class="ion-text-center">
+      <ion-avatar class="logo-viatura">
+        <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
       </ion-avatar>
-      <ion-label>Prefixo: {{viatura?.prefixo}}</ion-label>
-      <ion-button color="success" slot="end" (click)="buscarViatura(viatura, viatura.placa)">Vistoriar</ion-button>
-    </ion-item>
-    <ion-card-content *ngIf="viatura?.modelo">
-      <strong>Viatura: </strong>{{viatura?.modelo}} - {{viatura?.placa}} <br>
-      <strong>Unidade: </strong>{{viatura?.lotacao}}
-    </ion-card-content>
+      </div>
+      
+      <p><strong>Prefixo: </strong>{{viatura?.prefixo}}</p>
+      <p><strong>Viatura: </strong>{{viatura?.modelo}}</p>
+      <p><strong>Placa: </strong>{{viatura?.placa}}</p>
+      <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
+      <div class="ion-text-end">
+        <ion-button size="small" color="success" (click)="buscarViatura(viatura, viatura.placa)">Vistoriar</ion-button>
+      </div>
+    </ion-card>
   </ion-card>
   <ion-card *ngIf="viaturasUnidade.length !== 0">
     <ion-card-header>

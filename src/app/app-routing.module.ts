@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'ficha-policial',
     loadChildren: () => import('./pages/ficha-policial/ficha-policial.module').then( m => m.FichaPolicialPageModule)
+  },
+  {
+    path: 'viatura-ficha',
+    loadChildren: () => import('./pages/viatura-ficha/viatura-ficha.module').then( m => m.ViaturaFichaPageModule)
   }
 ];
 @NgModule({

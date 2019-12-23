@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Efetivo 
+      Efetivo
     </ion-title>
     <ion-buttons slot="end">
       <ion-button>
@@ -15,12 +15,16 @@
 </ion-header>
 
 <ion-content>
-
-  <ion-list>
-    <ion-item *ngFor="let policial of efetivoUnidade">
-      <ion-label>{{policial.posto}} {{policial.quadro}} {{policial.nome}}</ion-label>
-      <ion-button (click)="presentModal(policial)"><ion-icon name="list-box"></ion-icon></ion-button>
-    </ion-item>
-  </ion-list>
+  <ion-card *ngFor="let policial of efetivoUnidade" color="medium">
+    <ion-card-subtitle class="ion-padding-start">{{policial.posto}} {{policial.quadro}} {{policial.nome}}</ion-card-subtitle>
+    <ion-card-content>
+      <div class="ion-text-right">
+        <ion-button (click)="presentModal(policial)" size="small">
+          Visualizar
+          <ion-icon name="list-box"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

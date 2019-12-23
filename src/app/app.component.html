@@ -1,44 +1,47 @@
 <ion-app>
-  <ion-split-pane >
+  <ion-split-pane>
     <ion-menu type="overlay">
       <ion-header>
         <ion-toolbar color="primary user-profile">
-            <!-- <img style="padding: 0%; margin: 0%; border: 0ch; background-color: #000066" src="../assets/imgs/faixa.png"> -->
-            <ion-grid>
-                <ion-row>
-                    <ion-col size="12">
-                        <div>
-                            <img src="../assets/imgs/marca-pmdf.png">
-                        </div>
-                    </ion-col>
-                    <ion-col padding-top col-8>
-                        <h2 ion-text class="no-margin bold text-white">
-                            {{policial?.nomeGuerra}}
-                        </h2>
-                        <ion-text color="light">{{policial?.posto}} {{policial?.quadro}}</ion-text>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col class="ion-text-left">
-                        <ion-button icon-left small full color="light" menuClose [routerLink]="['/perfil']">
-                            <ion-icon name="contact"></ion-icon>
-                            Perfil
-                        </ion-button>
-                    </ion-col>
-                    <ion-col class="ion-text-right">
-                        <ion-button icon-left small full color="light" menuClose (click)="logout()">
-                            <ion-icon name="log-out"></ion-icon>
-                            Sair
-                        </ion-button>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
+          <!-- <img style="padding: 0%; margin: 0%; border: 0ch; background-color: #000066" src="../assets/imgs/faixa.png"> -->
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12">
+                <div>
+                  <img src="../assets/imgs/marca-pmdf.png">
+                </div>
+              </ion-col>
+              <ion-col padding-top col-8>
+                <h2 ion-text class="no-margin bold text-white">
+                  {{policial?.nomeGuerra}}
+                </h2>
+                <ion-text color="light">{{policial?.posto}} {{policial?.quadro}}</ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-menu-toggle auto-hide="false">
+                <ion-col class="ion-text-left">
+                  <ion-button icon-left small full color="light" menuClose routerDirection="forward"
+                    [routerLink]="['/perfil']">
+                    <ion-icon name="contact"></ion-icon>
+                    Perfil
+                  </ion-button>
+                </ion-col>
+              </ion-menu-toggle>
+              <ion-col class="ion-text-right">
+                <ion-button icon-left small full color="light" menuClose (click)="logout()">
+                  <ion-icon name="log-out"></ion-icon>
+                  Sair
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </ion-toolbar>
       </ion-header>
-      <ion-content >
+      <ion-content>
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-            <ion-item  [routerDirection]="'root'" [routerLink]="[p.url]">
+            <ion-item routerDirection="forward" [routerLink]="[p.url]">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>
               <ion-label>
                 {{p.title}}
@@ -49,5 +52,5 @@
       </ion-content>
     </ion-menu>
     <ion-router-outlet main></ion-router-outlet>
-  </ion-split-pane >
+  </ion-split-pane>
 </ion-app>
