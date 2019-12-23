@@ -1,9 +1,50 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>viatura-ficha</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Prefixo: {{viatura?.prefixo}}</ion-title>
   </ion-toolbar>
 </ion-header>
-
+      
 <ion-content>
+  <ion-card>
+      <ion-avatar class="logo-viatura" slot="start">
+        <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
+      </ion-avatar>
+      <p color="dark"><strong>{{viatura?.marca}}/{{viatura?.modelo}}</strong> </p>
+      <p color="dark"><strong>{{viatura?.anoFabricacao}}/{{viatura?.anoModelo}}</strong></p> 
+    <ion-item><ion-button slot="end" [color]="viatura?.status === 'EM VISTORIA' ? 'warning' : 'primary'">{{viatura?.status}}</ion-button></ion-item>
+    <ion-item>
+      <p><strong><i>Placa:&nbsp;</i></strong> {{viatura?.placa}}</p>
+    </ion-item>
+    <ion-item>
+      <p><strong><i>Placa Vinculada:&nbsp;</i></strong>{{viatura?.placaVinculada != '' ? viatura?.placaVinculada : 'SEM P/V'}}</p>
+    </ion-item>
+    <ion-item>
+      <p><strong><i>Combustível:&nbsp;</i> </strong>{{viatura?.tipoCombustivel}}</p>
+    </ion-item>
+    <ion-item>
+        <p><strong><i>Lotação:&nbsp;</i></strong>{{viatura?.lotacao}}/{{viatura?.lotacaoSubordinacao}}</p>
+    </ion-item>
 
+    <ion-item><p><strong><i>Tombamento:&nbsp;</i> </strong>{{viatura?.tombamento}}</p></ion-item>
+
+    <ion-item><p><strong><i>Tipo:&nbsp;</i> </strong>{{viatura?.tipoViatura}}</p></ion-item>
+
+    <ion-item><p><strong><i>Inclusão:&nbsp;</i> </strong>{{viatura?.dataInclusao | date:'dd/MM/yyyy'}}</p></ion-item>
+
+    <ion-item><p><strong><i>Chassi:&nbsp;</i> </strong>{{viatura?.chassi}}</p></ion-item>
+
+    <ion-item><p><strong><i>Renavam:&nbsp;</i> </strong>{{viatura?.renavam}}</p></ion-item>
+    
+  
+  </ion-card>
+    
+  <ion-toolbar class="ion-padding-end">
+    <ion-button color="success"  slot="end" (click)="vistoriar(viatura)" [disabled]="viatura?.status === 'EM VISTORIA'">
+      <ion-icon  slot="end" name="checkbox-outline" ></ion-icon>
+        Vistoriar
+    </ion-button>
+  </ion-toolbar>
 </ion-content>

@@ -88,7 +88,7 @@
             <h3>{{viatura?.modelo}}</h3>
             <p>{{viatura?.placa}}</p>
           </ion-label>
-          <ion-button fill="outline" slot="end">Disponível</ion-button>
+          <ion-button slot="end" [color]="viatura?.status === 'EM VISTORIA' ? 'warning' : 'primary'">{{viatura?.status}}</ion-button>
         </ion-item>
       </div>
     </ion-card-content>

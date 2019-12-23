@@ -91,9 +91,9 @@ export class Tab2Page {
       }
     }
 
-    buscarViatura(viatura: ViaturaDTO, id: String) {
-      this.inserirInicioVistoria(viatura);
-      this.subscribeViaId = this.viaturaService.buscarViatura(id)
+    buscarViatura(viatura: ViaturaDTO, placa: String) {
+      //this.inserirInicioVistoria(viatura);
+      this.subscribeViaId = this.viaturaService.buscarViatura(placa)
           .subscribe(response => {
             console.log(response)
             const vtr = Object.keys(response).map(content => response[content]);
@@ -108,6 +108,8 @@ export class Tab2Page {
     }
 
     inserirInicioVistoria(viatura: ViaturaDTO) {
+      console.log(this.policial.codigo)
+      console.log(viatura.id)
       this.subscribeVistoria = this.itensVistoriaService.inserirVistoria(parseInt(this.policial.codigo), parseInt(viatura.id))
         .subscribe(response => {
           console.log(response)
@@ -121,7 +123,7 @@ export class Tab2Page {
           viatura: viatura
         }
       };
-      this.router.navigate(['/tabs/viatura-ficha'], navExtras);
+      this.router.navigate(['viatura-ficha'], navExtras);
     }
 
     async semViatura(placa: string) {
