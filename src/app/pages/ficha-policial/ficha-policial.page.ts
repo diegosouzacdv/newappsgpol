@@ -18,12 +18,14 @@ export class FichaPolicialPage implements OnInit {
     public policialService: PolicialService) { }
 
   ngOnInit() {
-    console.log(this.policial)
+ 
   }
 
-  /*getpolicial() {
+  async ionViewWillEnter() {
     this.policial.nome = `${this.policial.nome} - ${this.policial.posto} ${this.policial.quadro}`
-  }*/
+    this.policial.rg = `${this.policial.rg} ${this.policial.orgaoexpedidorrg}`
+    console.log(this.policial) 
+  }
 
   dismiss() {
     // using the injected ModalController this page

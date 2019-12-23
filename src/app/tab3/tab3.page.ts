@@ -59,7 +59,10 @@ export class Tab3Page {
 
   async presentModal(policial: PolicialDTO) {
     const modal = await this.modalController.create({
-      component: FichaPolicialPage
+      component: FichaPolicialPage,
+      componentProps: {
+        'policial': policial
+      }
     });
     return await modal.present();
   }

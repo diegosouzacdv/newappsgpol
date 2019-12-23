@@ -24,7 +24,6 @@ export class DadosBasicoPolicialComponent implements OnInit {
     this.subscribeUser = this.policialService.usuarioLogado()
     .subscribe((response) => {
       this.policial = response;
-      console.log(this.policial)
       this.policialService.getLocalization();
     });
   }

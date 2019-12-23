@@ -19,7 +19,6 @@ export class Tab1Page {
   public localizacao: LocalizacaoDTO;
 
   constructor(
-    private route: ActivatedRoute,
     public policialService: PolicialService,
     public authService: AuthService) {}
 

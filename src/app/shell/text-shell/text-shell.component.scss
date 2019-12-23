@@ -6,7 +6,7 @@ $max-lines-count: 6;
 
 :host {
   --text-shell-background: transparent;
-  --text-shell-line-color: rgba(218, 214, 214, 0.466);
+  --text-shell-line-color: #EEE;
   --text-shell-line-height: 16px;
   --text-shell-line-gutter: 3px;
 
@@ -62,10 +62,10 @@ $max-lines-count: 6;
 
 // Background gradient beneath masked lines
 :host([animation="gradient"]) {
-  --text-shell-background: rgba(255, 255, 255, 0.459);
+  --text-shell-background: #FFF;
   --text-shell-line-color: transparent !important;
-  --text-shell-animation-background: rgba(238, 238, 238, 0.438);
-  --text-shell-animation-color: rgba(221, 221, 221, 0.438);
+  --text-shell-animation-background: #EEE;
+  --text-shell-animation-color: #DDD;
 
 
   // Calculate default height for 1 line

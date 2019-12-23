@@ -1,4 +1,3 @@
-
 <ion-content>
   <ion-toolbar color="primary">
     <ion-buttons slot="secondary">
@@ -8,52 +7,78 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-card>
-      <app-dados-basico-policial></app-dados-basico-policial>
-      <ion-item-divider color="light">
-          <strong>Dados Pessoais:</strong> 
-        </ion-item-divider>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <label>Nome:</label> <div class="dado">{{policial?.nome}} - {{policial?.posto}} {{policial?.quadro}}</div>              
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-              <label>CPF:</label> <div class="dado">{{policial?.cpf}}</div>
-          </ion-col>
-         <ion-col>
-              <label>RG:</label> <div class="dado">{{policial?.rg}} {{policial?.orgaoexpedidorrg}}</div>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-              <label>Dt. Nascimento:</label> <div class="dado">{{policial?.dataNascimento | date:'dd/MM/yyyy'}}</div>
-          </ion-col>
-          <ion-col>
-              <label>Inclusão:</label> <div class="dado">{{policial?.dataAdmissao | date:'dd/MM/yyyy'}}</div>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-              <label>Matrícula:</label> <div class="dado">{{policial?.matricula}}</div>
-          </ion-col>
-          <ion-col>
-              <label>SIAPE:</label> <div class="dado">{{policial?.siape}}</div>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <label>Endereço:</label> <div class="dado">{{policial?.endereco}}</div>              
-          </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-                <label>Telefones:</label> <div class="dado">{{policial?.telefoneFixo}}</div>
-            </ion-col>
-          </ion-row>
-      </ion-grid>
-    </ion-card>
-  </ion-content>
-  
-  
+    <app-dados-basico-policial></app-dados-basico-policial>
+    <ion-item-divider color="light">
+      <strong>Dados Pessoais:</strong>
+    </ion-item-divider>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <label>Nome:</label>
+          <div class="dado">
+            <app-text-shell [data]="policial?.nome"></app-text-shell>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <label>CPF:</label>
+          <div class="dado">
+            <app-text-shell [data]="policial?.cpf"></app-text-shell>
+          </div>
+        </ion-col>
+        <ion-col>
+          <label>RG:</label>
+          <div class="dado">
+            <app-text-shell [data]="policial?.rg"></app-text-shell>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <label>Dt. Nascimento:</label>
+          <div class="dado">
+            <app-text-shell [data]="policial?.dataNascimento | date:'dd/MM/yyyy'"></app-text-shell>
+          </div>
+        </ion-col>
+        <ion-col>
+          <label>Inclusão:</label>
+          <div class="dado">
+            <app-text-shell [data]="policial?.dataAdmissao | date:'dd/MM/yyyy'"></app-text-shell>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <label>Matrícula:</label>
+          <div class="dado">
+            <app-text-shell [data]="policial?.matricula"></app-text-shell>
+          </div>
+        </ion-col>
+        <ion-col>
+          <label>SIAPE:</label>
+          <div class="dado">
+            <app-text-shell [data]="policial?.siape"></app-text-shell>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <label>Endereço:</label>
+          <div class="dado">
+            <app-text-shell [data]="policial?.endereco"></app-text-shell>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <label>Telefones:</label>
+          <div class="dado">
+            <app-text-shell [data]="policial?.telefoneFixo"></app-text-shell>
+            <app-text-shell [data]="policial?.celular"></app-text-shell>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+</ion-content>
