@@ -92,7 +92,7 @@ export class Tab2Page {
     }
 
     buscarViatura(viatura: ViaturaDTO, placa: String) {
-      //this.inserirInicioVistoria(viatura);
+      this.inserirInicioVistoria(viatura);
       this.subscribeViaId = this.viaturaService.buscarViatura(placa)
           .subscribe(response => {
             console.log(response)

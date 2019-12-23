@@ -10,16 +10,6 @@ import { AuthService } from '../services/auth.service';
 export class TabsPage {
 
   
-  private subscribeLogin: Subscription;
-
-  constructor(
-    public authService: AuthService,) {}
-
-
-  ionViewWillLeave() {
-    this.subscribeLogin.unsubscribe();
-  }
-
-
+  constructor() {}
 
 }
