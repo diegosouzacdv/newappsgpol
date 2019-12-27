@@ -14,7 +14,10 @@
       </ion-avatar>
       <p color="dark"><strong>{{viatura?.marca}}/{{viatura?.modelo}}</strong> </p>
       <p color="dark"><strong>{{viatura?.anoFabricacao}}/{{viatura?.anoModelo}}</strong></p> 
-    <ion-item><ion-button slot="end" [color]="viatura?.status === 'EM VISTORIA' ? 'warning' : 'primary'">{{viatura?.status}}</ion-button></ion-item>
+    <ion-item>
+      <ion-button *ngIf="viatura?.status != 'CAUTELADA'" slot="end" [color]="viatura?.status === 'EM VISTORIA' ? 'warning' : 'primary'">{{viatura?.status}}</ion-button>
+      <ion-button *ngIf="viatura?.status === 'CAUTELADA'" slot="end" [color]="viatura?.status === 'CAUTELADA' ? 'success' : 'primary'" >{{viatura?.status}}</ion-button>
+    </ion-item>
     <ion-item>
       <p><strong><i>Placa:&nbsp;</i></strong> {{viatura?.placa}}</p>
     </ion-item>

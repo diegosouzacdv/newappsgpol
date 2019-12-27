@@ -26,8 +26,6 @@ export class Tab1Page {
     this.subscribeUser = this.policialService.usuarioLogado()
     .subscribe((response) => {
       this.policial = response;
-      console.log(this.policial)
-      this.policialService.getLocalization();
     });
   }
 

@@ -57,7 +57,7 @@
     </ion-item>
     
     <ion-toolbar class="ion-padding-end">
-        <ion-button  slot="end" (click)="enviarVistoria()">
+        <ion-button [disabled]="viatura?.status === 'CAUTELADA'" slot="end" (click)="enviarVistoria()">
           <ion-icon  slot="end" name="checkbox-outline"></ion-icon>
           Enviar
         </ion-button>

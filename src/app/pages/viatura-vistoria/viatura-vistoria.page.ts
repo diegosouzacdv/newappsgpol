@@ -5,6 +5,8 @@ import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.ser
 import { Subscription } from 'rxjs';
 import { VistoriaVistoriaDTO } from 'src/app/models/vistoria-viatura.dto';
 import { ItensVistoria } from 'src/app/models/itens-vistoria';
+import { PolicialService } from 'src/app/services/domain/policial.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-viatura-vistoria',
@@ -20,13 +22,16 @@ export class ViaturaVistoriaPage implements OnInit {
   idViatura: string;
   temVistoria: boolean;
   teste ='oleo'
+  localizacao: any;
   
   private subscribeVistoria: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private itensVistoriaService: ItensVistoriaService) { 
+    private itensVistoriaService: ItensVistoriaService,
+    private policialService: PolicialService,
+    public alertCtrl: AlertController) { 
       this.receberViatura();
       this.idViatura = this.activatedRoute.snapshot.paramMap.get('id');
       this.getVistoria();
@@ -41,7 +46,7 @@ export class ViaturaVistoriaPage implements OnInit {
     }
 
   ngOnInit() {
-    
+    this.getVistoria();
   }
 
   enviarVistoria(){
@@ -50,7 +55,8 @@ export class ViaturaVistoriaPage implements OnInit {
     this.vistoria.vistoriaViaturaItensVistoria = null;
     this.itensVistoriaService.updateVistoria(this.vistoria)
       .subscribe(response => {
-        console.log(response)
+        this.sucess();
+        
       })
   }
 
@@ -58,8 +64,10 @@ export class ViaturaVistoriaPage implements OnInit {
     console.log('entrando')
     this.itensVistoriaService.buscarVistoria(parseInt(this.idViatura))
       .subscribe(response => {
+
         console.log(response)
         this.vistoria = response;
+
       })
   }
 
@@ -78,7 +86,6 @@ export class ViaturaVistoriaPage implements OnInit {
   recebeItem(item: ItensVistoria ) {
     this.itensVistoriaService.inserirItem(item.id)
       .subscribe(response => {
-        console.log(response);
       });
   }
 
@@ -94,5 +101,20 @@ export class ViaturaVistoriaPage implements OnInit {
   ionViewWillLeave() {
     if (!this.subscribeVistoria.closed) this.subscribeVistoria.unsubscribe();
   }
+
+  public sucess() {
+    const alert = this.alertCtrl.create({
+        header: 'Sucesso',
+        message: 'Inserido com sucesso!',
+        backdropDismiss: true,
+        buttons: [
+            {text: 'Ok'}
+        ]
+    // tslint:disable-next-line: no-shadowed-variable
+    }).then(alert => {
+      alert.present()
+      this.router.navigate(['/tabs/tab1']);
+    });
+    }
 
 }

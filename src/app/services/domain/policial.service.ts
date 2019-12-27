@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { StorageService } from '../storage.service';
 import { PolicialDTO } from 'src/app/models/policial.dto';
 import { API_CONFIG } from 'src/app/config/api.config';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+
 
 @Injectable({
     providedIn: 'root',
@@ -12,8 +12,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 export class PolicialService {
 
     constructor(public http: HttpClient, 
-        public storage: StorageService,
-        private geolocation: Geolocation) {
+        public storage: StorageService) {
     }
 
     usuarioLogado(): Observable<PolicialDTO> {
@@ -31,13 +30,4 @@ export class PolicialService {
         return this.http.get<PolicialDTO>(
             `${API_CONFIG.baseUrl}/policial/${policial_id}`);
     }
-
-    getLocalization():any {
-        this.geolocation.getCurrentPosition().then((resp) => {
-            console.log(resp.coords)
-          return resp.coords;
-         }).catch((error) => {
-            console.log('Error getting location ' + error);
-         });
-      }
 }

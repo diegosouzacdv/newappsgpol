@@ -89,6 +89,7 @@ export class Tab2Page {
       if (this.policial.lotacaoCodigo != null || this.policial.lotacaoCodigo != undefined) {
         this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
           .subscribe(response => {
+            console.log(response)
             this.viaturasUnidade = response['content'];
           })
       }
