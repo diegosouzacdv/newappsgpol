@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+
+      <ion-title>Prefixo: {{viatura?.prefixo}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+  
+<ion-content>
+  <ion-card>
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
+      </ion-avatar>
+      <p>{{viatura?.marca}}/{{viatura?.modelo}} {{viatura?.anoFabricacao}}/{{viatura?.anoModelo}}</p>
+    </ion-item>
+    <ion-item>
+      <ion-row>
+        <ion-col>
+            <p><strong><i>Placa:&nbsp;</i></strong> {{viatura?.placa}}</p>
+            <p><strong><i>Odômetro:&nbsp;</i></strong> {{vistoria?.odometro}}</p>
+            <p><strong><i>Renavam:&nbsp;</i></strong> {{viatura?.renavam}}</p>
+            <p><strong><i>Combust.:&nbsp;</i></strong> {{viatura?.tipoCombustivel}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-card>
+<ion-item-divider color="primary">
+  <h4>Vistoria</h4>
+</ion-item-divider>
+<ion-list>
+  <ion-card>
+    <ion-item *ngFor="let item of vistoria.vistoriaViaturaItensVistoria">
+      <ion-label class="ion-text-wrap"> 
+       <p>{{item.nome}}</p>
+      </ion-label>
+      <ion-toggle (ionChange)="recebeItem(item)" [checked]="item.vistoriaOk === 1" color="secondary"></ion-toggle>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item>
+        <ion-label>ODÔMETRO KM</ion-label>
+        <ion-input type="number" placeholder="Km" [value]="vistoria?.odometro" name="odometro" text-right  [(ngModel)]="vistoria.odometro" clearInput="true"></ion-input>
+      </ion-item>
+    <ion-item>
+      <ion-label> COMBUSTÍVEL </ion-label>
+      <ion-range mode="ios" min="0" max="100" step="10" pin="true" snaps="true" ticks="true"  [value]="vistoria?.nivelCombustivel" [(ngModel)]="vistoria.nivelCombustivel" ionChange="teste1($event)">
+          <ion-label range-left>Vazio</ion-label>
+          <ion-label range-right>Cheio</ion-label>
+      </ion-range>
+    </ion-item>
+    <ion-item>
+      <ion-label> OBS: </ion-label>
+      <ion-textarea [(ngModel)]="vistoria.observacaoMotorista"></ion-textarea>
+    </ion-item>
+    
+    <ion-toolbar class="ion-padding-end">
+        <ion-button  slot="end" (click)="enviarVistoria()">
+          <ion-icon  slot="end" name="checkbox-outline"></ion-icon>
+          Enviar
+        </ion-button>
+      </ion-toolbar>
+  </ion-card>
+</ion-list>
+</ion-content>
+

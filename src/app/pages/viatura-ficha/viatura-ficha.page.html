@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Prefixo: {{viatura?.prefixo}}</ion-title>
   </ion-toolbar>
@@ -42,7 +42,7 @@
   </ion-card>
     
   <ion-toolbar class="ion-padding-end">
-    <ion-button color="success"  slot="end" (click)="vistoriar(viatura)" [disabled]="viatura?.status === 'EM VISTORIA'">
+    <ion-button color="success"  slot="end" (click)="vistoriar(viatura)">
       <ion-icon  slot="end" name="checkbox-outline" ></ion-icon>
         Vistoriar
     </ion-button>

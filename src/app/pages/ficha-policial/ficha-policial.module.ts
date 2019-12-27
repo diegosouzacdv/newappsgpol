@@ -17,10 +17,10 @@ import { ShellModule } from 'src/app/shell/shell.module';
     IonicModule,
     ShellModule,
     DadosBasicoPolicialModule,
-    FichaPolicialPageRoutingModule
+   //FichaPolicialPageRoutingModule
   ],
   declarations: [FichaPolicialPage],
-  exports: [FichaPolicialPage],
-  entryComponents:[FichaPolicialPage]
+  entryComponents: [FichaPolicialPage],
+  exports: [FichaPolicialPage]
 })
 export class FichaPolicialPageModule {}

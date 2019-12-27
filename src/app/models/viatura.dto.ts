@@ -1,5 +1,6 @@
 export interface ViaturaDTO {
     id: string;
+    odometro?:string;
     placa: string;
     prefixo: string;
     marca: string;

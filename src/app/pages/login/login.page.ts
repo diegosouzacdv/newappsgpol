@@ -5,6 +5,8 @@ import { MenuController, LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginGuard } from 'src/app/guards/login.guard';
+import { LoginSave } from 'src/app/models/login-save';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +21,7 @@ export class LoginPage implements OnInit {
   }
   loginForm: FormGroup;
   loading: any;
+  public temDados = false;
   
   private subscribeLogin: Subscription;
 
@@ -27,11 +30,19 @@ export class LoginPage implements OnInit {
     public authService: AuthService,
     private formBuild: FormBuilder,
     private loadingController: LoadingController,
-    public loginGuard: LoginGuard,) { 
+    public loginGuard: LoginGuard,
+    public storage: StorageService,) { 
       this.loginForm = this.formBuild.group({
         username: ['', [Validators.required]],
         password: ['', [Validators.required]]
       })
+
+      if (this.storage.getSenhaSalva()) {
+        this.temDados = true;
+        let login: LoginSave = this.storage.getSenhaSalva()
+        this.creds.password = login.password;
+        this.creds.username = login.username;
+      }
     }
 
   ngOnInit() {
@@ -51,14 +62,24 @@ export class LoginPage implements OnInit {
         this.authService.successfullLogin(response['access_token']);
         this.loginGuard.canActivate();
         this.loading.dismiss();
-       // this.app.getPolicial();
-        //this.app.getImageIfExists();
-        //this.app.getLocalization();
-        //this.navCtrl.navigateRoot('/tabs');
       }, (errors => {
         this.loading.dismiss();
       }))
     } finally {
+    }
+  }
+
+  public saveStar(event) {
+    let login: LoginSave = {
+      password: this.loginForm.value.password,
+      username: this.loginForm.value.username
+    };
+    if (event.detail.checked) {
+      if (this.loginForm.value.password) {
+        this.storage.setSenhaSalva(login);
+      }
+    } else {
+      this.storage.setSenhaSalva(null);
     }
   }
 

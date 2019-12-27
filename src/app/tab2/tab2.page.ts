@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import { ViaturaDTO } from '../models/viatura.dto';
 import { PolicialDTO } from '../models/policial.dto';
 import { ItensVistoriaService } from '../services/domain/itens-vistoria.service';
@@ -46,6 +46,7 @@ export class Tab2Page {
     }
 
     ionViewWillEnter() {
+      console.log('ionViewWillEnter')
       this.getPolicial();
     }
 
@@ -54,6 +55,7 @@ export class Tab2Page {
       if (localUser && localUser.id) {
        this.subscribeUser = this.policialService.usuarioLogado()
           .subscribe(response => {
+            console.log(response)
             this.policial = response;
             this.listarViaturasUnidade();
           },
@@ -65,6 +67,7 @@ export class Tab2Page {
       if (this.busca !== '') {
         this.subscribePesquisa = this.viaturaService.pesquisarViatura(3, this.page, this.busca)
             .subscribe(response => {
+              console.log(response)
               //Solicitar que a API retorne somente um array e não um objeto
               const vtrs = Object.keys(response).map(content => response[content]);
               this.viaturas = vtrs[0];
@@ -92,7 +95,6 @@ export class Tab2Page {
     }
 
     buscarViatura(viatura: ViaturaDTO, placa: String) {
-      this.inserirInicioVistoria(viatura);
       this.subscribeViaId = this.viaturaService.buscarViatura(placa)
           .subscribe(response => {
             console.log(response)
@@ -103,17 +105,8 @@ export class Tab2Page {
                 viatura: vtr[0][0]
               }
             };
-            this.router.navigate(['/tabs/vistoria'], navExtras);
+            this.router.navigate(['/viatura-ficha'], navExtras);
           })
-    }
-
-    inserirInicioVistoria(viatura: ViaturaDTO) {
-      console.log(this.policial.codigo)
-      console.log(viatura.id)
-      this.subscribeVistoria = this.itensVistoriaService.inserirVistoria(parseInt(this.policial.codigo), parseInt(viatura.id))
-        .subscribe(response => {
-          console.log(response)
-        })
     }
 
     fichaViatura(viatura: ViaturaDTO) {
@@ -123,7 +116,7 @@ export class Tab2Page {
           viatura: viatura
         }
       };
-      this.router.navigate(['viatura-ficha'], navExtras);
+      this.router.navigate(['/viatura-ficha'], navExtras);
     }
 
     async semViatura(placa: string) {

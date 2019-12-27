@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { PolicialDTO } from './models/policial.dto';
@@ -43,7 +43,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     private storage: StorageService,
     public policialService: PolicialService,
-    public authService: AuthService
+    public authService: AuthService,
+    public alertCtrl: AlertController
   ) {
     this.initializeApp();
   }
@@ -77,7 +78,31 @@ export class AppComponent {
     this.authService.logout();
   }
 
-  ionViewWillLeave() {
+  async ionViewWillLeave() {
     this.subscribeUser.unsubscribe();
+
+    try {
+      await this.policialService.usuarioLogado()
+        .subscribe(response => {
+          
+        },
+          error => {
+            this.error();
+            this.authService.logout();
+          });
+    } finally {
+    }
   }
+
+  error() {
+    const alert = this.alertCtrl.create({
+        header: 'Login',
+        message: 'Faça o Login Novamente',
+        backdropDismiss: true,
+        buttons: [
+            {text: 'Ok'}
+        ]
+    // tslint:disable-next-line: no-shadowed-variable
+    }).then(alert => alert.present());
+    }
 }

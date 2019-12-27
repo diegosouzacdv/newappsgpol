@@ -15,9 +15,12 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): Promise<boolean> {
 
-    let user = this.storage.getLocalUser()
     return new Promise(resolve => {
-      if(!user) this.router.navigate(['/']);
+      const user = this.storage.getLocalUser()
+      if(!user) {
+        this.storage.setLocalUser(null);
+        this.router.navigate(['/login']);
+      }
       resolve(user ? true : false);
     })
   }
