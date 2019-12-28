@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
@@ -11,5 +10,8 @@ export class TabsPage {
 
   
   constructor() {}
+
+  ngOnInit() {
+  }
 
 }

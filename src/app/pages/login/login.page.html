@@ -37,6 +37,12 @@
         </ion-text>
       </div>
 
+      <ion-item class="itemsalvar" color="light" lines=none>
+        <ion-label class="labelsalvar">Salvar senha</ion-label>
+        <ion-checkbox slot="end" mode="ios" [checked]="temDados ? true : false" (ionChange)="saveStar($event)">
+        </ion-checkbox>
+      </ion-item>
+
       </ion-list>
       <br><br><br>
       <div>

@@ -20,7 +20,7 @@ import { ShellModule } from 'src/app/shell/shell.module';
     //FichaPolicialPageRoutingModule
   ],
   declarations: [FichaPolicialPage],
-  exports: [FichaPolicialPage],
-  entryComponents:[FichaPolicialPage]
+  entryComponents: [FichaPolicialPage],
+  exports: [FichaPolicialPage]
 })
 export class FichaPolicialPageModule {}

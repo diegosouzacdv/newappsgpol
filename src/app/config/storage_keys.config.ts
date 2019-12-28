@@ -1,3 +1,4 @@
 export const STORAGE_KEYS = {
-    localUser: 'localuser'
+    localUser: 'localuser',
+    senhaSalva: 'crs'
 };

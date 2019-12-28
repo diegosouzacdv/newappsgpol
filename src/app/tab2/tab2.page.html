@@ -57,17 +57,18 @@
       <p><strong>Placa: </strong>{{viatura?.placa}}</p>
       <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
       <div class="ion-text-end">
-        <ion-button size="small" color="success" (click)="buscarViatura(viatura, viatura.placa)">Vistoriar</ion-button>
+        <ion-button *ngIf="viatura?.status != 'CAUTELADA'"  size="small" [color]="viatura?.status === 'EM VISTORIA' ? 'warning' : 'primary'" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
+        <ion-button *ngIf="viatura?.status === 'CAUTELADA'" size="small"  slot="end" [color]="viatura?.status === 'CAUTELADA' ? 'success' : 'primary'" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
       </div>
     </ion-card>
   </ion-card>
-  <ion-card *ngIf="viaturasUnidade.length !== 0">
+  <ion-card>
     <ion-card-header>
       <ion-card-title>Viaturas da Unidade</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <div slot="end">
+        <div slot="end" *ngIf="viaturasUnidade.length !== 0">
           <ion-button *ngIf="!showViaturaUnidade; else show" size="small"
             (click)="showViaturaUnidade = !showViaturaUnidade">
             Visualizar Viaturas
@@ -80,15 +81,16 @@
         </div>
       </ion-item>
       <div *ngIf="showViaturaUnidade">
-        <ion-item *ngFor="let viatura of viaturasUnidade" (click)="fichaViatura(viatura)">
+        <ion-item *ngFor="let viatura of viaturasUnidade" (click)="fichaViatura(viatura)" routerDirection='forward'>
           <ion-thumbnail slot="start">
             <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
           </ion-thumbnail>
-          <ion-label>
+          <ion-label class="ion-text-wrap">
             <h3>{{viatura?.modelo}}</h3>
             <p>{{viatura?.placa}}</p>
           </ion-label>
-          <ion-button slot="end" [color]="viatura?.status === 'EM VISTORIA' ? 'warning' : 'primary'" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
+          <ion-button *ngIf="viatura?.status != 'CAUTELADA'" slot="end" [color]="viatura?.status === 'EM VISTORIA' ? 'medium' : 'primary'" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
+          <ion-button *ngIf="viatura?.status === 'CAUTELADA'" slot="end" [color]="viatura?.status === 'CAUTELADA' ? 'success' : 'primary'" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
         </ion-item>
       </div>
     </ion-card-content>

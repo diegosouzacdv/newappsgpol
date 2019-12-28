@@ -6,11 +6,11 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule), canActivate: [AuthGuard] 
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule), canActivate: [LoginGuard] 
   },
   {
     path: 'perfil',
@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'viatura-ficha',
     loadChildren: () => import('./pages/viatura-ficha/viatura-ficha.module').then( m => m.ViaturaFichaPageModule)
+  },
+  {
+    path: 'vistoria/:id/:temVistoria',
+    loadChildren: () => import('./pages/viatura-vistoria/viatura-vistoria.module').then( m => m.ViaturaVistoriaPageModule)
   }
 ];
 @NgModule({
