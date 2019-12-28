@@ -17,10 +17,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
   {
-    path: 'ficha-policial',
-    loadChildren: () => import('./pages/ficha-policial/ficha-policial.module').then( m => m.FichaPolicialPageModule)
-  },
-  {
     path: 'viatura-ficha',
     loadChildren: () => import('./pages/viatura-ficha/viatura-ficha.module').then( m => m.ViaturaFichaPageModule)
   }

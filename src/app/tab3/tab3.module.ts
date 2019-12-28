@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab3Page } from './tab3.page';
+import { FichaPolicialPageModule } from '../pages/ficha-policial/ficha-policial.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
+    FichaPolicialPageModule,
     FormsModule,
     RouterModule.forChild([{ path: '', component: Tab3Page }])
   ],
