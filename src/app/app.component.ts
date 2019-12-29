@@ -84,7 +84,6 @@ export class AppComponent {
     try {
       await this.policialService.usuarioLogado()
         .subscribe(response => {
-          
         },
           error => {
             this.error();

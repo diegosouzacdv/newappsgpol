@@ -64,6 +64,7 @@ export class LoginPage implements OnInit {
         this.loading.dismiss();
       }, (errors => {
         this.loading.dismiss();
+        this.authService.logout();
       }))
     } finally {
     }
