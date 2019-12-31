@@ -52,9 +52,11 @@ export class ViaturaFichaPage implements OnInit {
    public isVistoria(viatura) {
     this.itensVistoriaService.buscarVistoria(viatura.id)
       .subscribe(response => {
-        if (response != null) {
+        console.log(response)
+        if (response != null && response.id !== 0) {
           this.temVistoria = true;
         } 
+        console.log(this.temVistoria)
       })
     }
 

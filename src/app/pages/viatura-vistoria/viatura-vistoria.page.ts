@@ -28,6 +28,8 @@ export class ViaturaVistoriaPage implements OnInit {
   adjunto = 'false'
   loading: any;
   private subscribeVistoria: Subscription;
+  subscribeInvalidarVistoria: Subscription;
+  subscribeSalvarAdjunto: Subscription;
   situacaoViatura;
 
   constructor(
@@ -44,8 +46,7 @@ export class ViaturaVistoriaPage implements OnInit {
 
       this.idViatura = this.activatedRoute.snapshot.paramMap.get('id');
 
-      this.getVistoria();
-
+      
       if(this.activatedRoute.snapshot.paramMap.get('temVistoria') === 'true') {
         this.temVistoria = true; 
       } else {
@@ -54,6 +55,7 @@ export class ViaturaVistoriaPage implements OnInit {
       if(!this.temVistoria) {
         this.inserirInicioVistoria(this.idViatura);
       }
+      this.getVistoria();
       this.adjunto = this.activatedRoute.snapshot.paramMap.get('adjunto');
     }
 
@@ -67,7 +69,7 @@ export class ViaturaVistoriaPage implements OnInit {
     this.vistoria.vistoriaViaturaItensVistoria = null;
     this.itensVistoriaService.updateVistoria(this.vistoria)
       .subscribe(response => {
-        this.sucess();
+        this.success();
         
       })
   }
@@ -123,8 +125,45 @@ export class ViaturaVistoriaPage implements OnInit {
     } finally{}
   }
 
+  public async invalidarVistoria(vistoria: VistoriaVistoriaDTO) {
+    
+    const alert = await this.alertCtrl.create({
+      header: 'Alerta',
+      message: 'Deseja excluir a vistoria?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Sim',
+          handler: () => {
+            this.subscribeInvalidarVistoria = this.itensVistoriaService.invalidarVistoria(vistoria)
+              .subscribe(response => {
+                console.log(response);
+                this.excluido();
+              })
+          }
+        }
+      ]
+    });
+    await alert.present();
+   // 
+  }
+
+  public salvarAdjunto(vistoria: VistoriaVistoriaDTO) {
+    this.subscribeSalvarAdjunto = this.itensVistoriaService.salvarVisaoAdjunto(vistoria)
+      .subscribe(response => {
+        console.log(response);
+        this.success()
+      })
+  }
+
   ionViewWillLeave() {
     if (!this.subscribeVistoria.closed) this.subscribeVistoria.unsubscribe();
+    if (!this.subscribeInvalidarVistoria.closed) this.subscribeInvalidarVistoria.unsubscribe();
   }
 
   public async presentLoading() {
@@ -135,10 +174,10 @@ export class ViaturaVistoriaPage implements OnInit {
     return this.loading.present();
   }
 
-  public sucess() {
+  public success() {
     const alert = this.alertCtrl.create({
         header: 'Sucesso',
-        message: 'Inserido com sucesso!',
+        message: 'Salvo com sucesso!',
         backdropDismiss: true,
         buttons: [
             {text: 'Ok'}
@@ -149,5 +188,20 @@ export class ViaturaVistoriaPage implements OnInit {
       this.router.navigate(['/tabs/tab1']);
     });
     }
+
+    public excluido() {
+      const alert = this.alertCtrl.create({
+          header: 'Excluido',
+          message: 'Vistoria foi excluida!',
+          backdropDismiss: true,
+          buttons: [
+              {text: 'Ok'}
+          ]
+      // tslint:disable-next-line: no-shadowed-variable
+      }).then(alert => {
+        alert.present()
+        this.router.navigate(['/tabs/tab1']);
+      });
+      }
 
 }

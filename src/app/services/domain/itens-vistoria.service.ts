@@ -19,7 +19,7 @@ export class ItensVistoriaService {
 
     }
 
-    findAll() : Observable<ItensVistoria[]> {
+    findAll(): Observable<ItensVistoria[]> {
         return this.http.get<ItensVistoria[]>(`${API_CONFIG.baseUrl}/viatura/vistoria/itensvistoria`);
     }
 
@@ -36,17 +36,29 @@ export class ItensVistoriaService {
     }
 
     updateVistoria(body: VistoriaVistoriaDTO): Observable<VistoriaVistoriaDTO> {
-            this.geolocation.getCurrentPosition().then((resp) => {
-                body.latitude = resp.coords.latitude;
-                body.longitude = resp.coords.longitude;
-              return resp.coords;
-             }).catch((error) => {
-                console.log('Error getting location ' + error);
-             });
+        this.geolocation.getCurrentPosition().then((resp) => {
+            body.latitude = resp.coords.latitude;
+            body.longitude = resp.coords.longitude;
+            return resp.coords;
+        }).catch((error) => {
+            console.log('Error getting location ' + error);
+        });
 
 
         return this.http.put<VistoriaVistoriaDTO>(
             `${API_CONFIG.baseUrl}/viatura/vistoria`, body);
+    }
+
+    invalidarVistoria(body: VistoriaVistoriaDTO): Observable<VistoriaVistoriaDTO> {
+        return this.http.put<VistoriaVistoriaDTO>(
+            `${API_CONFIG.baseUrl}/viatura/vistoria/invalidar/${body.id}`, body);
+    }
+
+    salvarVisaoAdjunto(body: VistoriaVistoriaDTO): Observable<VistoriaVistoriaDTO> {
+        body.dataVistoria = null;
+        body.vistoriaViaturaItensVistoria = null;
+        return this.http.put<VistoriaVistoriaDTO>(
+            `${API_CONFIG.baseUrl}/viatura/vistoria/salvaradjunto/${body.id}`, body);
     }
 
     inserirItem(idItem: number) {

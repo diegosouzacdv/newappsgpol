@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-buttons slot="primary"></ion-buttons>
     <ion-title>Autorização de Viatura</ion-title>
@@ -81,15 +81,15 @@
               </div>
             </div>
           </ion-col>
-          <ion-col size="8" (click)="isVistoria(viatura)">
+          <ion-col size="8">
             <div class="ion-text-end">
-              <div *ngIf="viatura?.status === situacaoViatura.EM_VISTORIA">
+              <div *ngIf="viatura?.status === situacaoViatura.EM_VISTORIA" (click)="isVistoria(viatura)">
                 <ion-icon name="search" color="primary"></ion-icon>
                 <p>Liberar Viatura</p>
               </div>
             </div>
             <div class="ion-text-end">
-              <div *ngIf="viatura?.status === situacaoViatura.CAUTELADA">
+              <div *ngIf="viatura?.status === situacaoViatura.CAUTELADA" (click)="isVistoria(viatura)">
                 <ion-icon name="checkmark" color="primary"></ion-icon>
                 <p>Finalizar Vistoria</p>
               </div>

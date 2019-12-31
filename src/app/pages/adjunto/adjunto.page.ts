@@ -41,6 +41,10 @@ export class AdjuntoPage implements OnInit {
    this.getPolicial();
   }
 
+  ionViewWillEnter() {
+    this.getPolicial();
+  }
+
   listarViaturasUnidade() {
       this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
         .subscribe(response => {
