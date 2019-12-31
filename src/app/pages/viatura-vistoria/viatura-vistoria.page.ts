@@ -8,6 +8,7 @@ import { ItensVistoria } from 'src/app/models/itens-vistoria';
 import { PolicialService } from 'src/app/services/domain/policial.service';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { async } from '@angular/core/testing';
+import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 
 @Component({
   selector: 'app-viatura-vistoria',
@@ -27,6 +28,7 @@ export class ViaturaVistoriaPage implements OnInit {
   adjunto = 'false'
   loading: any;
   private subscribeVistoria: Subscription;
+  situacaoViatura;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -35,9 +37,15 @@ export class ViaturaVistoriaPage implements OnInit {
     private loadingController: LoadingController,
     private policialService: PolicialService,
     public alertCtrl: AlertController) { 
+
+      this.situacaoViatura = SituacaoViatura;
+
       this.receberViatura();
+
       this.idViatura = this.activatedRoute.snapshot.paramMap.get('id');
+
       this.getVistoria();
+
       if(this.activatedRoute.snapshot.paramMap.get('temVistoria') === 'true') {
         this.temVistoria = true; 
       } else {
@@ -68,9 +76,15 @@ export class ViaturaVistoriaPage implements OnInit {
     console.log('entrando')
     this.itensVistoriaService.buscarVistoria(parseInt(this.idViatura))
       .subscribe(response => {
-
-        console.log(response)
         this.vistoria = response;
+        let novosItem = new Array();
+        response.vistoriaViaturaItensVistoria.forEach(element => {
+          if (element.nome !== 'ODÔMETRO') {
+            novosItem.push(element);
+          }
+        });
+        this.vistoria.vistoriaViaturaItensVistoria = null;
+        this.vistoria.vistoriaViaturaItensVistoria = novosItem;
 
       })
   }
@@ -80,7 +94,6 @@ export class ViaturaVistoriaPage implements OnInit {
       this.activatedRoute.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.viatura = this.router.getCurrentNavigation().extras.state.viatura;
-        console.log(this.viatura)
       } else {
         if(this.adjunto !== 'true') {
           this.router.navigate(['/tabs/tab2'])
@@ -108,7 +121,6 @@ export class ViaturaVistoriaPage implements OnInit {
           this.loading.dismiss();
         }))
     } finally{}
-    console.log('inciou a vistoria')
   }
 
   ionViewWillLeave() {
@@ -117,7 +129,8 @@ export class ViaturaVistoriaPage implements OnInit {
 
   public async presentLoading() {
     this.loading = await this.loadingController.create({
-      message: 'Por favor, aguarde...'
+      message: 'Por favor, aguarde...',
+      mode: 'ios'
     });
     return this.loading.present();
   }

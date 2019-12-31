@@ -43,7 +43,7 @@
             <p>{{viatura?.placa}}</p>
           </ion-label>
         </ion-item>
-        <ion-row *ngIf="viatura?.status === 'EM VISTORIA' || viatura?.status === 'CAUTELADA'">
+        <ion-row *ngIf="viatura?.status === situacaoViatura.EM_VISTORIA || viatura?.status === situacaoViatura.CAUTELADA">
           <ion-item>
             <ion-label>
               <h3>Motorista: </h3>
@@ -55,35 +55,41 @@
         <ion-row>
           <ion-col size="4">
             <div class="ion-text-start">
-              <div *ngIf="viatura?.status === 'CAUTELADA'">
+              <div *ngIf="viatura?.status === situacaoViatura.CAUTELADA">
                 <ion-icon name="flag" color="primary"></ion-icon>
                 <ion-text color="primary">
                   <p>Em uso</p>
                 </ion-text>
               </div>
-              <div *ngIf="viatura?.status === 'DISPONÍVEL'">
+              <div *ngIf="viatura?.status === situacaoViatura.DISPONIVEL">
                 <ion-icon name="flag" color="success"></ion-icon>
                 <ion-text color="success">
                   <p>Viatura em Condições</p>
                 </ion-text>
               </div>
-              <div *ngIf="viatura?.status === 'EM VISTORIA'">
+              <div *ngIf="viatura?.status === situacaoViatura.EM_VISTORIA">
                 <ion-icon name="flag" color="warning"></ion-icon>
                 <ion-text color="warning">
                   <p>Em Vistoria</p>
+                </ion-text>
+              </div>
+              <div *ngIf="viatura?.status === situacaoViatura.BAIXADA">
+                <ion-icon name="flag" color="danger"></ion-icon>
+                <ion-text color="warning">
+                  <p>Baixada</p>
                 </ion-text>
               </div>
             </div>
           </ion-col>
           <ion-col size="8" (click)="isVistoria(viatura)">
             <div class="ion-text-end">
-              <div *ngIf="viatura?.status === 'EM VISTORIA'">
+              <div *ngIf="viatura?.status === situacaoViatura.EM_VISTORIA">
                 <ion-icon name="search" color="primary"></ion-icon>
                 <p>Liberar Viatura</p>
               </div>
             </div>
             <div class="ion-text-end">
-              <div *ngIf="viatura?.status === 'CAUTELADA'">
+              <div *ngIf="viatura?.status === situacaoViatura.CAUTELADA">
                 <ion-icon name="checkmark" color="primary"></ion-icon>
                 <p>Finalizar Vistoria</p>
               </div>

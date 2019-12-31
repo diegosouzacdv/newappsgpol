@@ -86,7 +86,8 @@ export class LoginPage implements OnInit {
 
   public async presentLoading() {
     this.loading = await this.loadingController.create({
-      message: 'Por favor, aguarde...'
+      message: 'Por favor, aguarde...',
+      mode: 'ios'
     });
     return this.loading.present();
   }

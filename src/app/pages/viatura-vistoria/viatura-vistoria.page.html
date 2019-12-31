@@ -61,11 +61,11 @@
     </ion-item>
     
     <ion-toolbar class="ion-padding-end">
-        <ion-button *ngIf="adjunto !== 'true'" [disabled]="viatura?.status === 'CAUTELADA'" slot="end" (click)="enviarVistoria()">
+        <ion-button *ngIf="adjunto !== 'true'" [disabled]="viatura?.status === situacaoViatura.CAUTELADA" slot="end" (click)="enviarVistoria()">
           <ion-icon  slot="end" name="checkbox-outline"></ion-icon>
           Enviar
         </ion-button>
-        <ion-button *ngIf="adjunto === 'true'" [disabled]="viatura?.status === 'CAUTELADA'" slot="end" color="success">
+        <ion-button *ngIf="adjunto === 'true'" [disabled]="viatura?.status === situacaoViatura.CAUTELADA" slot="end" color="success">
           <ion-icon  slot="end" name="checkbox-outline"></ion-icon>
           Gravar
         </ion-button>

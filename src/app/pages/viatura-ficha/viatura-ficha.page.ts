@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
+import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 
 @Component({
   selector: 'app-viatura-ficha',
@@ -13,12 +14,13 @@ export class ViaturaFichaPage implements OnInit {
   viatura: ViaturaDTO;
   temVistoria: boolean = false;
   adjunto = 'false'
+  situacaoViatura;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private itensVistoriaService: ItensVistoriaService) {
-
+      this.situacaoViatura = SituacaoViatura;
       this.route.queryParams.subscribe(params => {
         if (this.router.getCurrentNavigation().extras.state !== undefined && this.router.getCurrentNavigation().extras.state) {
           this.viatura = this.router.getCurrentNavigation().extras.state.viatura;

@@ -7,6 +7,7 @@ import { ViaturaService } from 'src/app/services/domain/viatura.service';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
 import { NavigationExtras, Router } from '@angular/router';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
+import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 
 @Component({
   selector: 'app-adjunto',
@@ -18,10 +19,12 @@ export class AdjuntoPage implements OnInit {
   
   private subscribeUser: Subscription;
   private subscribeViaUni: Subscription;
+  private subscribeVia: Subscription;
   public policial: PolicialDTO;
   viaturasUnidade: ViaturaDTO[] = [];
   adjunto = true;
   temVistoria = false;
+  situacaoViatura;
   
 
   constructor(
@@ -29,7 +32,9 @@ export class AdjuntoPage implements OnInit {
     public router: Router,
     public policialService: PolicialService,
     public viaturaService: ViaturaService,
-    private itensVistoriaService: ItensVistoriaService) { }
+    private itensVistoriaService: ItensVistoriaService) {
+      this.situacaoViatura = SituacaoViatura;
+     }
 
     
   ngOnInit() {

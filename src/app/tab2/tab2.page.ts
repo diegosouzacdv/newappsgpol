@@ -8,6 +8,7 @@ import { PolicialService } from '../services/domain/policial.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { ViaturaService } from '../services/domain/viatura.service';
 import { Subscription } from 'rxjs';
+import { SituacaoViatura } from '../models/situacao-viatura.enum';
 
 @Component({
   selector: 'app-tab2',
@@ -30,6 +31,7 @@ export class Tab2Page {
   private subscribeVistoria: Subscription;
   private subscribePesquisa: Subscription;
   adjunto = false;
+  situacaoViatura;
 
   constructor(
     public navCtrl: NavController,
@@ -39,6 +41,7 @@ export class Tab2Page {
     public storage: StorageService,
     public alertController: AlertController,
     public itensVistoriaService: ItensVistoriaService,) {
+      this.situacaoViatura = SituacaoViatura;
     }
     
     ngOnInit() {
@@ -106,7 +109,7 @@ export class Tab2Page {
                 viatura: vtr[0][0]
               }
             };
-            this.router.navigate(['/viatura-ficha'], navExtras);
+            this.router.navigate([`/viatura-ficha/${this.adjunto}`], navExtras);
           })
     }
 
