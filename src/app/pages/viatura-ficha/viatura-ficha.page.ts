@@ -12,6 +12,7 @@ export class ViaturaFichaPage implements OnInit {
 
   viatura: ViaturaDTO;
   temVistoria: boolean = false;
+  adjunto = 'false'
 
   constructor(
     private router: Router,
@@ -23,9 +24,16 @@ export class ViaturaFichaPage implements OnInit {
           this.viatura = this.router.getCurrentNavigation().extras.state.viatura;
           this.isVistoria(this.viatura)
         } else {
-          this.router.navigate(['/tabs/tab2'])
+          if(this.adjunto !== 'true') {
+            this.router.navigate(['/tabs/tab2'])
+          } else {
+            this.router.navigate(['/adjunto'])
+          }
         }
       });
+
+      this.adjunto = this.route.snapshot.paramMap.get('adjunto');
+
      }
 
      vistoriar(viatura: ViaturaDTO) {
@@ -35,7 +43,7 @@ export class ViaturaFichaPage implements OnInit {
           viatura: viatura
         }
       };
-      this.router.navigate(['/vistoria', viatura.id, this.temVistoria], navExtras)
+      this.router.navigate(['/vistoria', viatura.id, this.temVistoria, this.adjunto], navExtras)
       
     }
 

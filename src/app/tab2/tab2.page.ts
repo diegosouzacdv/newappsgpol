@@ -30,6 +30,7 @@ export class Tab2Page {
   private subscribeViaId: Subscription;
   private subscribeVistoria: Subscription;
   private subscribePesquisa: Subscription;
+  adjunto = false;
 
   constructor(
     public navCtrl: NavController,
@@ -117,7 +118,7 @@ export class Tab2Page {
           viatura: viatura
         }
       };
-      this.router.navigate(['/viatura-ficha'], navExtras);
+      this.router.navigate([`/viatura-ficha/${this.adjunto}`], navExtras);
     }
 
     async semViatura(placa: string) {

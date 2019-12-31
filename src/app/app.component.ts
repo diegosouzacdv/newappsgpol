@@ -31,6 +31,11 @@ export class AppComponent {
       title: 'Efetivo',
       url: '/tabs/tab3',
       icon: 'people'
+    },
+    {
+      title: 'Adjunto',
+      url: `/adjunto/`,
+      icon: 'refresh-circle'
     }
   ];
 

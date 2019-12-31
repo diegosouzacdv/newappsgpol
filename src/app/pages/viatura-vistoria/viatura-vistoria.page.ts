@@ -6,7 +6,8 @@ import { Subscription } from 'rxjs';
 import { VistoriaVistoriaDTO } from 'src/app/models/vistoria-viatura.dto';
 import { ItensVistoria } from 'src/app/models/itens-vistoria';
 import { PolicialService } from 'src/app/services/domain/policial.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-viatura-vistoria',
@@ -23,13 +24,15 @@ export class ViaturaVistoriaPage implements OnInit {
   temVistoria: boolean;
   teste ='oleo'
   localizacao: any;
-  
+  adjunto = 'false'
+  loading: any;
   private subscribeVistoria: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private itensVistoriaService: ItensVistoriaService,
+    private loadingController: LoadingController,
     private policialService: PolicialService,
     public alertCtrl: AlertController) { 
       this.receberViatura();
@@ -43,6 +46,7 @@ export class ViaturaVistoriaPage implements OnInit {
       if(!this.temVistoria) {
         this.inserirInicioVistoria(this.idViatura);
       }
+      this.adjunto = this.activatedRoute.snapshot.paramMap.get('adjunto');
     }
 
   ngOnInit() {
@@ -78,7 +82,11 @@ export class ViaturaVistoriaPage implements OnInit {
         this.viatura = this.router.getCurrentNavigation().extras.state.viatura;
         console.log(this.viatura)
       } else {
-        this.router.navigate(['/tabs/tab2'])
+        if(this.adjunto !== 'true') {
+          this.router.navigate(['/tabs/tab2'])
+        } else {
+          this.router.navigate(['/adjunto'])
+        }
       }
     })
   }
@@ -89,17 +97,29 @@ export class ViaturaVistoriaPage implements OnInit {
       });
   }
 
-  inserirInicioVistoria(idViatura) {
+  async inserirInicioVistoria(idViatura) {
+    await this.presentLoading();
+    try {
+      this.subscribeVistoria = this.itensVistoriaService.inserirVistoria(parseInt(idViatura))
+        .subscribe(response => {
+          this.getVistoria();
+          this.loading.dismiss();
+        }, (errors => {
+          this.loading.dismiss();
+        }))
+    } finally{}
     console.log('inciou a vistoria')
-    this.subscribeVistoria = this.itensVistoriaService.inserirVistoria(parseInt(idViatura))
-      .subscribe(response => {
-        this.getVistoria();
-        console.log(response)
-      })
   }
 
   ionViewWillLeave() {
     if (!this.subscribeVistoria.closed) this.subscribeVistoria.unsubscribe();
+  }
+
+  public async presentLoading() {
+    this.loading = await this.loadingController.create({
+      message: 'Por favor, aguarde...'
+    });
+    return this.loading.present();
   }
 
   public sucess() {

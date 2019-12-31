@@ -36,30 +36,38 @@
       <ion-label class="ion-text-wrap"> 
        <p>{{item.nome}}</p>
       </ion-label>
-      <ion-toggle (ionChange)="recebeItem(item)" [checked]="item.vistoriaOk === 1" color="secondary"></ion-toggle>
+      <ion-toggle [disabled]="adjunto === 'true'" (ionChange)="recebeItem(item)" [checked]="item.vistoriaOk === 1" color="secondary"></ion-toggle>
     </ion-item>
   </ion-card>
   <ion-card>
     <ion-item>
         <ion-label>ODÔMETRO KM</ion-label>
-        <ion-input type="number" placeholder="Km" [value]="vistoria?.odometro" name="odometro" text-right  [(ngModel)]="vistoria.odometro" clearInput="true"></ion-input>
+        <ion-input [disabled]="adjunto === 'true'" type="number" placeholder="Km" [value]="vistoria?.odometro" name="odometro" text-right  [(ngModel)]="vistoria.odometro" clearInput="true"></ion-input>
       </ion-item>
     <ion-item>
       <ion-label> COMBUSTÍVEL </ion-label>
-      <ion-range mode="ios" min="0" max="100" step="10" pin="true" snaps="true" ticks="true"  [value]="vistoria?.nivelCombustivel" [(ngModel)]="vistoria.nivelCombustivel" ionChange="teste1($event)">
+      <ion-range [disabled]="adjunto === 'true'" mode="ios" min="0" max="100" step="10" pin="true" snaps="true" ticks="true"  [value]="vistoria?.nivelCombustivel" [(ngModel)]="vistoria.nivelCombustivel" ionChange="teste1($event)">
           <ion-label range-left>Vazio</ion-label>
           <ion-label range-right>Cheio</ion-label>
       </ion-range>
     </ion-item>
     <ion-item>
-      <ion-label> OBS: </ion-label>
-      <ion-textarea [(ngModel)]="vistoria.observacaoMotorista"></ion-textarea>
+      <ion-label position="floating"> Observação do Motorista: </ion-label>
+      <ion-textarea [disabled]="adjunto === 'true'" [(ngModel)]="vistoria.observacaoMotorista"></ion-textarea>
+    </ion-item>
+    <ion-item *ngIf="adjunto === 'true'">
+      <ion-label position="floating"> Observação do Validador: </ion-label>
+      <ion-textarea [(ngModel)]="vistoria.observacaoValidado"></ion-textarea>
     </ion-item>
     
     <ion-toolbar class="ion-padding-end">
-        <ion-button [disabled]="viatura?.status === 'CAUTELADA'" slot="end" (click)="enviarVistoria()">
+        <ion-button *ngIf="adjunto !== 'true'" [disabled]="viatura?.status === 'CAUTELADA'" slot="end" (click)="enviarVistoria()">
           <ion-icon  slot="end" name="checkbox-outline"></ion-icon>
           Enviar
+        </ion-button>
+        <ion-button *ngIf="adjunto === 'true'" [disabled]="viatura?.status === 'CAUTELADA'" slot="end" color="success">
+          <ion-icon  slot="end" name="checkbox-outline"></ion-icon>
+          Gravar
         </ion-button>
       </ion-toolbar>
   </ion-card>

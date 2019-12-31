@@ -44,7 +44,7 @@
   
   </ion-card>
     
-  <ion-toolbar class="ion-padding-end">
+  <ion-toolbar class="ion-padding-end" *ngIf="adjunto === 'false'">
     <ion-button color="success"  slot="end" (click)="vistoriar(viatura)">
       <ion-icon  slot="end" name="checkbox-outline" ></ion-icon>
         Vistoriar

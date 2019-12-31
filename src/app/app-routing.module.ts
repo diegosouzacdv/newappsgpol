@@ -17,12 +17,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule), canActivate: [AuthGuard] 
   },
   {
-    path: 'viatura-ficha',
+    path: 'viatura-ficha/:adjunto',
     loadChildren: () => import('./pages/viatura-ficha/viatura-ficha.module').then( m => m.ViaturaFichaPageModule)
   },
   {
-    path: 'vistoria/:id/:temVistoria',
+    path: 'vistoria/:id/:temVistoria/:adjunto',
     loadChildren: () => import('./pages/viatura-vistoria/viatura-vistoria.module').then( m => m.ViaturaVistoriaPageModule)
+  },
+  {
+    path: 'adjunto',
+    loadChildren: () => import('./pages/adjunto/adjunto.module').then( m => m.AdjuntoPageModule)
   }
 ];
 @NgModule({

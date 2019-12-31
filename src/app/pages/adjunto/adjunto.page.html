@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="primary"></ion-buttons>
+    <ion-title>Autorização de Viatura</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <app-dados-basico-policial></app-dados-basico-policial>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>Carteira de Habilitação</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col><strong>Categoria: </strong>
+            <app-text-shell [data]="policial?.cnh?.categoria"></app-text-shell>
+          </ion-col>
+          <ion-col><strong>Validade: </strong>
+            <app-text-shell [data]="policial?.cnh?.dataValidade | date:'dd/MM/yyyy'"></app-text-shell>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Viaturas da Unidade</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-card *ngFor="let viatura of viaturasUnidade" >
+        <ion-item (click)="fichaViatura(viatura)" routerDirection='forward'>
+          <ion-thumbnail slot="start">
+            <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
+          </ion-thumbnail>
+          <ion-label class="ion-text-wrap">
+            <h3>{{viatura?.modelo}}</h3>
+            <p>{{viatura?.placa}}</p>
+          </ion-label>
+        </ion-item>
+        <ion-row *ngIf="viatura?.status === 'EM VISTORIA' || viatura?.status === 'CAUTELADA'">
+          <ion-item>
+            <ion-label>
+              <h3>Motorista: </h3>
+              <!-- <p>Wallace Silva</p> -->
+            </ion-label>
+
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4">
+            <div class="ion-text-start">
+              <div *ngIf="viatura?.status === 'CAUTELADA'">
+                <ion-icon name="flag" color="primary"></ion-icon>
+                <ion-text color="primary">
+                  <p>Em uso</p>
+                </ion-text>
+              </div>
+              <div *ngIf="viatura?.status === 'DISPONÍVEL'">
+                <ion-icon name="flag" color="success"></ion-icon>
+                <ion-text color="success">
+                  <p>Viatura em Condições</p>
+                </ion-text>
+              </div>
+              <div *ngIf="viatura?.status === 'EM VISTORIA'">
+                <ion-icon name="flag" color="warning"></ion-icon>
+                <ion-text color="warning">
+                  <p>Em Vistoria</p>
+                </ion-text>
+              </div>
+            </div>
+          </ion-col>
+          <ion-col size="8" (click)="isVistoria(viatura)">
+            <div class="ion-text-end">
+              <div *ngIf="viatura?.status === 'EM VISTORIA'">
+                <ion-icon name="search" color="primary"></ion-icon>
+                <p>Liberar Viatura</p>
+              </div>
+            </div>
+            <div class="ion-text-end">
+              <div *ngIf="viatura?.status === 'CAUTELADA'">
+                <ion-icon name="checkmark" color="primary"></ion-icon>
+                <p>Finalizar Vistoria</p>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

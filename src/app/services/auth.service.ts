@@ -56,9 +56,12 @@ export class AuthService {
 
   successfullLogin(authorizationValue: string) {
     this.logout();
+    let token =this.helper.decodeToken(authorizationValue)
+    console.log()
     let user: LocalUser = {
       token: authorizationValue,
-      id: this.helper.decodeToken(authorizationValue)['user_name']
+      id: token['user_name'],
+      authorities: token['authorities']
     };
     this.storage.setLocalUser(user);
   }
