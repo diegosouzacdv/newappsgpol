@@ -7,7 +7,6 @@ import { VistoriaVistoriaDTO } from 'src/app/models/vistoria-viatura.dto';
 import { ItensVistoria } from 'src/app/models/itens-vistoria';
 import { PolicialService } from 'src/app/services/domain/policial.service';
 import { AlertController, LoadingController } from '@ionic/angular';
-import { async } from '@angular/core/testing';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 
 @Component({
@@ -78,17 +77,9 @@ export class ViaturaVistoriaPage implements OnInit {
     console.log('entrando')
     this.itensVistoriaService.buscarVistoria(parseInt(this.idViatura))
       .subscribe(response => {
+        console.log(response)
         this.vistoria = response;
-        let novosItem = new Array();
-        response.vistoriaViaturaItensVistoria.forEach(element => {
-          if (element.nome !== 'ODÔMETRO') {
-            novosItem.push(element);
-          }
         });
-        this.vistoria.vistoriaViaturaItensVistoria = null;
-        this.vistoria.vistoriaViaturaItensVistoria = novosItem;
-
-      })
   }
 
   public receberViatura() {

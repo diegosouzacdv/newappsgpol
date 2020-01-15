@@ -9,6 +9,8 @@ export interface VistoriaVistoriaDTO {
     ativo?: boolean,
     observacaoMotorista?: string,
     observacaoValidado?: string,
+    observacaoMotoristaFinal?: string,
+    observacaoValidadoFinal?: string,
     vistoriaViaturaItensVistoria?: ItensVistoria[];
     longitude?: number;
     latitude?: number;

@@ -24,7 +24,6 @@ export class ItensVistoriaService {
     }
 
     buscarVistoria(idViatura: number): Observable<any> {
-
         return this.http.get<any>(`${API_CONFIG.baseUrl}/viatura/vistoria/${idViatura}`);
     }
 
@@ -36,6 +35,8 @@ export class ItensVistoriaService {
     }
 
     updateVistoria(body: VistoriaVistoriaDTO): Observable<VistoriaVistoriaDTO> {
+        body.dataLiberacao  = null;
+        body.dataVistoria  =  null;
         this.geolocation.getCurrentPosition().then((resp) => {
             body.latitude = resp.coords.latitude;
             body.longitude = resp.coords.longitude;
@@ -55,7 +56,9 @@ export class ItensVistoriaService {
     }
 
     salvarVisaoAdjunto(body: VistoriaVistoriaDTO): Observable<VistoriaVistoriaDTO> {
+        console.log(body)
         body.dataVistoria = null;
+        body.dataLiberacao = null;
         body.vistoriaViaturaItensVistoria = null;
         return this.http.put<VistoriaVistoriaDTO>(
             `${API_CONFIG.baseUrl}/viatura/vistoria/salvaradjunto/${body.id}`, body);

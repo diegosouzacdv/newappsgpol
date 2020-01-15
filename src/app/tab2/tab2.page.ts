@@ -92,7 +92,6 @@ export class Tab2Page {
       if (this.policial.lotacaoCodigo != null || this.policial.lotacaoCodigo != undefined) {
         this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
           .subscribe(response => {
-            console.log(response)
             this.viaturasUnidade = response['content'];
           })
       }
@@ -101,7 +100,6 @@ export class Tab2Page {
     buscarViatura(viatura: ViaturaDTO, placa: String) {
       this.subscribeViaId = this.viaturaService.buscarViatura(placa)
           .subscribe(response => {
-            console.log(response)
             const vtr = Object.keys(response).map(content => response[content]);
   
             let navExtras: NavigationExtras = {

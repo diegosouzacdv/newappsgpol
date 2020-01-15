@@ -69,6 +69,9 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item>
+        <div *ngIf="viaturasUnidade.length === 0">
+          <h2>Sem Viaturas em <app-text-shell [data]="policial?.lotacao"></app-text-shell></h2>
+        </div>
         <div slot="end" *ngIf="viaturasUnidade.length !== 0">
           <ion-button *ngIf="!showViaturaUnidade; else show" size="small"
             (click)="showViaturaUnidade = !showViaturaUnidade">
@@ -95,6 +98,7 @@
           <ion-button *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
         </ion-item>
       </div>
+      
     </ion-card-content>
   </ion-card>
 </ion-content>

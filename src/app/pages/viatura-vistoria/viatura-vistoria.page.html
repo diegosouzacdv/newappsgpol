@@ -1,13 +1,13 @@
 <ion-header>
   <ion-toolbar color="primary">
-      <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-      </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
 
-      <ion-title>Prefixo: {{viatura?.prefixo}}</ion-title>
-    </ion-toolbar>
+    <ion-title>Prefixo: {{viatura?.prefixo}}</ion-title>
+  </ion-toolbar>
 </ion-header>
-  
+
 <ion-content>
   <ion-card>
     <ion-item>
@@ -19,62 +19,86 @@
     <ion-item>
       <ion-row>
         <ion-col>
-            <p><strong><i>Placa:&nbsp;</i></strong> {{viatura?.placa}}</p>
-            <p><strong><i>Odômetro:&nbsp;</i></strong> {{vistoria?.odometro}}</p>
-            <p><strong><i>Renavam:&nbsp;</i></strong> {{viatura?.renavam}}</p>
-            <p><strong><i>Combust.:&nbsp;</i></strong> {{viatura?.tipoCombustivel}}</p>
+          <p><strong><i>Placa:&nbsp;</i></strong> {{viatura?.placa}}</p>
+          <p><strong><i>Odômetro:&nbsp;</i></strong> {{vistoria?.odometro}}</p>
+          <p><strong><i>Renavam:&nbsp;</i></strong> {{viatura?.renavam}}</p>
+          <p><strong><i>Combust.:&nbsp;</i></strong> {{viatura?.tipoCombustivel}}</p>
         </ion-col>
       </ion-row>
     </ion-item>
   </ion-card>
-<ion-item-divider color="primary">
-  <h4>Vistoria</h4>
-</ion-item-divider>
-<ion-list>
-  <ion-card>
-    <ion-item *ngFor="let item of vistoria.vistoriaViaturaItensVistoria">
-      <ion-label class="ion-text-wrap"> 
-       <p>{{item.nome}}</p>
-      </ion-label>
-      <ion-toggle [disabled]="adjunto === 'true'" (ionChange)="recebeItem(item)" [checked]="item.vistoriaOk === 1" color="secondary"></ion-toggle>
-    </ion-item>
-  </ion-card>
-  <ion-card>
-    <ion-item>
-        <ion-label>ODÔMETRO KM</ion-label>
-        <ion-input [disabled]="adjunto === 'true'" type="number" placeholder="Km" [value]="vistoria?.odometro" name="odometro" text-right  [(ngModel)]="vistoria.odometro" clearInput="true"></ion-input>
+  <div>
+    <ion-button expand="block" *ngIf="viatura?.status != situacaoViatura.CAUTELADA" size="small"
+      [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'">{{viatura?.status}}
+    </ion-button>
+    <ion-button expand="block" *ngIf="viatura?.status === situacaoViatura.CAUTELADA" size="small" slot="end"
+      [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'">{{viatura?.status}}</ion-button>
+    <ion-button expand="block" *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small" slot="end"
+      color="danger">{{viatura?.status}}</ion-button>
+  </div>
+  <ion-item-divider color="primary">
+    <h4>Vistoria</h4>
+  </ion-item-divider>
+  <ion-list>
+    <ion-card>
+      <ion-item *ngFor="let item of vistoria.vistoriaViaturaItensVistoria">
+        <ion-label class="ion-text-wrap">
+          <p>{{item.nome}}</p>
+        </ion-label>
+        <ion-toggle [disabled]="adjunto === 'true'" (ionChange)="recebeItem(item)" [checked]="item.vistoriaOk === 1"
+          color="secondary"></ion-toggle>
       </ion-item>
-    <ion-item>
-      <ion-label> COMBUSTÍVEL </ion-label>
-      <ion-range [disabled]="adjunto === 'true'" mode="ios" min="0" max="100" step="10" pin="true" snaps="true" ticks="true"  [value]="vistoria?.nivelCombustivel" [(ngModel)]="vistoria.nivelCombustivel" ionChange="teste1($event)">
+    </ion-card>
+    <ion-card>
+      <ion-item>
+        <ion-label>ODÔMETRO KM</ion-label>
+        <ion-input [disabled]="adjunto === 'true'" type="number" placeholder="Km" [value]="vistoria?.odometro"
+          name="odometro" text-right [(ngModel)]="vistoria.odometro" clearInput="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label> COMBUSTÍVEL </ion-label>
+        <ion-range [disabled]="adjunto === 'true'" mode="ios" min="0" max="100" step="10" pin="true" snaps="true"
+          ticks="true" [value]="vistoria?.nivelCombustivel" [(ngModel)]="vistoria.nivelCombustivel"
+          ionChange="teste1($event)">
           <ion-label range-left>Vazio</ion-label>
           <ion-label range-right>Cheio</ion-label>
-      </ion-range>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating"> Observação do Motorista: </ion-label>
-      <ion-textarea [disabled]="adjunto === 'true'" [(ngModel)]="vistoria.observacaoMotorista"></ion-textarea>
-    </ion-item>
-    <ion-item *ngIf="adjunto === 'true'">
-      <ion-label position="floating"> Observação do Validador: </ion-label>
-      <ion-textarea [(ngModel)]="vistoria.observacaoValidado"></ion-textarea>
-    </ion-item>
-    
-    <ion-toolbar class="ion-padding-end">
-        <ion-button size="small" *ngIf="adjunto !== 'true'" [disabled]="viatura?.status === situacaoViatura.CAUTELADA" slot="end" (click)="enviarVistoria()">
-          <ion-icon  slot="end" name="checkbox-outline"></ion-icon>
+        </ion-range>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating"> Observação do Motorista Inicio: </ion-label>
+        <ion-textarea [disabled]="adjunto === 'true' ||  viatura?.status === situacaoViatura.CAUTELADA"
+          [(ngModel)]="vistoria.observacaoMotorista"></ion-textarea>
+      </ion-item>
+      <ion-item *ngIf="viatura?.status === situacaoViatura.CAUTELADA">
+        <ion-label position="floating"> Observação do Motorista Final: </ion-label>
+        <ion-textarea [disabled]="adjunto === 'true'" [(ngModel)]="vistoria.observacaoMotoristaFinal"></ion-textarea>
+      </ion-item>
+      <ion-item *ngIf="adjunto === 'true'">
+        <ion-label position="floating"> Observação do Validador Inicio: </ion-label>
+        <ion-textarea [disabled]="viatura?.status === situacaoViatura.CAUTELADA"
+          [(ngModel)]="vistoria.observacaoValidado"></ion-textarea>
+      </ion-item>
+      <ion-item *ngIf="adjunto === 'true' && viatura?.status === situacaoViatura.CAUTELADA">
+        <ion-label position="floating"> Observação do Validador Final: </ion-label>
+        <ion-textarea [(ngModel)]="vistoria.observacaoValidadoFinal"></ion-textarea>
+      </ion-item>
+
+      <ion-toolbar class="ion-padding-end">
+        <ion-button size="small" *ngIf="adjunto !== 'true'" slot="end" (click)="enviarVistoria()">
+          <ion-icon slot="end" name="checkbox-outline"></ion-icon>
           Enviar
         </ion-button>
-        <ion-button size="small" *ngIf="adjunto === 'true'" slot="end" color="danger" (click)="invalidarVistoria(vistoria)">
-          <ion-icon  slot="end" name="ios-alert"></ion-icon>
+        <ion-button size="small" *ngIf="adjunto === 'true'" slot="end" color="danger"
+          (click)="invalidarVistoria(vistoria)">
+          <ion-icon slot="end" name="ios-alert"></ion-icon>
           Excluir
         </ion-button>
-        <ion-button size="small" *ngIf="adjunto === 'true'" slot="end" color="success" (click)="salvarAdjunto(vistoria)">
-          <ion-icon  slot="end" name="checkbox-outline"></ion-icon>
+        <ion-button size="small" *ngIf="adjunto === 'true'" slot="end" color="success"
+          (click)="salvarAdjunto(vistoria)">
+          <ion-icon slot="end" name="checkbox-outline"></ion-icon>
           Gravar
         </ion-button>
       </ion-toolbar>
-  </ion-card>
-</ion-list>
+    </ion-card>
+  </ion-list>
 </ion-content>
-
