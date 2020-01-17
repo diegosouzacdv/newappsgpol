@@ -5,12 +5,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
 import { ErrorInterceptorProvider } from './interceptors/error-interceptor';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +22,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
   providers: [
     StatusBar,
     SplashScreen,
+    AppVersion,
+    FileTransfer,
+    File,
     AuthInterceptorProvider,
     Geolocation,
     ErrorInterceptorProvider,

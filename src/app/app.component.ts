@@ -8,6 +8,8 @@ import { StorageService } from './services/storage.service';
 import { PolicialService } from './services/domain/policial.service';
 import { AuthService } from './services/auth.service';
 import { Subscription } from 'rxjs';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { FieldVersion } from './models/field.version';
 
 @Component({
   selector: 'app-root',
@@ -49,7 +51,8 @@ export class AppComponent {
     private storage: StorageService,
     public policialService: PolicialService,
     public authService: AuthService,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    private appVersion: AppVersion,
   ) {
     this.initializeApp();
   }
@@ -108,5 +111,39 @@ export class AppComponent {
         ]
     // tslint:disable-next-line: no-shadowed-variable
     }).then(alert => alert.present());
+    }
+
+
+  versionApp() {
+    let version;
+    let name;
+    this.appVersion.getVersionNumber()
+    .then(response => {
+      version = response
+      console.log(version)
+    })
+  
+    this.appVersion.getAppName()
+    .then(response => {
+      name = response
+      console.log(name)
+
+      const alert = this.alertCtrl.create({
+        header: 'Versão',
+        message: this.listErrors(version, name),
+        backdropDismiss: false,
+        buttons: [
+            {text: 'Ok'}
+        ]
+    // tslint:disable-next-line: no-shadowed-variable
+    }).then(alert => alert.present());
+    })
+    
+    }
+
+      private listErrors(version, name): string {
+        let s = '';
+            s = s + '<p>' + 'Nome:<strong> ' + name + '</strong>' + '<br> Versão:<strong>  ' + version + '</strong> ' +  '</p>';
+        return s;
     }
 }
