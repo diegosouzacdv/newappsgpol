@@ -22,13 +22,18 @@ export class ViaturaVistoriaPage implements OnInit {
   }
   idViatura: string;
   temVistoria: boolean;
-  teste ='oleo'
+  teste = 'oleo'
   localizacao: any;
   adjunto = 'false'
   loading: any;
   private subscribeVistoria: Subscription;
   subscribeInvalidarVistoria: Subscription;
   subscribeSalvarAdjunto: Subscription;
+  itensVistoria: Subscription;
+  buscarVistoria: Subscription;
+  receberViaturaRouter: Subscription;
+  inserirItemVistoria: Subscription;
+  invalidarVistoriavar: Subscription;
   situacaoViatura;
 
   constructor(
@@ -37,58 +42,58 @@ export class ViaturaVistoriaPage implements OnInit {
     private itensVistoriaService: ItensVistoriaService,
     private loadingController: LoadingController,
     private policialService: PolicialService,
-    public alertCtrl: AlertController) { 
+    public alertCtrl: AlertController) {
 
-      this.situacaoViatura = SituacaoViatura;
+    this.situacaoViatura = SituacaoViatura;
 
-      this.receberViatura();
+    this.receberViatura();
 
-      this.idViatura = this.activatedRoute.snapshot.paramMap.get('id');
+    this.idViatura = this.activatedRoute.snapshot.paramMap.get('id');
 
-      
-      if(this.activatedRoute.snapshot.paramMap.get('temVistoria') === 'true') {
-        this.temVistoria = true; 
-      } else {
-        this.temVistoria = false; 
-      }
-      if(!this.temVistoria) {
-        this.inserirInicioVistoria(this.idViatura);
-      }
-      this.getVistoria();
-      this.adjunto = this.activatedRoute.snapshot.paramMap.get('adjunto');
+
+    if (this.activatedRoute.snapshot.paramMap.get('temVistoria') === 'true') {
+      this.temVistoria = true;
+    } else {
+      this.temVistoria = false;
     }
+    if (!this.temVistoria) {
+      this.inserirInicioVistoria(this.idViatura);
+    }
+    this.getVistoria();
+    this.adjunto = this.activatedRoute.snapshot.paramMap.get('adjunto');
+  }
 
   ngOnInit() {
     this.getVistoria();
   }
 
-  enviarVistoria(){
+  enviarVistoria() {
     console.log(this.vistoria)
     this.vistoria.dataVistoria = null;
     this.vistoria.vistoriaViaturaItensVistoria = null;
-    this.itensVistoriaService.updateVistoria(this.vistoria)
+   this.itensVistoria = this.itensVistoriaService.updateVistoria(this.vistoria)
       .subscribe(response => {
         this.success();
-        
+
       })
   }
 
   public getVistoria() {
     console.log('entrando')
-    this.itensVistoriaService.buscarVistoria(parseInt(this.idViatura))
+   this.buscarVistoria = this.itensVistoriaService.buscarVistoria(parseInt(this.idViatura))
       .subscribe(response => {
         console.log(response)
         this.vistoria = response;
-        });
+      });
   }
 
   public receberViatura() {
     console.log("viatura recebida: ");
-      this.activatedRoute.queryParams.subscribe(params => {
+   this.receberViaturaRouter = this.activatedRoute.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.viatura = this.router.getCurrentNavigation().extras.state.viatura;
       } else {
-        if(this.adjunto !== 'true') {
+        if (this.adjunto !== 'true') {
           this.router.navigate(['/tabs/tab2'])
         } else {
           this.router.navigate(['/adjunto'])
@@ -97,8 +102,8 @@ export class ViaturaVistoriaPage implements OnInit {
     })
   }
 
-  recebeItem(item: ItensVistoria ) {
-    this.itensVistoriaService.inserirItem(item.id)
+  recebeItem(item: ItensVistoria) {
+   this.inserirItemVistoria = this.itensVistoriaService.inserirItem(item.id)
       .subscribe(response => {
       });
   }
@@ -113,11 +118,11 @@ export class ViaturaVistoriaPage implements OnInit {
         }, (errors => {
           this.loading.dismiss();
         }))
-    } finally{}
+    } finally { }
   }
 
   public async invalidarVistoria(vistoria: VistoriaVistoriaDTO) {
-    
+
     const alert = await this.alertCtrl.create({
       header: 'Alerta',
       message: 'Deseja excluir a vistoria?',
@@ -131,7 +136,7 @@ export class ViaturaVistoriaPage implements OnInit {
         }, {
           text: 'Sim',
           handler: () => {
-            this.subscribeInvalidarVistoria = this.itensVistoriaService.invalidarVistoria(vistoria)
+           this.invalidarVistoriavar = this.subscribeInvalidarVistoria = this.itensVistoriaService.invalidarVistoria(vistoria)
               .subscribe(response => {
                 console.log(response);
                 this.excluido();
@@ -141,7 +146,7 @@ export class ViaturaVistoriaPage implements OnInit {
       ]
     });
     await alert.present();
-   // 
+    // 
   }
 
   public salvarAdjunto(vistoria: VistoriaVistoriaDTO) {
@@ -150,11 +155,6 @@ export class ViaturaVistoriaPage implements OnInit {
         console.log(response);
         this.success()
       })
-  }
-
-  ionViewWillLeave() {
-    if (!this.subscribeVistoria.closed) this.subscribeVistoria.unsubscribe();
-    if (!this.subscribeInvalidarVistoria.closed) this.subscribeInvalidarVistoria.unsubscribe();
   }
 
   public async presentLoading() {
@@ -167,32 +167,42 @@ export class ViaturaVistoriaPage implements OnInit {
 
   public success() {
     const alert = this.alertCtrl.create({
-        header: 'Sucesso',
-        message: 'Salvo com sucesso!',
-        backdropDismiss: true,
-        buttons: [
-            {text: 'Ok'}
-        ]
-    // tslint:disable-next-line: no-shadowed-variable
+      header: 'Sucesso',
+      message: 'Salvo com sucesso!',
+      backdropDismiss: true,
+      buttons: [
+        { text: 'Ok' }
+      ]
+      // tslint:disable-next-line: no-shadowed-variable
     }).then(alert => {
       alert.present()
       this.router.navigate(['/tabs/tab1']);
     });
-    }
+  }
 
-    public excluido() {
-      const alert = this.alertCtrl.create({
-          header: 'Excluido',
-          message: 'Vistoria foi excluida!',
-          backdropDismiss: true,
-          buttons: [
-              {text: 'Ok'}
-          ]
+  public excluido() {
+    const alert = this.alertCtrl.create({
+      header: 'Excluido',
+      message: 'Vistoria foi excluida!',
+      backdropDismiss: true,
+      buttons: [
+        { text: 'Ok' }
+      ]
       // tslint:disable-next-line: no-shadowed-variable
-      }).then(alert => {
-        alert.present()
-        this.router.navigate(['/tabs/tab1']);
-      });
-      }
+    }).then(alert => {
+      alert.present()
+      this.router.navigate(['/tabs/tab1']);
+    });
+  }
+
+  ionViewWillLeave() {
+    if (!this.subscribeVistoria.closed) this.subscribeVistoria.unsubscribe();
+    if (!this.subscribeInvalidarVistoria.closed) this.subscribeInvalidarVistoria.unsubscribe();
+    if (!this.itensVistoria.closed) this.itensVistoria.unsubscribe();
+    if (!this.buscarVistoria.closed) this.buscarVistoria.unsubscribe();
+    if (!this.receberViaturaRouter.closed) this.receberViaturaRouter.unsubscribe();
+    if (!this.inserirItemVistoria.closed) this.inserirItemVistoria.unsubscribe();
+    if (!this.invalidarVistoriavar.closed) this.invalidarVistoriavar.unsubscribe();
+  }
 
 }

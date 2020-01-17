@@ -84,10 +84,8 @@ export class AppComponent {
   }
 
   async ionViewWillLeave() {
-    this.subscribeUser.unsubscribe();
-
     try {
-      await this.policialService.usuarioLogado()
+      this.subscribeUser = this.policialService.usuarioLogado()
         .subscribe(response => {
         },
           error => {
@@ -96,6 +94,8 @@ export class AppComponent {
           });
     } finally {
     }
+
+    this.subscribeUser.unsubscribe();
   }
 
   error() {
