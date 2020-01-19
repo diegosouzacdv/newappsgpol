@@ -31,4 +31,5 @@ export interface PolicialDTO {
     cnh?: CnhDTO;
     recadastramento?: RecadastramentoDTO;
     foto?: any;
+    previsaoFerias?: string;
 }
