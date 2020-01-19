@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import { PolicialDTO } from '../models/policial.dto';
 import { PolicialService } from '../services/domain/policial.service';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocalizacaoDTO } from '../models/localizacao.dto';
 import { AuthService } from '../services/auth.service';
 
@@ -29,7 +27,7 @@ export class Tab1Page {
     });
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.resolverUser();
   }
 
@@ -40,13 +38,12 @@ export class Tab1Page {
   refreshToken() {
     this.authService.refreshToken()
       .subscribe(response => {
-        console.log(response)
-      })
+        console.log(response);
+      });
   }
 
   ionViewWillLeave() {
-    if (!this.subscribeUser.closed) this.subscribeUser.unsubscribe();
-    
+    if (!this.subscribeUser.closed) { this.subscribeUser.unsubscribe(); }
   }
 
 }

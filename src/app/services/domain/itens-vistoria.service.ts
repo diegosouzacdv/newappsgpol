@@ -5,8 +5,6 @@ import { API_CONFIG } from 'src/app/config/api.config';
 import { VistoriaVistoriaDTO } from 'src/app/models/vistoria-viatura.dto';
 import { ItensVistoria } from 'src/app/models/itens-vistoria';
 
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-
 @Injectable({
     providedIn: 'root',
 })
@@ -14,8 +12,7 @@ export class ItensVistoriaService {
 
     private id
 
-    constructor(public http: HttpClient,
-        private geolocation: Geolocation) {
+    constructor(public http: HttpClient) {
 
     }
 
@@ -37,15 +34,6 @@ export class ItensVistoriaService {
     updateVistoria(body: VistoriaVistoriaDTO): Observable<VistoriaVistoriaDTO> {
         body.dataLiberacao  = null;
         body.dataVistoria  =  null;
-        this.geolocation.getCurrentPosition().then((resp) => {
-            body.latitude = resp.coords.latitude;
-            body.longitude = resp.coords.longitude;
-            return resp.coords;
-        }).catch((error) => {
-            console.log('Error getting location ' + error);
-        });
-
-
         return this.http.put<VistoriaVistoriaDTO>(
             `${API_CONFIG.baseUrl}/viatura/vistoria`, body);
     }

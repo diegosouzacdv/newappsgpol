@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PolicialDTO } from 'src/app/models/policial.dto';
 import { StorageService } from 'src/app/services/storage.service';
 import { PolicialService } from 'src/app/services/domain/policial.service';
-import { NavController } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
-import { AppComponent } from 'src/app/app.component';
 import { Subscription } from 'rxjs';
 
 @Component({

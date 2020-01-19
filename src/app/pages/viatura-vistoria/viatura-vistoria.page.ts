@@ -50,13 +50,12 @@ export class ViaturaVistoriaPage implements OnInit {
 
       this.idViatura = this.activatedRoute.snapshot.paramMap.get('id');
 
-      
-      if(this.activatedRoute.snapshot.paramMap.get('temVistoria') === 'true') {
-        this.temVistoria = true; 
+      if (this.activatedRoute.snapshot.paramMap.get('temVistoria') === 'true') {
+        this.temVistoria = true;
       } else {
-        this.temVistoria = false; 
+        this.temVistoria = false;
       }
-      if(!this.temVistoria) {
+      if (!this.temVistoria) {
         this.inserirInicioVistoria(this.idViatura);
       }
       this.getVistoria();
@@ -74,8 +73,7 @@ export class ViaturaVistoriaPage implements OnInit {
     this.subscribeItensVistoria = this.itensVistoriaService.updateVistoria(this.vistoria)
       .subscribe(response => {
         this.success();
-        
-      })
+      });
   }
 
   public getVistoria() {
@@ -145,7 +143,6 @@ export class ViaturaVistoriaPage implements OnInit {
       ]
     });
     await alert.present();
-   // 
   }
 
   public salvarAdjunto(vistoria: VistoriaVistoriaDTO) {

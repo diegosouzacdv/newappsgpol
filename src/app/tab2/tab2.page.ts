@@ -1,4 +1,4 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { ViaturaDTO } from '../models/viatura.dto';
 import { PolicialDTO } from '../models/policial.dto';
 import { ItensVistoriaService } from '../services/domain/itens-vistoria.service';
@@ -43,7 +43,6 @@ export class Tab2Page {
     public itensVistoriaService: ItensVistoriaService,) {
       this.situacaoViatura = SituacaoViatura;
     }
-    
     ngOnInit() {
       this.getPolicial();
     }
