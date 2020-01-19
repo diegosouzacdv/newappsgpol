@@ -74,24 +74,29 @@
         <ion-textarea [disabled]="adjunto === 'true'" [(ngModel)]="vistoria.observacaoMotoristaFinal"></ion-textarea>
       </ion-item>
       <ion-item *ngIf="adjunto === 'true'">
-        <ion-label position="floating"> Observação do Validador Inicio: </ion-label>
+        <ion-label position="floating"> Observação do Adjunto Inicio: </ion-label>
         <ion-textarea [disabled]="viatura?.status === situacaoViatura.CAUTELADA"
           [(ngModel)]="vistoria.observacaoValidado"></ion-textarea>
       </ion-item>
       <ion-item *ngIf="adjunto === 'true' && viatura?.status === situacaoViatura.CAUTELADA">
-        <ion-label position="floating"> Observação do Validador Final: </ion-label>
+        <ion-label position="floating"> Observação do Adjunto Final: </ion-label>
         <ion-textarea [(ngModel)]="vistoria.observacaoValidadoFinal"></ion-textarea>
       </ion-item>
 
       <ion-toolbar class="ion-padding-end">
-        <ion-button size="small" *ngIf="adjunto !== 'true'" slot="end" (click)="enviarVistoria()">
-          <ion-icon slot="end" name="checkbox-outline"></ion-icon>
-          Enviar
-        </ion-button>
         <ion-button size="small" *ngIf="adjunto === 'true'" slot="end" color="danger"
           (click)="invalidarVistoria(vistoria)">
           <ion-icon slot="end" name="ios-alert"></ion-icon>
           Excluir
+        </ion-button>
+        <ion-button size="small" *ngIf="adjunto !== 'true' && viatura?.status !== situacaoViatura.CAUTELADA" slot="end" color="danger"
+          (click)="invalidarVistoria(vistoria)">
+          <ion-icon slot="end" name="ios-alert"></ion-icon>
+          Excluir
+        </ion-button>
+        <ion-button size="small" *ngIf="adjunto !== 'true'" slot="end" (click)="enviarVistoria()">
+          <ion-icon slot="end" name="checkbox-outline"></ion-icon>
+          Enviar
         </ion-button>
         <ion-button size="small" *ngIf="adjunto === 'true'" slot="end" color="success"
           (click)="salvarAdjunto(vistoria)">
