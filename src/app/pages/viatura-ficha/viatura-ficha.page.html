@@ -15,7 +15,7 @@
       <p color="dark"><strong>{{viatura?.marca}}/{{viatura?.modelo}}</strong> </p>
       <p color="dark"><strong>{{viatura?.anoFabricacao}}/{{viatura?.anoModelo}}</strong></p> 
     <ion-item>
-      <ion-button *ngIf="viatura?.status != situacaoViatura.CAUTELADA" slot="end" [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'">{{viatura?.status}}</ion-button>
+      <ion-button *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA" slot="end" [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'">{{viatura?.status}}</ion-button>
       <ion-button *ngIf="viatura?.status === situacaoViatura.CAUTELADA" slot="end" [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'" >{{viatura?.status}}</ion-button>
       <ion-button *ngIf="viatura?.status === situacaoViatura.BAIXADA" slot="end" color="danger">{{viatura?.status}}</ion-button>
     </ion-item>

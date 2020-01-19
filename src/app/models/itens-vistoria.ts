@@ -1,6 +1,6 @@
 export interface ItensVistoria {
     id: number,
     tipoItem?: number,
-    vistoriaOk?: boolean,
+    vistoriaOk?: number,
     nome?: string,
 }

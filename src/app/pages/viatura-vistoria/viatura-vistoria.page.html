@@ -28,7 +28,7 @@
     </ion-item>
   </ion-card>
   <div>
-    <ion-button expand="block" *ngIf="viatura?.status != situacaoViatura.CAUTELADA" size="small"
+    <ion-button expand="block" *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA" size="small"
       [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'">{{viatura?.status}}
     </ion-button>
     <ion-button expand="block" *ngIf="viatura?.status === situacaoViatura.CAUTELADA" size="small" slot="end"
