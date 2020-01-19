@@ -89,11 +89,11 @@ export class Tab2Page {
     }
 
     listarViaturasUnidade() {
-      if (this.policial.lotacaoCodigo != null || this.policial.lotacaoCodigo != undefined) {
+      if (this.policial.lotacaoCodigo !== null || this.policial.lotacaoCodigo !== undefined) {
         this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
           .subscribe(response => {
             this.viaturasUnidade = response['content'];
-          })
+          });
       }
     }
 
@@ -101,21 +101,20 @@ export class Tab2Page {
       this.subscribeViaId = this.viaturaService.buscarViatura(placa)
           .subscribe(response => {
             const vtr = Object.keys(response).map(content => response[content]);
-  
-            let navExtras: NavigationExtras = {
+            const navExtras: NavigationExtras = {
               state: {
                 viatura: vtr[0][0]
               }
             };
             this.router.navigate([`/viatura-ficha/${this.adjunto}`], navExtras);
-          })
+          });
     }
 
     fichaViatura(viatura: ViaturaDTO) {
-      this.viatura = viatura
-      let navExtras: NavigationExtras = {
+      this.viatura = viatura;
+      const navExtras: NavigationExtras = {
         state: {
-          viatura: viatura
+          viatura
         }
       };
       this.router.navigate([`/viatura-ficha/${this.adjunto}`], navExtras);
@@ -123,32 +122,36 @@ export class Tab2Page {
 
     async semViatura(placa: string) {
       const alert = await this.alertController.create({
-        //header: 'Alert',
         subHeader: 'Viatura não encontrada',
         message: 'O SGF não possui viatura com a placa ' + placa + '!',
         buttons: ['OK']
       });
-  
       await alert.present();
     }
 
     async vazio() {
       const alert = await this.alertController.create({
-        //header: 'Alert',
         subHeader: 'Campo Pesquisa Vazio',
         message: 'Placa é Obrigatória!',
         buttons: ['OK']
       });
-  
       await alert.present();
     }
 
     ionViewWillLeave() {
-      if (!this.subscribeUser.closed) this.subscribeUser.unsubscribe();
-      if (!this.subscribeViaUni.closed) this.subscribeViaUni.unsubscribe();
-      if (!this.subscribeViaId.closed) this.subscribeViaId.unsubscribe();
-      if (!this.subscribeVistoria.closed) this.subscribeVistoria.unsubscribe();
-      if (!this.subscribePesquisa.closed) this.subscribePesquisa.unsubscribe();
+      if (!this.subscribeUser.closed) { this.subscribeUser.unsubscribe(); }
+      if (!this.subscribeViaUni.closed) { this.subscribeViaUni.unsubscribe(); }
+      if (!this.subscribeViaId.closed) { this.subscribeViaId.unsubscribe(); }
+      if (!this.subscribeVistoria.closed) { this.subscribeVistoria.unsubscribe(); }
+      if (!this.subscribePesquisa.closed) { this.subscribePesquisa.unsubscribe(); }
+    }
+
+    doRefresh(event) {
+      console.log('Begin async operation');
+      setTimeout(() => {
+        this.listarViaturasUnidade();
+        event.target.complete();
+      }, 2000);
     }
 
 }

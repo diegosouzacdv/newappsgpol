@@ -16,7 +16,6 @@ import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 })
 export class AdjuntoPage implements OnInit {
 
-  
   private subscribeUser: Subscription;
   private subscribeViaUni: Subscription;
   private subscribeVistoria: Subscription;
@@ -25,7 +24,6 @@ export class AdjuntoPage implements OnInit {
   adjunto = true;
   temVistoria = false;
   situacaoViatura;
-  
 
   constructor(
     private storage: StorageService,
@@ -36,7 +34,6 @@ export class AdjuntoPage implements OnInit {
       this.situacaoViatura = SituacaoViatura;
      }
 
-    
   ngOnInit() {
    this.getPolicial();
   }
@@ -50,7 +47,7 @@ export class AdjuntoPage implements OnInit {
         .subscribe(response => {
           console.log(response)
           this.viaturasUnidade = response['content'];
-        })     
+        });
   }
 
   getPolicial() {
@@ -84,14 +81,14 @@ export class AdjuntoPage implements OnInit {
           console.log(response)
           if (response != null) {
             this.temVistoria = true;
-            let navExtras: NavigationExtras = {
+            const navExtras: NavigationExtras = {
               state: {
-                viatura: viatura
+                viatura
               }
             };
             this.router.navigate(['/vistoria', viatura.id, this.temVistoria, this.adjunto], navExtras);
           }
-        })
+        });
     } finally {}
     }
 
@@ -99,6 +96,14 @@ export class AdjuntoPage implements OnInit {
     if (!this.subscribeUser.closed) { this.subscribeUser.unsubscribe(); }
     if (!this.subscribeViaUni.closed) { this.subscribeViaUni.unsubscribe(); }
     if (!this.subscribeVistoria.closed) { this.subscribeVistoria.unsubscribe(); }
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+    setTimeout(() => {
+      this.listarViaturasUnidade();
+      event.target.complete();
+    }, 2000);
   }
 
 }
