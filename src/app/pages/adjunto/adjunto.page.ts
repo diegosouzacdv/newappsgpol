@@ -19,7 +19,7 @@ export class AdjuntoPage implements OnInit {
   
   private subscribeUser: Subscription;
   private subscribeViaUni: Subscription;
-  private subscribeVistoria: Subscription;
+  private subscribeVia: Subscription;
   public policial: PolicialDTO;
   viaturasUnidade: ViaturaDTO[] = [];
   adjunto = true;
@@ -77,8 +77,9 @@ export class AdjuntoPage implements OnInit {
   }
 
   public async isVistoria(viatura) {
+    console.log(viatura)
     try{
-     this.subscribeVistoria = this.itensVistoriaService.buscarVistoria(viatura.id)
+     await this.itensVistoriaService.buscarVistoria(viatura.id)
         .subscribe(response => {
           console.log(response)
           if (response != null) {
@@ -97,7 +98,6 @@ export class AdjuntoPage implements OnInit {
   ionViewWillLeave() {
     if (!this.subscribeUser.closed) this.subscribeUser.unsubscribe();
     if (!this.subscribeViaUni.closed) this.subscribeViaUni.unsubscribe();
-    if (!this.subscribeVistoria.closed) this.subscribeVistoria.unsubscribe();
   }
 
 }

@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   authenticate(creds: CredenciaisDTO) {
-    const body = `login=appsgpol&username=${creds.username}&password=${creds.password}&grant_type=password`;
+    const body = `login=appsgpol&username=${creds.username}&password=${btoa(creds.password)}&grant_type=password`;
 
     return this.http.post(
       `${API_CONFIG.baseUrl}/oauth/token`,

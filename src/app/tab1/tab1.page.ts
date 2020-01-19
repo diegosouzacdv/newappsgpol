@@ -46,6 +46,7 @@ export class Tab1Page {
 
   ionViewWillLeave() {
     if (!this.subscribeUser.closed) this.subscribeUser.unsubscribe();
+    
   }
 
 }
