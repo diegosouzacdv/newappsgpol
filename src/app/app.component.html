@@ -2,6 +2,13 @@
   <ion-split-pane>
     <ion-menu type="overlay">
       <ion-header>
+        <ion-toolbar color="primary">
+          <ion-buttons slot="end">
+            <ion-button (click)="versionApp()">
+              <ion-icon name="cog"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
         <ion-toolbar color="primary user-profile">
           <!-- <img style="padding: 0%; margin: 0%; border: 0ch; background-color: #000066" src="../assets/imgs/faixa.png"> -->
           <ion-grid>
