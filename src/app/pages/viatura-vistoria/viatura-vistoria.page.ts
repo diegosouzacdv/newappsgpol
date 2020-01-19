@@ -22,14 +22,19 @@ export class ViaturaVistoriaPage implements OnInit {
   }
   idViatura: string;
   temVistoria: boolean;
-  teste ='oleo'
+  teste = 'oleo';
   localizacao: any;
-  adjunto = 'false'
+  adjunto = 'false';
   loading: any;
-  private subscribeVistoria: Subscription;
+  situacaoViatura;
+  subscribeVistoria: Subscription;
   subscribeInvalidarVistoria: Subscription;
   subscribeSalvarAdjunto: Subscription;
-  situacaoViatura;
+  subscribeItensVistoria: Subscription;
+  subscribeBuscarVistoria: Subscription;
+  subscribeReceberViaturaRouter: Subscription;
+  subscribeInserirItemVistoria: Subscription;
+  subscribeInvalidarVistoriavar: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -66,7 +71,7 @@ export class ViaturaVistoriaPage implements OnInit {
     console.log(this.vistoria)
     this.vistoria.dataVistoria = null;
     this.vistoria.vistoriaViaturaItensVistoria = null;
-    this.itensVistoriaService.updateVistoria(this.vistoria)
+    this.subscribeItensVistoria = this.itensVistoriaService.updateVistoria(this.vistoria)
       .subscribe(response => {
         this.success();
         
@@ -75,7 +80,7 @@ export class ViaturaVistoriaPage implements OnInit {
 
   public getVistoria() {
     console.log('entrando')
-    this.itensVistoriaService.buscarVistoria(parseInt(this.idViatura))
+    this.subscribeBuscarVistoria = this.itensVistoriaService.buscarVistoria(parseInt(this.idViatura))
       .subscribe(response => {
         console.log(response)
         this.vistoria = response;
@@ -84,11 +89,11 @@ export class ViaturaVistoriaPage implements OnInit {
 
   public receberViatura() {
     console.log("viatura recebida: ");
-      this.activatedRoute.queryParams.subscribe(params => {
+    this.subscribeReceberViaturaRouter = this.activatedRoute.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.viatura = this.router.getCurrentNavigation().extras.state.viatura;
       } else {
-        if(this.adjunto !== 'true') {
+        if (this.adjunto !== 'true') {
           this.router.navigate(['/tabs/tab2'])
         } else {
           this.router.navigate(['/adjunto'])
@@ -98,7 +103,7 @@ export class ViaturaVistoriaPage implements OnInit {
   }
 
   recebeItem(item: ItensVistoria ) {
-    this.itensVistoriaService.inserirItem(item.id)
+    this.subscribeInserirItemVistoria = this.itensVistoriaService.inserirItem(item.id)
       .subscribe(response => {
       });
   }
@@ -112,12 +117,11 @@ export class ViaturaVistoriaPage implements OnInit {
           this.loading.dismiss();
         }, (errors => {
           this.loading.dismiss();
-        }))
-    } finally{}
+        }));
+    } finally { }
   }
 
   public async invalidarVistoria(vistoria: VistoriaVistoriaDTO) {
-    
     const alert = await this.alertCtrl.create({
       header: 'Alerta',
       message: 'Deseja excluir a vistoria?',
@@ -135,7 +139,7 @@ export class ViaturaVistoriaPage implements OnInit {
               .subscribe(response => {
                 console.log(response);
                 this.excluido();
-              })
+              });
           }
         }
       ]
@@ -148,13 +152,8 @@ export class ViaturaVistoriaPage implements OnInit {
     this.subscribeSalvarAdjunto = this.itensVistoriaService.salvarVisaoAdjunto(vistoria)
       .subscribe(response => {
         console.log(response);
-        this.success()
-      })
-  }
-
-  ionViewWillLeave() {
-    if (!this.subscribeVistoria.closed) this.subscribeVistoria.unsubscribe();
-    if (!this.subscribeInvalidarVistoria.closed) this.subscribeInvalidarVistoria.unsubscribe();
+        this.success();
+      });
   }
 
   public async presentLoading() {
@@ -175,7 +174,7 @@ export class ViaturaVistoriaPage implements OnInit {
         ]
     // tslint:disable-next-line: no-shadowed-variable
     }).then(alert => {
-      alert.present()
+      alert.present();
       this.router.navigate(['/tabs/tab1']);
     });
     }
@@ -193,6 +192,16 @@ export class ViaturaVistoriaPage implements OnInit {
         alert.present()
         this.router.navigate(['/tabs/tab1']);
       });
+      }
+
+      ionViewWillLeave() {
+        if (!this.subscribeVistoria.closed) { this.subscribeVistoria.unsubscribe(); }
+        if (!this.subscribeInvalidarVistoria.closed) { this.subscribeInvalidarVistoria.unsubscribe(); }
+        if (!this.subscribeItensVistoria.closed) { this.subscribeItensVistoria.unsubscribe(); }
+        if (!this.subscribeBuscarVistoria.closed) { this.subscribeBuscarVistoria.unsubscribe(); }
+        if (!this.subscribeReceberViaturaRouter.closed) { this.subscribeReceberViaturaRouter.unsubscribe(); }
+        if (!this.subscribeInserirItemVistoria.closed) { this.subscribeInserirItemVistoria.unsubscribe(); }
+        if (!this.subscribeInvalidarVistoriavar.closed) { this.subscribeInvalidarVistoriavar.unsubscribe(); }
       }
 
 }

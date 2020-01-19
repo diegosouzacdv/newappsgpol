@@ -3,6 +3,7 @@ import { ViaturaDTO } from 'src/app/models/viatura.dto';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-viatura-ficha',
@@ -15,13 +16,15 @@ export class ViaturaFichaPage implements OnInit {
   temVistoria: boolean = false;
   adjunto = 'false'
   situacaoViatura;
+  private subscribeViaturaFicha: Subscription;
+  private subscribeItensVistoria: Subscription;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private itensVistoriaService: ItensVistoriaService) {
       this.situacaoViatura = SituacaoViatura;
-      this.route.queryParams.subscribe(params => {
+      this.subscribeViaturaFicha = this.route.queryParams.subscribe(params => {
         if (this.router.getCurrentNavigation().extras.state !== undefined && this.router.getCurrentNavigation().extras.state) {
           this.viatura = this.router.getCurrentNavigation().extras.state.viatura;
           this.isVistoria(this.viatura)
@@ -50,7 +53,7 @@ export class ViaturaFichaPage implements OnInit {
     }
 
    public isVistoria(viatura) {
-    this.itensVistoriaService.buscarVistoria(viatura.id)
+    this.subscribeItensVistoria = this.itensVistoriaService.buscarVistoria(viatura.id)
       .subscribe(response => {
         console.log(response)
         if (response != null && response.id !== 0) {
@@ -61,6 +64,11 @@ export class ViaturaFichaPage implements OnInit {
     }
 
   ngOnInit() {
+  }
+
+  ionViewWillLeave() {
+    if (!this.subscribeViaturaFicha.closed) { this.subscribeViaturaFicha.unsubscribe(); }
+    if (!this.subscribeItensVistoria.closed) { this.subscribeItensVistoria.unsubscribe(); }
   }
 
 }

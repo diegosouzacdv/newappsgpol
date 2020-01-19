@@ -7,6 +7,7 @@ import { StorageService } from '../services/storage.service';
 import { PolicialService } from '../services/domain/policial.service';
 import { PolicialDTO } from '../models/policial.dto';
 import { FichaPolicialPage } from '../pages/ficha-policial/ficha-policial.page';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tab3',
@@ -18,6 +19,8 @@ export class Tab3Page {
   public loading;
   public efetivoUnidade: EfetivoUnidadeDTO;
   public policial: PolicialDTO;
+  private subscribeUser: Subscription;
+  private subscribeEfetivo: Subscription;
 
   constructor(
     private efetivoUnidadeService: EfetivoUnidadeService,
@@ -36,7 +39,7 @@ export class Tab3Page {
     try {
       let localUser = this.storage.getLocalUser();
       if (localUser && localUser.id) {
-        this.policialService.usuarioLogado()
+        this.subscribeUser = this.policialService.usuarioLogado()
           .subscribe(response => {
             this.policial = response;
             console.log(this.policial);
@@ -50,7 +53,7 @@ export class Tab3Page {
     }
 
   buscarEfetivo() {
-    this.efetivoUnidadeService.buscarEfetivo(this.policial.lotacaoCodigo)
+    this.subscribeEfetivo = this.efetivoUnidadeService.buscarEfetivo(this.policial.lotacaoCodigo)
       .subscribe(res => {
         this.efetivoUnidade = res[API_CONFIG.content];
         console.log(this.efetivoUnidade);
@@ -73,6 +76,11 @@ export class Tab3Page {
       mode: 'ios'
     });
     return this.loading.present();
+  }
+
+  ionViewWillLeave() {
+    if (!this.subscribeUser.closed) { this.subscribeUser.unsubscribe(); }
+    if (!this.subscribeEfetivo.closed) { this.subscribeEfetivo.unsubscribe(); }
   }
 
 }
