@@ -33,5 +33,10 @@ export class ViaturaService {
     return this.http.get<ViaturaDTO>(
         `${API_CONFIG.baseUrl}/viatura/vistoria/temvistoria`);
    }
+
+   policialVisualizarVistoria() {
+    return this.http.get<ViaturaDTO>(
+        `${API_CONFIG.baseUrl}/viatura/vistoria/visualizar`);
+   }
     
 }

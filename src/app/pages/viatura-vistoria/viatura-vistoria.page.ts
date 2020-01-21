@@ -66,14 +66,20 @@ export class ViaturaVistoriaPage implements OnInit {
     this.getVistoria();
   }
 
-  enviarVistoria(){
-    console.log(this.vistoria)
+  async enviarVistoria(){
     this.vistoria.dataVistoria = null;
     this.vistoria.vistoriaViaturaItensVistoria = null;
+    await this.presentLoading();
+    try {
     this.subscribeItensVistoria = this.itensVistoriaService.updateVistoria(this.vistoria)
       .subscribe(response => {
+        this.loading.dismiss();
         this.success();
-      });
+      }, (errors => {
+        this.loading.dismiss();
+      }));
+    } finally {
+    }
   }
 
   public getVistoria() {
@@ -145,12 +151,19 @@ export class ViaturaVistoriaPage implements OnInit {
     await alert.present();
   }
 
-  public salvarAdjunto(vistoria: VistoriaVistoriaDTO) {
+  public async salvarAdjunto(vistoria: VistoriaVistoriaDTO) {
+    await this.presentLoading();
+    try {
     this.subscribeSalvarAdjunto = this.itensVistoriaService.salvarVisaoAdjunto(vistoria)
       .subscribe(response => {
         console.log(response);
+        this.loading.dismiss();
         this.success();
-      });
+      }, (errors => {
+        this.loading.dismiss();
+      }));
+    } finally {
+    }
   }
 
   public async presentLoading() {

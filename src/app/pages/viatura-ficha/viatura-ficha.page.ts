@@ -55,7 +55,7 @@ export class ViaturaFichaPage implements OnInit {
           console.log(response)
         })
     }
-
+    
     async naoPodeAbrirVistoria() {
       const alert = await this.alertController.create({
         subHeader: 'Já existe Vistoria',

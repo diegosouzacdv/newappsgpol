@@ -44,7 +44,7 @@
     
   
   </ion-card>
-    
+  <div *ngIf="temVistoriaViatura.motoristaMatricula === ">
   <ion-toolbar class="ion-padding-end" *ngIf="adjunto === 'false'">
     <ion-button *ngIf="!temVistoriaViatura" [disabled]="viatura?.status === situacaoViatura.BAIXADA" [color]="viatura?.status === situacaoViatura.BAIXADA ? 'danger' : 'success'"  slot="end" (click)="vistoriar(viatura)">
       <ion-icon  slot="end" name="checkbox-outline" ></ion-icon>
@@ -59,4 +59,5 @@
         Vistoriar
     </ion-button>
   </ion-toolbar>
+</div>
 </ion-content>
