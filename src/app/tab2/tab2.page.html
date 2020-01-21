@@ -82,7 +82,7 @@
       <p><strong>Viatura: </strong>{{viatura?.modelo}}</p>
       <p><strong>Placa: </strong>{{viatura?.placa}}</p>
       <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
-      <div class="ion-text-end">
+      <div class="ion-text-end" >
         <ion-button *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA"  size="small" [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
         <ion-button *ngIf="viatura?.status === situacaoViatura.CAUTELADA" size="small"  slot="end" [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
         <ion-button *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
@@ -96,12 +96,12 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <div *ngIf="viaturasUnidade.length === 0">
+        <div *ngIf="showWarning">
           <h2>Sem Viaturas em <app-text-shell [data]="policial?.lotacao"></app-text-shell></h2>
         </div>
-        <div slot="end" *ngIf="viaturasUnidade.length !== 0">
+        <div slot="end" *ngIf="!showWarning">
           <ion-button *ngIf="!showViaturaUnidade; else show" size="small"
-            (click)="showViaturaUnidade = !showViaturaUnidade">
+            (click)="listarViaturasUnidade()">
             Visualizar Viaturas
           </ion-button>
           <ng-template #show>
