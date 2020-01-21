@@ -31,6 +31,29 @@
     </ion-card-content>
   </ion-card>
 
+
+  <ion-card mode="ios" *ngIf="temVistoriaViatura" color="medium">
+    <ion-card-header>
+      <ion-card-title>Viatura em Uso</ion-card-title>
+    </ion-card-header>
+    <div class="ion-text-center">
+    <ion-avatar class="logo-viatura">
+      <img src="https://sgpol.pm.df.gov.br/img/sgf/{{temVistoriaViatura?.marcaSigla}}.png">
+    </ion-avatar>
+    </div>
+    
+    <p><strong>Prefixo: </strong>{{temVistoriaViatura?.prefixo}}</p>
+    <p><strong>Viatura: </strong>{{temVistoriaViatura?.modelo}}</p>
+    <p><strong>Placa: </strong>{{temVistoriaViatura?.placa}}</p>
+    <p><strong>Unidade: </strong>{{temVistoriaViatura?.lotacao}}</p>
+    <div class="ion-text-end">
+      <ion-button *ngIf="temVistoriaViatura?.status != situacaoViatura.CAUTELADA && temVistoriaViatura?.status != situacaoViatura.BAIXADA"  size="small" [color]="temVistoriaViatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'" (click)="buscarViatura(temVistoriaViatura, temVistoriaViatura.placa)">{{temVistoriaViatura?.status}}</ion-button>
+      <ion-button *ngIf="temVistoriaViatura?.status === situacaoViatura.CAUTELADA" size="small"  slot="end" [color]="temVistoriaViatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'" (click)="buscarViatura(temVistoriaViatura, temVistoriaViatura.placa)">{{temVistoriaViatura?.status}}</ion-button>
+      <ion-button *ngIf="temVistoriaViatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger" (click)="buscarViatura(temVistoriaViatura, temVistoriaViatura.placa)">{{temVistoriaViatura?.status}}</ion-button>
+    </div>
+  </ion-card>
+
+
   <ion-card>
     <ion-card-header>
       <ion-card-title>Vistoria Prévia</ion-card-title>
@@ -65,6 +88,7 @@
         <ion-button *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
       </div>
     </ion-card>
+
   </ion-card>
   <ion-card>
     <ion-card-header>

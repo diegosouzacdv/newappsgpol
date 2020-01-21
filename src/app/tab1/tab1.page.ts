@@ -27,9 +27,9 @@ export class Tab1Page {
     });
   }
 
-  ngOnInit() {
-    this.resolverUser();
-  }
+  // ngOnInit() {
+  //   this.resolverUser();
+  // }
 
   async ionViewWillEnter() {
     this.resolverUser();

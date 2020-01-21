@@ -28,5 +28,10 @@ export class ViaturaService {
         return this.http.get<ViaturaDTO[]>(
             `${API_CONFIG.baseUrl}/viaturas?lotacaoCodigo=${unidade_id}`);
    }
+
+   getViaturaVistoria() {
+    return this.http.get<ViaturaDTO>(
+        `${API_CONFIG.baseUrl}/viatura/vistoria/temvistoria`);
+   }
     
 }

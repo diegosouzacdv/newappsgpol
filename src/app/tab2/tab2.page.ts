@@ -30,8 +30,10 @@ export class Tab2Page {
   private subscribeViaId: Subscription;
   private subscribeVistoria: Subscription;
   private subscribePesquisa: Subscription;
+  private subscribeViaturaVistoria: Subscription;
   adjunto = false;
   situacaoViatura;
+  public temVistoriaViatura;
 
   constructor(
     public navCtrl: NavController,
@@ -43,14 +45,23 @@ export class Tab2Page {
     public itensVistoriaService: ItensVistoriaService,) {
       this.situacaoViatura = SituacaoViatura;
     }
-    ngOnInit() {
-      this.getPolicial();
-    }
-
+    // ngOnInit() {
+    //   this.getPolicial();
+    //   this.getViaturaVistoria();
+    // }
+    
     ionViewWillEnter() {
-      console.log('ionViewWillEnter')
       this.getPolicial();
+      this.getViaturaVistoria();
+      
     }
+        getViaturaVistoria() {
+          this.subscribeViaturaVistoria = this.viaturaService.getViaturaVistoria()
+            .subscribe(response => {
+              this.temVistoriaViatura = response;
+              console.log(response)
+            }) 
+        }
 
     getPolicial() {
       let localUser = this.storage.getLocalUser();
@@ -143,6 +154,7 @@ export class Tab2Page {
       if (!this.subscribeViaId.closed) { this.subscribeViaId.unsubscribe(); }
       if (!this.subscribeVistoria.closed) { this.subscribeVistoria.unsubscribe(); }
       if (!this.subscribePesquisa.closed) { this.subscribePesquisa.unsubscribe(); }
+      if (!this.subscribeViaturaVistoria.closed) { this.subscribeViaturaVistoria.unsubscribe(); }
     }
 
     doRefresh(event) {
