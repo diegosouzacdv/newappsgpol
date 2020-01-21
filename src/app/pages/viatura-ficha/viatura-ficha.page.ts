@@ -4,6 +4,8 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { Subscription } from 'rxjs';
+import { ViaturaService } from 'src/app/services/domain/viatura.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-viatura-ficha',
@@ -18,11 +20,16 @@ export class ViaturaFichaPage implements OnInit {
   situacaoViatura;
   private subscribeViaturaFicha: Subscription;
   private subscribeItensVistoria: Subscription;
+  private subscribeViaturaVistoria: Subscription;
+  public temVistoriaViatura;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private itensVistoriaService: ItensVistoriaService) {
+    private itensVistoriaService: ItensVistoriaService,
+    public alertController: AlertController,
+    public viaturaService: ViaturaService) {
+      this.getViaturaVistoria();
       this.situacaoViatura = SituacaoViatura;
       this.subscribeViaturaFicha = this.route.queryParams.subscribe(params => {
         if (this.router.getCurrentNavigation().extras.state !== undefined && this.router.getCurrentNavigation().extras.state) {
@@ -40,6 +47,23 @@ export class ViaturaFichaPage implements OnInit {
       this.adjunto = this.route.snapshot.paramMap.get('adjunto');
 
      }
+
+     getViaturaVistoria() {
+      this.subscribeViaturaVistoria = this.viaturaService.getViaturaVistoria()
+        .subscribe(response => {
+          this.temVistoriaViatura = response;
+          console.log(response)
+        })
+    }
+
+    async naoPodeAbrirVistoria() {
+      const alert = await this.alertController.create({
+        subHeader: 'Já existe Vistoria',
+        message: 'finalize vistoria anterior para prosseguir',
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
 
      vistoriar(viatura: ViaturaDTO) {
       console.log("vistoriar");
@@ -69,6 +93,7 @@ export class ViaturaFichaPage implements OnInit {
   ionViewWillLeave() {
     if (!this.subscribeViaturaFicha.closed) { this.subscribeViaturaFicha.unsubscribe(); }
     if (!this.subscribeItensVistoria.closed) { this.subscribeItensVistoria.unsubscribe(); }
+    if (!this.subscribeViaturaVistoria.closed) { this.subscribeViaturaVistoria.unsubscribe(); }
   }
 
 }

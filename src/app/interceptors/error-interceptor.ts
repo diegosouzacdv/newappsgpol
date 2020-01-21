@@ -6,13 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { FieldMessage } from '../models/field.message';
+import { AuthService } from '../services/auth.service';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
     public message: string;
 
     constructor(public alertCtrl: AlertController,
-                public toastController: ToastController
+                public toastController: ToastController,
+                public authService: AuthService
                 ) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req)
@@ -68,7 +70,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             translucent: true
           });
         toast.present();
-        //this.authService.logout();
+        this.authService.logout();
         }
 
     public async handle403() {
