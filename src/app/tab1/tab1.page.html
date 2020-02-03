@@ -13,6 +13,19 @@
 </ion-header>
 
 <ion-content>
+
+  <ion-card mode="ios" color="light" *ngIf="urlAtualizacao != null" >
+    <img src="assets/imgs/update.jpeg" />
+    <ion-card-header>
+      <ion-card-title>Atualização Disponível</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button (click)="downloadatualiza()">
+        Atualizar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+  
     <ion-card>
         <app-dados-basico-policial></app-dados-basico-policial>
       </ion-card>

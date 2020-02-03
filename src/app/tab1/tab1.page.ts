@@ -4,6 +4,10 @@ import { PolicialDTO } from '../models/policial.dto';
 import { PolicialService } from '../services/domain/policial.service';
 import { LocalizacaoDTO } from '../models/localizacao.dto';
 import { AuthService } from '../services/auth.service';
+import { StorageService } from '../services/storage.service';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { AlertController } from '@ionic/angular';
+import { File } from '@ionic-native/file/ngx';
 
 @Component({
   selector: 'app-tab1',
@@ -15,9 +19,14 @@ export class Tab1Page {
   private subscribeUser: Subscription;
   public policial: PolicialDTO;
   public localizacao: LocalizacaoDTO;
+  public urlAtualizacao = this.storage.getAtualizacao();
 
   constructor(
     public policialService: PolicialService,
+    public storage: StorageService,
+    private file: File,
+    public alertController: AlertController,
+    private fileOpener: FileOpener,
     public authService: AuthService) {}
 
   public resolverUser() {
@@ -33,6 +42,20 @@ export class Tab1Page {
 
   async ionViewWillEnter() {
     this.resolverUser();
+    console.log(this.file.externalDataDirectory+"app-debug.apk");
+  }
+
+  downloadatualiza() {
+    this.fileOpener.open(this.urlAtualizacao, 'application/vnd.android.package-archive')
+      .then(sucess => {
+        this.storage.setAtualizacao(null);
+        this.authService.logout();
+      }, (error) => {
+        this.storage.setAtualizacao(null);
+        this.urlAtualizacao = null;
+        this.erroAtualizacao();
+      });
+
   }
 
   refreshToken() {
@@ -41,6 +64,18 @@ export class Tab1Page {
         console.log(response);
       });
   }
+
+  public erroAtualizacao() {
+    const alert = this.alertController.create({
+        header: 'Erro na atualização',
+        message: 'Não foi posivel atualizar o aplicativo',
+        backdropDismiss: false,
+        buttons: [
+            {text: 'Ok'}
+        ]
+    // tslint:disable-next-line: no-shadowed-variable
+    }).then(alert => alert.present());
+    }
 
   ionViewWillLeave() {
     if (!this.subscribeUser.closed) { this.subscribeUser.unsubscribe(); }

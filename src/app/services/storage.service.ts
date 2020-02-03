@@ -2,11 +2,18 @@ import { Injectable } from '@angular/core';
 import { LocalUser } from '../models/local_user';
 import { STORAGE_KEYS } from '../config/storage_keys.config';
 import { LoginSave } from '../models/login-save';
+import { API_CONFIG } from '../config/api.config';
+import { Versao } from '../models/versao/versao';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',
   })
 export class StorageService {
+
+    constructor(
+        private http: HttpClient
+        ) {}
 
     getLocalUser() : LocalUser {
 
@@ -47,4 +54,27 @@ export class StorageService {
             localStorage.setItem(STORAGE_KEYS.senhaSalva, window.btoa(JSON.stringify(login)));
         }
     }
+
+    getAtualizacao() {
+        let senha = localStorage.getItem(STORAGE_KEYS.localSaveApp);
+        if (senha == null) {
+            return null;
+        } else {
+            senha = window.atob(senha);
+            return JSON.parse(senha);
+        }
+    }
+
+    setAtualizacao(login ) {
+        if (!login) {
+            localStorage.removeItem(STORAGE_KEYS.localSaveApp);
+        } else {
+            localStorage.setItem(STORAGE_KEYS.localSaveApp, window.btoa(JSON.stringify(login)));
+        }
+    }
+
+    public getVersao() {
+        return this.http.get<Versao>(
+          `${API_CONFIG.baseUrl}/versao`);
+       }
 }
