@@ -42,7 +42,6 @@ export class Tab1Page {
 
   async ionViewWillEnter() {
     this.resolverUser();
-    console.log(this.file.externalDataDirectory+"app-debug.apk");
   }
 
   downloadatualiza() {

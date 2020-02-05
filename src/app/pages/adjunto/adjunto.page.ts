@@ -14,7 +14,7 @@ import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
   templateUrl: './adjunto.page.html',
   styleUrls: ['./adjunto.page.scss'],
 })
-export class AdjuntoPage implements OnInit {
+export class AdjuntoPage {
 
   private subscribeUser: Subscription;
   private subscribeViaUni: Subscription;
@@ -34,9 +34,9 @@ export class AdjuntoPage implements OnInit {
       this.situacaoViatura = SituacaoViatura;
      }
 
-  ngOnInit() {
-   this.getPolicial();
-  }
+  // ngOnInit() {
+  //  this.getPolicial();
+  // }
 
   ionViewWillEnter() {
     this.getPolicial();

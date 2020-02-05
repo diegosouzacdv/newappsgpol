@@ -17,7 +17,7 @@ export class PolicialService {
 
     usuarioLogado(): Observable<PolicialDTO> {
         return this.http.get<PolicialDTO>(
-            `${API_CONFIG.baseUrl}/usuario`);
+            `${API_CONFIG.baseUrl}/usuario/curto`);
     }
 
     buscarFoto(): Observable<any> {
