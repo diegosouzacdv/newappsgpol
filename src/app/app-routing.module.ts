@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginGuard } from './guards/login.guard';
 import { AuthGuard } from './guards/auth.guard';
+import { AuthorizationGuard } from './guards/authorization.guard';
 
 const routes: Routes = [
   {
@@ -26,7 +27,7 @@ const routes: Routes = [
   },
   {
     path: 'adjunto',
-    loadChildren: () => import('./pages/adjunto/adjunto.module').then( m => m.AdjuntoPageModule)
+    loadChildren: () => import('./pages/adjunto/adjunto.module').then( m => m.AdjuntoPageModule), canActivateChild: [AuthorizationGuard]
   }
 ];
 @NgModule({

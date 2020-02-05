@@ -8,6 +8,11 @@ import { StorageService } from '../services/storage.service';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { AlertController } from '@ionic/angular';
 import { File } from '@ionic-native/file/ngx';
+import { AppComponent } from '../app.component';
+import { AuthorizationService } from '../services/authorization.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
+
 
 @Component({
   selector: 'app-tab1',
@@ -20,6 +25,7 @@ export class Tab1Page {
   public policial: PolicialDTO;
   public localizacao: LocalizacaoDTO;
   public urlAtualizacao = this.storage.getAtualizacao();
+  private helper = new JwtHelperService();
 
   constructor(
     public policialService: PolicialService,
@@ -27,7 +33,8 @@ export class Tab1Page {
     private file: File,
     public alertController: AlertController,
     private fileOpener: FileOpener,
-    public authService: AuthService) {}
+    public authService: AuthService,
+    public authorization: AuthorizationService) {}
 
   public resolverUser() {
     this.subscribeUser = this.policialService.usuarioLogado()
@@ -43,6 +50,8 @@ export class Tab1Page {
   async ionViewWillEnter() {
     this.resolverUser();
   }
+
+ 
 
   downloadatualiza() {
     this.fileOpener.open(this.urlAtualizacao, 'application/vnd.android.package-archive')

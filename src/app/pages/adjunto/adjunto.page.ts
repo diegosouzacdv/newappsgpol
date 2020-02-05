@@ -34,13 +34,13 @@ export class AdjuntoPage {
       this.situacaoViatura = SituacaoViatura;
      }
 
-  // ngOnInit() {
-  //  this.getPolicial();
-  // }
-
-  ionViewWillEnter() {
-    this.getPolicial();
+  ngOnInit() {
+   this.getPolicial();
   }
+
+  // ionViewWillEnter() {
+  //   this.getPolicial();
+  // }
 
   listarViaturasUnidade() {
       this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)

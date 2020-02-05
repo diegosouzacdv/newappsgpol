@@ -9,6 +9,7 @@ import { PolicialService } from './services/domain/policial.service';
 import { AuthService } from './services/auth.service';
 import { Subscription } from 'rxjs';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { AppPage } from 'e2e/src/app.po';
 
 @Component({
   selector: 'app-root',
@@ -42,6 +43,7 @@ export class AppComponent {
 
   public policial: PolicialDTO;
   private subscribeUser: Subscription;
+  public adjunto = false
 
   constructor(
     private platform: Platform,
@@ -51,7 +53,7 @@ export class AppComponent {
     public policialService: PolicialService,
     public authService: AuthService,
     public alertCtrl: AlertController,
-    private appVersion: AppVersion
+    private appVersion: AppVersion,
   ) {
     this.initializeApp();
   }
@@ -65,7 +67,6 @@ export class AppComponent {
 
   async ionViewWillEnter() {
     this.getPolicial();
-
   }
 
   getPolicial() {

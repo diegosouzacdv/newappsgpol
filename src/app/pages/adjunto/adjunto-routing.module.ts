@@ -6,7 +6,10 @@ import { AdjuntoPage } from './adjunto.page';
 const routes: Routes = [
   {
     path: '',
-    component: AdjuntoPage
+    component: AdjuntoPage,
+    data: {
+      allowedRoles: ['ROLE_SGF_ADJUNTO']
+    }
   }
 ];
 

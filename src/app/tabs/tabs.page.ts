@@ -7,6 +7,7 @@ import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { AuthService } from '../services/auth.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-tabs',
@@ -28,6 +29,7 @@ export class TabsPage {
     private platform: Platform,
     private fileTransfer: FileTransfer,
     private file: File,
+    public app: AppComponent,
     private fileOpener: FileOpener,
     private loadingController: LoadingController,
     public authService: AuthService,
@@ -35,6 +37,18 @@ export class TabsPage {
 
   ngOnInit() {
     this.getVersao();
+    this.permissaoAdjunto();
+  }
+
+  public permissaoAdjunto() {
+    let permissao = this.storage.getLocalUser()
+    console.log(permissao)
+
+    permissao.authorities.forEach(respose => {
+     if (respose == 'ROLE_SGF_ADJUNTO') {
+       this.app.adjunto = true
+     }
+    })
   }
 
   getVersao() {
