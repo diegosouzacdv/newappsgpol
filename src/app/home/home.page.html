@@ -1,0 +1,51 @@
+<ion-content>
+  <ion-card class="welcome-card">
+    <ion-toolbar color="primary" mode="ios">
+      <ion-buttons slot="start">
+        <div class="perfil">
+          <p>dd</p>
+        </div>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-chip mode="ios" outline color="light">
+          <ion-label><strong>Sair</strong></ion-label>
+        </ion-chip>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-card>
+  <div class="content-body">
+    <ion-row>
+      <ion-col size="4">
+        <div  class="cards" (click)="changePage('pessoal')">
+          <div class="conteudo ion-text-center">
+            <div class="icon ion-text-center">
+              <ion-icon name="person"></ion-icon><br>
+            </div>
+              <ion-label>Pessoal</ion-label>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="4">
+        <div  class="cards" (click)="changePage('sgf')">
+          <div class="conteudo ion-text-center">
+            <div class="icon ion-text-center">
+              <ion-icon name="car"></ion-icon><br>
+            </div>
+              <ion-label>SGF</ion-label>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="4">
+        <div class="cards" (click)="changePage('saude')">
+          <div class="conteudo ion-text-center">
+            <div class="icon ion-text-center">
+              <ion-icon name="medkit"></ion-icon><br>
+            </div>
+              <ion-label>Saúde</ion-label>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <app-pessoal *ngIf="page[0]?.pessoal?.ativo"></app-pessoal>
+  </div>
+</ion-content>

@@ -28,6 +28,10 @@ const routes: Routes = [
   {
     path: 'adjunto',
     loadChildren: () => import('./pages/adjunto/adjunto.module').then( m => m.AdjuntoPageModule), canActivateChild: [AuthorizationGuard]
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   }
 ];
 @NgModule({

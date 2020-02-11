@@ -10,6 +10,7 @@ import { AuthService } from './services/auth.service';
 import { Subscription } from 'rxjs';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { AppPage } from 'e2e/src/app.po';
+import { Router, RouterEvent } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -22,30 +23,35 @@ export class AppComponent {
     {
       title: 'Início',
       url: '/tabs/tab1',
-      icon: 'home'
+      icon: 'home',
+      roels: true
     },
     {
       title: 'Viatura',
       url: '/tabs/tab2',
-      icon: 'car'
+      icon: 'car',
+      roels: true
     },
     {
       title: 'Efetivo',
       url: '/tabs/tab3',
-      icon: 'people'
+      icon: 'people',
+      roels: true
     },
     {
       title: 'Adjunto',
       url: `/adjunto/`,
-      icon: 'refresh-circle'
+      icon: 'refresh-circle',
+      roels: false
     }
   ];
 
   public policial: PolicialDTO;
   private subscribeUser: Subscription;
-  public adjunto = false
+  public selectedPath = '';
 
   constructor(
+    private router: Router,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
@@ -56,6 +62,7 @@ export class AppComponent {
     private appVersion: AppVersion,
   ) {
     this.initializeApp();
+    
   }
 
   initializeApp() {
@@ -63,6 +70,14 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  ngOnInit(): void {
+    this.router.events.subscribe((event: RouterEvent) => {
+      if (event.url != undefined) {
+        this.selectedPath = event.url;
+      }
+    })
   }
 
   async ionViewWillEnter() {

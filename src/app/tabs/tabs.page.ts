@@ -46,7 +46,12 @@ export class TabsPage {
 
     permissao.authorities.forEach(respose => {
      if (respose == 'ROLE_SGF_ADJUNTO') {
-       this.app.adjunto = true
+      this.app.appPages.forEach((element, i) => {
+        if(element.title === 'Adjunto') {
+          this.app.appPages[i].roels = true;
+        }
+       });
+       
      }
     })
   }
@@ -132,15 +137,11 @@ export class TabsPage {
     const transf = this.fileTransfer.create();
     transf.download(this.versaoBD.url,
       path + "app-debug.apk").then(data => {
-        console.log(data)
         this.loading.dismiss();
         const url = data;
-        console.log(url.nativeURL)
         this.storage.setAtualizacao(url.nativeURL);
-        console.log(this.storage.getAtualizacao())
         this.fileOpener.open(url.nativeURL, 'application/vnd.android.package-archive')
         .then(sucess => {
-          console.log(sucess)
           this.authService.logout();
         }, (error) => {
           this.erroAtualizacao();

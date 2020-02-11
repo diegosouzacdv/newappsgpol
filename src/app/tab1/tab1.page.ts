@@ -7,8 +7,6 @@ import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { AlertController } from '@ionic/angular';
-import { File } from '@ionic-native/file/ngx';
-import { AppComponent } from '../app.component';
 import { AuthorizationService } from '../services/authorization.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -30,7 +28,6 @@ export class Tab1Page {
   constructor(
     public policialService: PolicialService,
     public storage: StorageService,
-    private file: File,
     public alertController: AlertController,
     private fileOpener: FileOpener,
     public authService: AuthService,

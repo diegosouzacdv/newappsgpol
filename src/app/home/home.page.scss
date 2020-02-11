@@ -1,0 +1,127 @@
+:host {
+  --page-background: var(--app-background-shade);
+}
+
+ion-content {
+  --background: var(--page-background);
+}
+
+.perfil {
+  margin: 5px;
+  padding: 0px;
+  width: 35px;
+  height: 35px;
+  background: #ffffff;
+  color: var(--ion-color-primary);
+  border-radius: 50%;
+
+  p {
+    position: relative;
+    bottom: 40%;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
+
+.welcome-card {
+  height: 20%;
+  padding: 0px;
+  margin: 0px 0px 0px 0px;
+  background-color: var(--ion-color-primary);
+  color: var(--ion-color-light);
+  border-radius: 0px 0px 0px 0px;
+}
+
+.content-body {
+  display: block;
+  position: relative;
+  top: -50px;
+  background: transparent;
+
+  ion-col {
+    margin: 0px;
+  }
+
+  .cards {
+    margin-left: auto;
+    margin-right: auto;
+    background: #ffffff;
+    height: 100px;
+    width: 100px;
+    border-radius: 10px;
+    color: #000;
+    -webkit-box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
+    -moz-box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
+    box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
+  }
+
+  .cards:hover {
+    transform: scale(1.05);
+
+    .icon {
+      background-color: rgb(54, 182, 126);
+    }
+    ion-icon {
+      color: #ffffff;
+    }
+
+    .conteudo {
+      ion-label {
+        color: var(--ion-color-primary);
+        font-weight: bold;
+        font-size: 15px;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .cards:active {
+    transform: scale(1.05);
+
+    .icon {
+      background-color: rgb(54, 182, 126);
+    }
+    ion-icon {
+      color: #ffffff;
+    }
+
+    .conteudo {
+      ion-label {
+        color: var(--ion-color-primary);
+        font-weight: bold;
+        font-size: 15px;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .conteudo {
+    position: relative;
+    color: #202020;
+    top: 16%;
+    margin-left: auto;
+    margin-right: auto;
+
+    ion-label {
+      font-size: 13px;
+    }
+  }
+
+  .icon {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    background: var(--page-background);
+    border-radius: 50%;
+    ion-icon {
+      position: relative;
+      top: 8%;
+      font-size: 40px;
+      color: var(--ion-color-primary);
+    }
+  }
+}

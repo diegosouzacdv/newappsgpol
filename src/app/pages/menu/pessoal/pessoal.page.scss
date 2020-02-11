@@ -1,0 +1,45 @@
+:host {
+  --page-background: var(--app-background-shade);
+}
+
+.cards {
+  margin-left: auto;
+  margin-right: auto;
+  background: #ffffff;
+  height: 100px;
+  width: 100px;
+  border-radius: 10px;
+  color: #000;
+  -webkit-box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
+  -moz-box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
+  box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
+}
+
+
+  .conteudo {
+    position: relative;
+    color: #202020;
+    top: 16%;
+    margin-left: auto;
+    margin-right: auto;
+
+    label {
+      font-size: 13px;
+    }
+  }
+
+  .icon {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    background: var(--page-background);
+    border-radius: 50%;
+    ion-icon {
+      position: relative;
+      top: 8%;
+      font-size: 40px;
+    }
+  }
+
