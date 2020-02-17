@@ -1,0 +1,19 @@
+
+.logo {
+    --border-radius: 5px;
+}
+  
+:host {
+    --page-background: var(--app-background-shade);
+  }
+  
+  ion-content {
+    --background: var(--page-background);
+  }
+
+  .cardAll {
+    margin: 0px;
+    border-radius: 0px;
+    background: var(--ion-color-primary);
+    color: white;
+  }

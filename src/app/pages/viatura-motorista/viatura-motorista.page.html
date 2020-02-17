@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Vistoria de Viatura</ion-title>
+    <ion-buttons slot="end">
+      <ion-chip mode="ios" outline color="light">
+        <ion-label><strong>Sair</strong></ion-label>
+      </ion-chip>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-card class="cardAll">
+    <app-dados-basico-policial></app-dados-basico-policial>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>Carteira de Habilitação</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col><strong>Categoria: </strong>
+            <app-text-shell [data]="policial?.cnh?.categoria"></app-text-shell>
+          </ion-col>
+          <ion-col><strong>Validade: </strong>
+            <app-text-shell [data]="policial?.cnh?.dataValidade | date:'dd/MM/yyyy'"></app-text-shell>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card mode="ios" *ngIf="temVistoriaViatura" color="medium">
+    <ion-card-header>
+      <ion-card-title>Viatura em Uso</ion-card-title>
+    </ion-card-header>
+    <div class="ion-text-center">
+    <ion-avatar class="logo-viatura">
+      <img src="https://sgpol.pm.df.gov.br/img/sgf/{{temVistoriaViatura?.marcaSigla}}.png">
+    </ion-avatar>
+    </div>
+    
+    <p><strong>Prefixo: </strong>{{temVistoriaViatura?.prefixo}}</p>
+    <p><strong>Viatura: </strong>{{temVistoriaViatura?.modelo}}</p>
+    <p><strong>Placa: </strong>{{temVistoriaViatura?.placa}}</p>
+    <p><strong>Unidade: </strong>{{temVistoriaViatura?.lotacao}}</p>
+    <div class="ion-text-end">
+      <ion-button *ngIf="temVistoriaViatura?.status != situacaoViatura.CAUTELADA && temVistoriaViatura?.status != situacaoViatura.BAIXADA"  size="small" [color]="temVistoriaViatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'" (click)="buscarViatura(temVistoriaViatura, temVistoriaViatura.placa)">{{temVistoriaViatura?.status}}</ion-button>
+      <ion-button *ngIf="temVistoriaViatura?.status === situacaoViatura.CAUTELADA" size="small"  slot="end" [color]="temVistoriaViatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'" (click)="buscarViatura(temVistoriaViatura, temVistoriaViatura.placa)">{{temVistoriaViatura?.status}}</ion-button>
+      <ion-button *ngIf="temVistoriaViatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger" (click)="buscarViatura(temVistoriaViatura, temVistoriaViatura.placa)">{{temVistoriaViatura?.status}}</ion-button>
+    </div>
+  </ion-card>
+
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Vistoria Prévia</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Para realizar a vistoria informe a placa da viatura abaixo.
+      <ion-item>
+        <ion-label position="floating">Placa</ion-label>
+        <ion-input clearInput name="busca" [(ngModel)]="busca"></ion-input>
+      </ion-item>
+      <ion-toolbar>
+        <ion-button slot="end" (click)="consultarViatura(busca)">
+          <ion-icon slot="end" name="search"></ion-icon>
+          Buscar
+        </ion-button>
+      </ion-toolbar>
+    </ion-card-content>
+    <ion-card mode="ios" *ngFor="let viatura of viaturas" (click)="fichaViatura(viatura)" color="medium">
+      <div class="ion-text-center">
+      <ion-avatar class="logo-viatura">
+        <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
+      </ion-avatar>
+      </div>
+      
+      <p><strong>Prefixo: </strong>{{viatura?.prefixo}}</p>
+      <p><strong>Viatura: </strong>{{viatura?.modelo}}</p>
+      <p><strong>Placa: </strong>{{viatura?.placa}}</p>
+      <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
+      <div class="ion-text-end" >
+        <ion-button *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA"  size="small" [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
+        <ion-button *ngIf="viatura?.status === situacaoViatura.CAUTELADA" size="small"  slot="end" [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
+        <ion-button *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
+      </div>
+    </ion-card>
+
+  </ion-card>
+  <ion-card *ngIf="policial">
+    <ion-card-header>
+      <ion-card-title>Viaturas da Unidade</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <div *ngIf="showWarning">
+          <h2>Sem Viaturas em <app-text-shell [data]="policial?.lotacao"></app-text-shell></h2>
+        </div>
+        <div slot="end" *ngIf="!showWarning">
+          <ion-button *ngIf="!showViaturaUnidade; else show" size="small"
+            (click)="listarViaturasUnidade()">
+            Visualizar Viaturas
+          </ion-button>
+          <ng-template #show>
+            <ion-button fill="outline" size="small" (click)="showViaturaUnidade = !showViaturaUnidade">
+              Fechar
+            </ion-button>
+          </ng-template>
+        </div>
+      </ion-item>
+      <div *ngIf="showViaturaUnidade">
+        <ion-item *ngFor="let viatura of viaturasUnidade" (click)="fichaViatura(viatura)" routerDirection='forward'>
+          <ion-thumbnail slot="start">
+            <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
+          </ion-thumbnail>
+          <ion-label class="ion-text-wrap">
+            <h3>{{viatura?.modelo}}</h3>
+            <p>{{viatura?.placa}}</p>
+          </ion-label>
+          <ion-button *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA"  size="small" [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
+          <ion-button *ngIf="viatura?.status === situacaoViatura.CAUTELADA" size="small"  slot="end" [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
+          <ion-button *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger" (click)="buscarViatura(viatura, viatura.placa)">{{viatura?.status}}</ion-button>
+        </ion-item>
+      </div>
+      
+    </ion-card-content>
+  </ion-card>
+</ion-content>

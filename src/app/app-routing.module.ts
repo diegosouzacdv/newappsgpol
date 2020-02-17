@@ -32,6 +32,10 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule), canActivate: [AuthGuard] 
+  },
+  {
+    path: 'viatura-motorista',
+    loadChildren: () => import('./pages/viatura-motorista/viatura-motorista.module').then( m => m.ViaturaMotoristaPageModule)
   }
 ];
 @NgModule({

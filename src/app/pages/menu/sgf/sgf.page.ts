@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-sgf',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SgfPage implements OnInit {
 
-  constructor() { }
+  constructor(public navCtrl: NavController) { }
 
   ngOnInit() {
+  }
+
+  public routeMotorista() {
+    this.navCtrl.navigateForward([`/viatura-motorista`]);
   }
 
 }
