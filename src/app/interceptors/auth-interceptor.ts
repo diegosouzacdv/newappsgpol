@@ -13,6 +13,11 @@ export class AuthInterceptor implements HttpInterceptor {
         private authService: AuthService
     ) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if (req.url.substring(0, 14) == './assets/sampl') {
+            return next.handle(req);
+        }
+
+
         let localUser = this.storage.getLocalUser();
 
         if (localUser) {

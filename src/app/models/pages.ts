@@ -1,14 +1,6 @@
 export class Pages {
-    pessoal?: {
+    page?: [{
         nome? : string,
         ativo? : boolean;
-    };
-    sgf?: {
-        nome : string,
-        ativo : boolean;
-    };
-    saude?: {
-        nome : string,
-        ativo : boolean;
-    };
+    }];
 }

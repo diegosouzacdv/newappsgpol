@@ -7,6 +7,7 @@ import { Tab1Page } from './tab1.page';
 import { ResolverUser } from '../resolvers/ResolverUser';
 import { ShellModule } from 'src/app/shell/shell.module';
 import { DadosBasicoPolicialModule } from '../pages/dados-basico-policial/dados-basico-policial.module';
+import { PessoalPageRoutingModule } from '../pages/menu/pessoal/pessoal-routing.module';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
     CommonModule,
     ShellModule,
     FormsModule,
+    PessoalPageRoutingModule,
     DadosBasicoPolicialModule,
     RouterModule.forChild(routes)
   ],

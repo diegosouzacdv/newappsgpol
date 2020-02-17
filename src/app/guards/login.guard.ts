@@ -16,7 +16,7 @@ export class LoginGuard implements CanActivate {
 
     let user = this.storage.getLocalUser()
     return new Promise(resolve => {
-      if(user) this.router.navigate(['tabs/tab1']);
+      if(user) this.router.navigate(['home']);
       resolve(!user ? true : false);
     })
   }

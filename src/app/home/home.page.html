@@ -3,7 +3,7 @@
     <ion-toolbar color="primary" mode="ios">
       <ion-buttons slot="start">
         <div class="perfil">
-          <p>dd</p>
+          <p class="p">dd</p>
         </div>
       </ion-buttons>
       <ion-buttons slot="end">
@@ -12,6 +12,20 @@
         </ion-chip>
       </ion-buttons>
     </ion-toolbar>
+    <div class="dados-policial">
+      <app-dados-basico-policial></app-dados-basico-policial>
+    </div>
+  </ion-card>
+  <ion-card class="card-update" mode="ios" color="light" *ngIf="urlAtualizacao != null">
+    <img src="assets/imgs/update.jpeg" />
+    <ion-card-header>
+      <ion-card-title>Atualização Disponível</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block"  (click)="downloadatualiza()">
+        Atualizar
+      </ion-button>
+    </ion-card-content>
   </ion-card>
   <div class="content-body">
     <ion-row>
@@ -46,6 +60,7 @@
         </div>
       </ion-col>
     </ion-row>
-    <app-pessoal *ngIf="page[0]?.pessoal?.ativo"></app-pessoal>
+    <app-pessoal *ngIf="pages?.page[0]?.ativo"></app-pessoal>
+    <app-sgf *ngIf="pages?.page[1]?.ativo"></app-sgf>
   </div>
 </ion-content>
