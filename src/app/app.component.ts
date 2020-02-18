@@ -9,7 +9,6 @@ import { PolicialService } from './services/domain/policial.service';
 import { AuthService } from './services/auth.service';
 import { Subscription } from 'rxjs';
 import { AppVersion } from '@ionic-native/app-version/ngx';
-import { AppPage } from 'e2e/src/app.po';
 import { Router, RouterEvent } from '@angular/router';
 
 @Component({

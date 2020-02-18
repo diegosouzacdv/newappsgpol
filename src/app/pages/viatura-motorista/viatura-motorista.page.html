@@ -4,7 +4,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Vistoria de Viatura</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" (click)="logout()">
       <ion-chip mode="ios" outline color="light">
         <ion-label><strong>Sair</strong></ion-label>
       </ion-chip>
@@ -57,7 +57,7 @@
   </ion-card>
 
 
-  <ion-card>
+  <ion-card class="card-children">
     <ion-card-header>
       <ion-card-title>Vistoria Prévia</ion-card-title>
     </ion-card-header>
@@ -93,7 +93,7 @@
     </ion-card>
 
   </ion-card>
-  <ion-card *ngIf="policial">
+  <ion-card class="card-children" *ngIf="policial">
     <ion-card-header>
       <ion-card-title>Viaturas da Unidade</ion-card-title>
     </ion-card-header>
