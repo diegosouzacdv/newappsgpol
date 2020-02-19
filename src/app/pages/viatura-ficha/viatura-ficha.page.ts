@@ -29,23 +29,27 @@ export class ViaturaFichaPage implements OnInit {
     private itensVistoriaService: ItensVistoriaService,
     public alertController: AlertController,
     public viaturaService: ViaturaService) {
+
       this.getViaturaVistoria();
+
       this.situacaoViatura = SituacaoViatura;
-      this.subscribeViaturaFicha = this.route.queryParams.subscribe(params => {
-        if (this.router.getCurrentNavigation().extras.state !== undefined && this.router.getCurrentNavigation().extras.state) {
-          this.viatura = this.router.getCurrentNavigation().extras.state.viatura;
-          this.isVistoria(this.viatura)
-        } else {
-          if(this.adjunto !== 'true') {
-            this.router.navigate(['/tabs/tab2'])
-          } else {
-            this.router.navigate(['/adjunto'])
-          }
-        }
-      });
 
+      this.subscribeViaturaFicha = this.route.data.subscribe((resolvedRouteData) => {
+        console.log(resolvedRouteData.viatura)
+
+        if (resolvedRouteData.viatura) {
+              this.viatura = resolvedRouteData.viatura;
+              this.isVistoria(this.viatura)
+            } else {
+              if(this.adjunto !== 'true') {
+                this.router.navigate(['/viatura-motorista'])
+              } else {
+                this.router.navigate(['/adjunto'])
+              }
+            }
+      })
       this.adjunto = this.route.snapshot.paramMap.get('adjunto');
-
+      console.log(this.route.snapshot.paramMap.get('adjunto'))
      }
 
      getViaturaVistoria() {

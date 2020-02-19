@@ -18,7 +18,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
   {
-    path: 'viatura-ficha/:adjunto',
+    path: 'viatura-ficha/:id/:adjunto',
     loadChildren: () => import('./pages/viatura-ficha/viatura-ficha.module').then( m => m.ViaturaFichaPageModule)
   },
   {
