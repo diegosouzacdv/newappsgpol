@@ -42,13 +42,16 @@ export class ViaturaVistoriaPage implements OnInit {
     private itensVistoriaService: ItensVistoriaService,
     private loadingController: LoadingController,
     private policialService: PolicialService,
+    private route: ActivatedRoute,
     public alertCtrl: AlertController) { 
 
       this.situacaoViatura = SituacaoViatura;
 
-      this.receberViatura();
-
+      this.resolverViatura();
+      this.resolverVistoria()
       this.idViatura = this.activatedRoute.snapshot.paramMap.get('id');
+
+      console.log(this.activatedRoute.snapshot.paramMap.get('temVistoria'))
 
       if (this.activatedRoute.snapshot.paramMap.get('temVistoria') === 'true') {
         this.temVistoria = true;
@@ -58,12 +61,12 @@ export class ViaturaVistoriaPage implements OnInit {
       if (!this.temVistoria) {
         this.inserirInicioVistoria(this.idViatura);
       }
-      this.getVistoria();
+      // this.getVistoria();
       this.adjunto = this.activatedRoute.snapshot.paramMap.get('adjunto');
     }
 
   ngOnInit() {
-    this.getVistoria();
+    
   }
 
   async enviarVistoria(){
@@ -82,28 +85,27 @@ export class ViaturaVistoriaPage implements OnInit {
     }
   }
 
+  public resolverVistoria() {
+    this.subscribeBuscarVistoria  = this.route.data.subscribe((resolvedRouteData) => {
+      this.vistoria = resolvedRouteData.vistoria;
+      console.log(this.vistoria)
+    })
+  }
+
+  public resolverViatura() {
+    this.subscribeBuscarVistoria  = this.route.data.subscribe((resolvedRouteData) => {
+      this.viatura = resolvedRouteData.viatura;
+      console.log(this.viatura)
+    })
+  }
+
   public getVistoria() {
     console.log('entrando')
-    this.subscribeBuscarVistoria = this.itensVistoriaService.buscarVistoria(parseInt(this.idViatura))
+    this.subscribeBuscarVistoria = this.itensVistoriaService.buscarVistoria(this.idViatura)
       .subscribe(response => {
         console.log(response)
         this.vistoria = response;
         });
-  }
-
-  public receberViatura() {
-    console.log("viatura recebida: ");
-    this.subscribeReceberViaturaRouter = this.activatedRoute.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.viatura = this.router.getCurrentNavigation().extras.state.viatura;
-      } else {
-        if (this.adjunto !== 'true') {
-          this.router.navigate(['/tabs/tab2'])
-        } else {
-          this.router.navigate(['/adjunto'])
-        }
-      }
-    })
   }
 
   recebeItem(item: ItensVistoria ) {
@@ -138,11 +140,15 @@ export class ViaturaVistoriaPage implements OnInit {
           }
         }, {
           text: 'Sim',
-          handler: () => {
+          handler: async () => {
+            await this.presentLoading();
             this.subscribeInvalidarVistoria = this.itensVistoriaService.invalidarVistoria(vistoria)
               .subscribe(response => {
+                this.loading.dismiss();
                 console.log(response);
                 this.excluido();
+              }, error => {
+                this.loading.dismiss();
               });
           }
         }
@@ -185,7 +191,7 @@ export class ViaturaVistoriaPage implements OnInit {
     // tslint:disable-next-line: no-shadowed-variable
     }).then(alert => {
       alert.present();
-      this.router.navigate(['/tabs/tab1']);
+      this.router.navigate(['/viatura-motorista']);
     });
     }
 
@@ -200,7 +206,7 @@ export class ViaturaVistoriaPage implements OnInit {
       // tslint:disable-next-line: no-shadowed-variable
       }).then(alert => {
         alert.present()
-        this.router.navigate(['/tabs/tab1']);
+        this.router.navigate(['/viatura-motorista']);
       });
       }
 

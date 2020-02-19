@@ -30,66 +30,58 @@ export class ViaturaFichaPage implements OnInit {
     public alertController: AlertController,
     public viaturaService: ViaturaService) {
 
-      this.getViaturaVistoria();
 
-      this.situacaoViatura = SituacaoViatura;
 
-      this.subscribeViaturaFicha = this.route.data.subscribe((resolvedRouteData) => {
-        console.log(resolvedRouteData.viatura)
+    this.situacaoViatura = SituacaoViatura;
 
-        if (resolvedRouteData.viatura) {
-              this.viatura = resolvedRouteData.viatura;
-              this.isVistoria(this.viatura)
-            } else {
-              if(this.adjunto !== 'true') {
-                this.router.navigate(['/viatura-motorista'])
-              } else {
-                this.router.navigate(['/adjunto'])
-              }
-            }
-      })
-      this.adjunto = this.route.snapshot.paramMap.get('adjunto');
-      console.log(this.route.snapshot.paramMap.get('adjunto'))
-     }
-
-     getViaturaVistoria() {
-      this.subscribeViaturaVistoria = this.viaturaService.getViaturaVistoria()
-        .subscribe(response => {
-          this.temVistoriaViatura = response;
-          console.log(response)
-        })
-    }
-    
-    async naoPodeAbrirVistoria() {
-      const alert = await this.alertController.create({
-        subHeader: 'Já existe Vistoria',
-        message: 'finalize vistoria anterior para prosseguir',
-        buttons: ['OK']
-      });
-      await alert.present();
-    }
-
-     vistoriar(viatura: ViaturaDTO) {
-      console.log("vistoriar");
-      let navExtras: NavigationExtras = {
-        state: {
-          viatura: viatura
+    this.subscribeViaturaFicha = this.route.data.subscribe((resolvedRouteData) => {
+      this.isVistoria(resolvedRouteData.isVistoria)
+      if (resolvedRouteData.viatura) {
+        this.viatura = resolvedRouteData.viatura;
+        this.getViaturaVistoria(resolvedRouteData.viaturaVistoria);
+      } else {
+        if (this.adjunto !== 'true') {
+          this.router.navigate(['/viatura-motorista'])
+        } else {
+          this.router.navigate(['/adjunto'])
         }
-      };
-      this.router.navigate(['/vistoria', viatura.id, this.temVistoria, this.adjunto], navExtras)
-      
-    }
+      }
+    })
+    this.adjunto = this.route.snapshot.paramMap.get('adjunto');
+    console.log(this.route.snapshot.paramMap.get('adjunto'))
+  }
 
-   public isVistoria(viatura) {
-    this.subscribeItensVistoria = this.itensVistoriaService.buscarVistoria(viatura.id)
-      .subscribe(response => {
-        console.log(response)
-        if (response != null && response.id !== 0) {
-          this.temVistoria = true;
-        } 
-        console.log(this.temVistoria)
-      })
+  getViaturaVistoria(response) {
+    this.temVistoriaViatura = response;
+    this.temVistoriaViatura.forEach(element => {
+      if (element.placa == this.viatura.placa) {
+        this.temVistoriaViatura = null;
+        this.temVistoriaViatura = element;
+      }
+    });
+    console.log(this.temVistoriaViatura)
+  }
+
+  async naoPodeAbrirVistoria() {
+    const alert = await this.alertController.create({
+      subHeader: 'Já existe Vistoria',
+      message: 'finalize vistoria anterior para prosseguir',
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  vistoriar(viatura: ViaturaDTO) {
+    this.router.navigate(['/vistoria', viatura.id, this.temVistoria, this.adjunto])
+  }
+
+  public isVistoria(response) {
+    console.log(response)
+    if (response != null && response.id !== 0) {
+      this.temVistoria = true;
     }
+    console.log(this.temVistoria)
+  }
 
   ngOnInit() {
   }

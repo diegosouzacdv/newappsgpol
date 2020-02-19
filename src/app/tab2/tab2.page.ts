@@ -121,18 +121,18 @@ export class Tab2Page {
     } finally {}
     }
 
-  buscarViatura(viatura: ViaturaDTO, placa: String) {
-    this.subscribeViaId = this.viaturaService.buscarViatura(placa)
-      .subscribe(response => {
-        const vtr = Object.keys(response).map(content => response[content]);
-        const navExtras: NavigationExtras = {
-          state: {
-            viatura: vtr[0][0]
-          }
-        };
-        this.router.navigate([`/viatura-ficha/${this.adjunto}`], navExtras);
-      });
-  }
+  // buscarViatura(viatura: ViaturaDTO, placa: String) {
+  //   this.subscribeViaId = this.viaturaService.buscarViatura(placa)
+  //     .subscribe(response => {
+  //       const vtr = Object.keys(response).map(content => response[content]);
+  //       const navExtras: NavigationExtras = {
+  //         state: {
+  //           viatura: vtr[0][0]
+  //         }
+  //       };
+  //       this.router.navigate([`/viatura-ficha/${this.adjunto}`], navExtras);
+  //     });
+  // }
 
   fichaViatura(viatura: ViaturaDTO) {
     this.viatura = viatura;

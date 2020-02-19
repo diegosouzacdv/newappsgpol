@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ViaturaFichaPage } from './viatura-ficha.page';
-import { ResolverViatura, ResolverViaturaId } from 'src/app/resolvers/ResolverViatura';
+import { ResolverViaturaId, ResolverTemVistoria, ResolverListViaturaVistoria } from 'src/app/resolvers/ResolverViatura';
 
 const routes: Routes = [
   {
@@ -10,6 +10,8 @@ const routes: Routes = [
     component: ViaturaFichaPage,
     resolve: {
       viatura: ResolverViaturaId,
+      isVistoria: ResolverTemVistoria,
+      viaturaVistoria: ResolverListViaturaVistoria
     }
   }
 ];
@@ -17,6 +19,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [ResolverViaturaId]
+  providers: [ResolverViaturaId, ResolverTemVistoria, ResolverListViaturaVistoria]
 })
 export class ViaturaFichaPageRoutingModule {}

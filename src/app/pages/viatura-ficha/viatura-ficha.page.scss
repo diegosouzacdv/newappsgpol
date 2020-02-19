@@ -1,0 +1,8 @@
+:host {
+    --page-background: var(--app-background-shade);
+  }
+  
+  ion-content {
+    --background: var(--page-background);
+  }
+

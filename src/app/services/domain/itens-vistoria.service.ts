@@ -22,7 +22,7 @@ export class ItensVistoriaService {
         return this.http.get<ItensVistoria[]>(`${API_CONFIG.baseUrl}/viatura/vistoria/itensvistoria`);
     }
 
-    buscarVistoria(idViatura: number): Observable<any> {
+    buscarVistoria(idViatura: string): Observable<any> {
         return this.http.get<any>(`${API_CONFIG.baseUrl}/viatura/vistoria/${idViatura}`);
     }
 

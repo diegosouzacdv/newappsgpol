@@ -24,10 +24,12 @@
         </ion-row>
         <ion-row>
           <ion-col><strong>Categoria: </strong>
-            <app-text-shell [data]="policial?.cnh?.categoria"></app-text-shell>
+            <p>{{policial?.cnh?.categoria}}</p>
+            <ion-skeleton-text animated="true" style="width: 100%; background: rgba(255, 255, 255, 0.24); border-radius: 2px;" *ngIf="!policial"></ion-skeleton-text>
           </ion-col>
           <ion-col><strong>Validade: </strong>
-            <app-text-shell [data]="policial?.cnh?.dataValidade | date:'dd/MM/yyyy'"></app-text-shell>
+            <p>{{policial?.cnh?.dataValidade | date:'dd/MM/yyyy'}}</p>
+            <ion-skeleton-text animated="true" style="width: 100%; background: rgba(255, 255, 255, 0.24); border-radius: 2px;" *ngIf="!policial"></ion-skeleton-text>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -35,29 +37,32 @@
   </ion-card>
 
 
-  <ion-card mode="ios" *ngIf="temVistoriaViatura" color="medium">
+  <ion-card mode="ios" *ngIf="temVistoriaViatura?.length != 0" class="card-children">
     <ion-card-header>
       <ion-card-title>Viatura em Uso</ion-card-title>
     </ion-card-header>
+    <div *ngFor="let vistoria of temVistoriaViatura" class="card-tem-vistoria ion-padding">
     <div class="ion-text-center">
     <ion-avatar class="logo-viatura">
-      <img src="https://sgpol.pm.df.gov.br/img/sgf/{{temVistoriaViatura?.marcaSigla}}.png">
+      <img src="https://sgpol.pm.df.gov.br/img/sgf/{{vistoria?.marcaSigla}}.png">
     </ion-avatar>
     </div>
     
-    <p><strong>Prefixo: </strong>{{temVistoriaViatura?.prefixo}}</p>
-    <p><strong>Viatura: </strong>{{temVistoriaViatura?.modelo}}</p>
-    <p><strong>Placa: </strong>{{temVistoriaViatura?.placa}}</p>
-    <p><strong>Unidade: </strong>{{temVistoriaViatura?.lotacao}}</p>
+    <p><strong>Prefixo: </strong>{{vistoria?.prefixo}}</p>
+    <p><strong>Viatura: </strong>{{vistoria?.modelo}}</p>
+    <p><strong>Placa: </strong>{{vistoria?.placa}}</p>
+    <p><strong>Unidade: </strong>{{vistoria?.lotacao}}</p>
     <div class="ion-text-end">
-      <ion-button *ngIf="temVistoriaViatura?.status != situacaoViatura.CAUTELADA && temVistoriaViatura?.status != situacaoViatura.BAIXADA"  size="small" [color]="temVistoriaViatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'" [routerLink]="['/viatura-ficha', temVistoriaViatura.id, adjunto]" routerDirection="forward">{{temVistoriaViatura?.status}}</ion-button>
-      <ion-button *ngIf="temVistoriaViatura?.status === situacaoViatura.CAUTELADA" size="small"  slot="end" [color]="temVistoriaViatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'" [routerLink]="['/viatura-ficha', temVistoriaViatura.id, adjunto]" routerDirection="forward">{{temVistoriaViatura?.status}}</ion-button>
-      <ion-button *ngIf="temVistoriaViatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger" [routerLink]="['/viatura-ficha', temVistoriaViatura.id, adjunto]" routerDirection="forward">{{temVistoriaViatura?.status}}</ion-button>
+      <ion-button *ngIf="vistoria?.status != situacaoViatura.CAUTELADA && vistoria?.status != situacaoViatura.BAIXADA"  size="small" [color]="vistoria?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'" [routerLink]="['/viatura-ficha', vistoria.id, adjunto]" routerDirection="forward">{{vistoria?.status}}</ion-button>
+      <ion-button *ngIf="vistoria?.status === situacaoViatura.CAUTELADA" size="small"  slot="end" [color]="vistoria?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'" [routerLink]="['/viatura-ficha', vistoria.id, adjunto]" routerDirection="forward">{{vistoria?.status}}</ion-button>
+      <ion-button *ngIf="vistoria?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger" [routerLink]="['/viatura-ficha', vistoria.id, adjunto]" routerDirection="forward">{{vistoria?.status}}</ion-button>
     </div>
+    <hr>
+  </div>
   </ion-card>
 
 
-  <ion-card class="card-children">
+  <ion-card mode="ios" class="card-children">
     <ion-card-header>
       <ion-card-title>Vistoria Prévia</ion-card-title>
     </ion-card-header>
@@ -94,8 +99,8 @@
     </ion-card>
   </div>
 
-  </ion-card>
-  <ion-card class="card-children" *ngIf="policial">
+  </ion-card >
+  <ion-card mode="ios" class="card-children" *ngIf="policial">
     <ion-card-header>
       <ion-card-title>Viaturas da Unidade</ion-card-title>
     </ion-card-header>

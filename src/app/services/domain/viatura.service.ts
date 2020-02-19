@@ -31,7 +31,7 @@ export class ViaturaService {
    }
 
    getViaturaVistoria() {
-    return this.http.get<ViaturaDTO>(
+    return this.http.get<ViaturaDTO[]>(
         `${API_CONFIG.baseUrl}/viatura/vistoria/temvistoria`);
    }
 

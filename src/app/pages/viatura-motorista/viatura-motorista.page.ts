@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
-import { NavigationExtras, Router } from '@angular/router';
+import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { PolicialDTO } from 'src/app/models/policial.dto';
 import { Subscription, Subject, Observable, of } from 'rxjs';
 import { NavController, LoadingController, AlertController } from '@ionic/angular';
@@ -35,7 +35,7 @@ export class ViaturaMotoristaPage {
   private subscribeViaturaVistoria: Subscription;
   adjunto = false;
   situacaoViatura;
-  public temVistoriaViatura;
+  public temVistoriaViatura: ViaturaDTO[];
   public pesquisa: Subject<string> = new Subject<string>();
   public via: Observable<ViaturaDTO | ViaturaDTO[]>;
 
@@ -47,33 +47,34 @@ export class ViaturaMotoristaPage {
     public storage: StorageService,
     private loadingController: LoadingController,
     public alertController: AlertController,
+    private route: ActivatedRoute,
     public itensVistoriaService: ItensVistoriaService, ) {
     this.situacaoViatura = SituacaoViatura;
   }
   ngOnInit() {
     this.via = this.pesquisa
-    .pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((termo: string) => {
-        this.busca = termo;
-        console.log(termo)
-        return this.viaturaService.pesquisarViatura(3, this.page, this.busca)
-      }),
-      catchError((erro) => {
-        return of<ViaturaDTO>();
-      })
-    );
-  this.via.subscribe((viaturas: ViaturaDTO[]) => {
-    // tslint:disable-next-line: no-string-literal
-    console.log(viaturas)
-    this.viaturas = viaturas['content'];
-    if (viaturas['content'].length == 0) {
-      this.semViatura(this.busca);
-    } else {
-      this.showCard = true;
-    }
-  });
+      .pipe(
+        debounceTime(100),
+        distinctUntilChanged(),
+        switchMap((termo: string) => {
+          this.busca = termo;
+          console.log(termo)
+          return this.viaturaService.pesquisarViatura(3, this.page, this.busca)
+        }),
+        catchError((erro) => {
+          return of<ViaturaDTO>();
+        })
+      );
+    this.via.subscribe((viaturas: ViaturaDTO[]) => {
+      // tslint:disable-next-line: no-string-literal
+      console.log(viaturas)
+      this.viaturas = viaturas['content'];
+      if (viaturas['content'].length == 0) {
+        this.semViatura(this.busca);
+      } else {
+        this.showCard = true;
+      }
+    });
   }
 
   ionViewWillEnter() {
@@ -81,7 +82,7 @@ export class ViaturaMotoristaPage {
     this.getViaturaVistoria();
     this.showViaturaUnidade = false;
 
-   
+
 
   }
 
@@ -90,11 +91,10 @@ export class ViaturaMotoristaPage {
   }
 
   getViaturaVistoria() {
-    this.subscribeViaturaVistoria = this.viaturaService.getViaturaVistoria()
-      .subscribe(response => {
-        this.temVistoriaViatura = response;
-        console.log(response)
-      })
+    this.subscribeViaturaVistoria = this.route.data.subscribe((resolvedRouteData) => {
+      this.temVistoriaViatura = resolvedRouteData.isVistoria;
+      console.log(this.temVistoriaViatura)
+    })
   }
 
   getPolicial() {
@@ -130,8 +130,8 @@ export class ViaturaMotoristaPage {
             this.loading.dismiss();
           }));
       }
-    } finally {}
-    }
+    } finally { }
+  }
 
   fichaViatura(viatura: ViaturaDTO) {
     this.viatura = viatura;

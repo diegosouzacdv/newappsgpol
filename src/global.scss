@@ -205,6 +205,22 @@
       }
     }
   }
+
+  .cardAll {
+    margin: 0px;
+    border-radius: 0px;
+    background: var(--ion-color-primary);
+    color: white;
+  }
+
+  .card-children {
+    background: white;
+  }
+
+  
+  hr {
+    background: var(--page-background);
+  }
   
   
   

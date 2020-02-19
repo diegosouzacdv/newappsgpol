@@ -4,60 +4,97 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Prefixo: {{viatura?.prefixo}}</ion-title>
+    <ion-buttons slot="end" (click)="logout()">
+      <ion-chip mode="ios" outline color="light">
+        <ion-label><strong>Sair</strong></ion-label>
+      </ion-chip>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-      
+
 <ion-content>
-  <ion-card class="ion-padding">
+  <ion-card class="ion-padding cardAll">
+    <div class="ion-text-center">
       <ion-avatar class="logo-viatura" slot="start">
         <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
       </ion-avatar>
       <p color="dark"><strong>{{viatura?.marca}}/{{viatura?.modelo}}</strong> </p>
-      <p color="dark"><strong>{{viatura?.anoFabricacao}}/{{viatura?.anoModelo}}</strong></p> 
-    <ion-item>
-      <ion-button *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA" slot="end" [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'">{{viatura?.status}}</ion-button>
-      <ion-button *ngIf="viatura?.status === situacaoViatura.CAUTELADA" slot="end" [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'" >{{viatura?.status}}</ion-button>
-      <ion-button *ngIf="viatura?.status === situacaoViatura.BAIXADA" slot="end" color="danger">{{viatura?.status}}</ion-button>
-    </ion-item>
+      <p color="dark"><strong>{{viatura?.anoFabricacao}}/{{viatura?.anoModelo}}</strong></p>
+    </div>
+  </ion-card>
+  <ion-card class="card-children">
+
+    <div>
+      <ion-toolbar>
+        <ion-button size="small"
+          *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA" slot="end"
+          [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'">
+          {{viatura?.status}}</ion-button>
+        <ion-button size="small" *ngIf="viatura?.status === situacaoViatura.CAUTELADA" slot="end"
+          [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'">{{viatura?.status}}
+        </ion-button>
+        <ion-button size="small" *ngIf="viatura?.status === situacaoViatura.BAIXADA" slot="end" color="danger">
+          {{viatura?.status}}
+        </ion-button>
+      </ion-toolbar>
+    </div>
     <ion-item>
       <p><strong><i>Placa:&nbsp;</i></strong> {{viatura?.placa}}</p>
     </ion-item>
     <ion-item>
-      <p><strong><i>Placa Vinculada:&nbsp;</i></strong>{{viatura?.placaVinculada != '' ? viatura?.placaVinculada : 'SEM P/V'}}</p>
+      <p><strong><i>Placa
+            Vinculada:&nbsp;</i></strong>{{viatura?.placaVinculada != '' ? viatura?.placaVinculada : 'SEM P/V'}}</p>
     </ion-item>
     <ion-item>
       <p><strong><i>Combustível:&nbsp;</i> </strong>{{viatura?.tipoCombustivel}}</p>
     </ion-item>
     <ion-item>
-        <p><strong><i>Lotação:&nbsp;</i></strong>{{viatura?.lotacao}}/{{viatura?.lotacaoSubordinacao}}</p>
+      <p><strong><i>Lotação:&nbsp;</i></strong>{{viatura?.lotacao}}/{{viatura?.lotacaoSubordinacao}}</p>
     </ion-item>
 
-    <ion-item><p><strong><i>Tombamento:&nbsp;</i> </strong>{{viatura?.tombamento}}</p></ion-item>
+    <ion-item>
+      <p><strong><i>Tombamento:&nbsp;</i> </strong>{{viatura?.tombamento}}</p>
+    </ion-item>
 
-    <ion-item><p><strong><i>Tipo:&nbsp;</i> </strong>{{viatura?.tipoViatura}}</p></ion-item>
+    <ion-item>
+      <p><strong><i>Tipo:&nbsp;</i> </strong>{{viatura?.tipoViatura}}</p>
+    </ion-item>
 
-    <ion-item><p><strong><i>Inclusão:&nbsp;</i> </strong>{{viatura?.dataInclusao | date:'dd/MM/yyyy'}}</p></ion-item>
+    <ion-item>
+      <p><strong><i>Inclusão:&nbsp;</i> </strong>{{viatura?.dataInclusao | date:'dd/MM/yyyy'}}</p>
+    </ion-item>
 
-    <ion-item><p><strong><i>Chassi:&nbsp;</i> </strong>{{viatura?.chassi}}</p></ion-item>
+    <ion-item>
+      <p><strong><i>Chassi:&nbsp;</i> </strong>{{viatura?.chassi}}</p>
+    </ion-item>
 
-    <ion-item><p><strong><i>Renavam:&nbsp;</i> </strong>{{viatura?.renavam}}</p></ion-item>
-    
-  
+    <ion-item>
+      <p><strong><i>Renavam:&nbsp;</i> </strong>{{viatura?.renavam}}</p>
+    </ion-item>
+
+
+    <div>
+      <ion-toolbar *ngIf="adjunto === 'false'">
+        <ion-button size="small" *ngIf="temVistoriaViatura.length != 0" [disabled]="viatura?.status === situacaoViatura.BAIXADA"
+          [color]="viatura?.status === situacaoViatura.BAIXADA ? 'danger' : 'success'" slot="end"
+          (click)="vistoriar(viatura)">
+          <ion-icon slot="end" name="checkbox-outline"></ion-icon>
+          Vistoriar
+        </ion-button>
+        <ion-button size="small" *ngIf="temVistoriaViatura?.placa === viatura?.placa"
+          [disabled]="viatura?.status === situacaoViatura.BAIXADA"
+          [color]="viatura?.status === situacaoViatura.BAIXADA ? 'danger' : 'warning'" slot="end"
+          (click)="vistoriar(viatura)">
+          <ion-icon slot="end" name="checkbox-outline"></ion-icon>
+          Visualizar Vistoria
+        </ion-button>
+        <ion-button size="small" *ngIf="viatura?.status === situacaoViatura.BAIXADA"
+          [disabled]="viatura?.status === situacaoViatura.BAIXADA" color="danger" slot="end"
+          (click)="naoPodeAbrirVistoria()">
+          <ion-icon slot="end" name="checkbox-outline"></ion-icon>
+          Vistoriar
+        </ion-button>
+      </ion-toolbar>
+    </div>
   </ion-card>
-  <div>
-  <ion-toolbar class="ion-padding-end" *ngIf="adjunto === 'false'">
-    <ion-button size="small" *ngIf="!temVistoriaViatura" [disabled]="viatura?.status === situacaoViatura.BAIXADA" [color]="viatura?.status === situacaoViatura.BAIXADA ? 'danger' : 'success'"  slot="end" (click)="vistoriar(viatura)">
-      <ion-icon  slot="end" name="checkbox-outline" ></ion-icon>
-        Vistoriar
-    </ion-button>
-    <ion-button size="small" *ngIf="temVistoriaViatura?.placa === viatura?.placa" [disabled]="viatura?.status === situacaoViatura.BAIXADA" [color]="viatura?.status === situacaoViatura.BAIXADA ? 'danger' : 'success'"  slot="end" (click)="vistoriar(viatura)">
-      <ion-icon  slot="end" name="checkbox-outline" ></ion-icon>
-        Vistoriar
-    </ion-button>
-    <ion-button size="small" *ngIf="viatura?.status === situacaoViatura.BAIXADA" [disabled]="viatura?.status === situacaoViatura.BAIXADA" color="danger"  slot="end" (click)="naoPodeAbrirVistoria()">
-      <ion-icon  slot="end" name="checkbox-outline" ></ion-icon>
-        Vistoriar
-    </ion-button>
-  </ion-toolbar>
-</div>
 </ion-content>
