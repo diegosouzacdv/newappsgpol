@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar mode="ios" color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -75,7 +75,7 @@
 
     <div>
       <ion-toolbar *ngIf="adjunto === 'false'">
-        <ion-button size="small" *ngIf="temVistoriaViatura.length != 0" [disabled]="viatura?.status === situacaoViatura.BAIXADA"
+        <ion-button size="small" *ngIf="temVistoriaViatura.length == 0 && viatura?.status != situacaoViatura.BAIXADA" [disabled]="viatura?.status === situacaoViatura.BAIXADA"
           [color]="viatura?.status === situacaoViatura.BAIXADA ? 'danger' : 'success'" slot="end"
           (click)="vistoriar(viatura)">
           <ion-icon slot="end" name="checkbox-outline"></ion-icon>

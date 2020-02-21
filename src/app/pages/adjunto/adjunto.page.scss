@@ -1,3 +1,26 @@
 ion-icon {
     font-size: 40px;
 }
+
+
+.logo {
+    --border-radius: 5px;
+}
+  
+:host {
+    --page-background: var(--app-background-shade);
+  }
+  
+  ion-content {
+    --background: var(--page-background);
+  }
+
+  .card-for {
+    border-bottom: solid 1px rgba(105, 105, 105, 0.325);
+  }
+
+  .card-children {
+    margin: 7px;
+    padding: 0px;
+  }
+

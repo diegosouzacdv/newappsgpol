@@ -17,4 +17,8 @@ export class SgfPage implements OnInit {
     this.navCtrl.navigateForward([`/viatura-motorista`]);
   }
 
+  public routeAdjunto() {
+    this.navCtrl.navigateForward([`/adjunto`]);
+  }
+
 }

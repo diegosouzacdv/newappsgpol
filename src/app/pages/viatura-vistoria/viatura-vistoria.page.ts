@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
@@ -8,6 +8,7 @@ import { ItensVistoria } from 'src/app/models/itens-vistoria';
 import { PolicialService } from 'src/app/services/domain/policial.service';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-viatura-vistoria',
@@ -17,9 +18,7 @@ import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 export class ViaturaVistoriaPage implements OnInit {
 
   viatura: ViaturaDTO;
-  vistoria: VistoriaVistoriaDTO = {
-    vistoriaViaturaItensVistoria: []
-  }
+  vistoria: VistoriaVistoriaDTO;
   idViatura: string;
   temVistoria: boolean;
   teste = 'oleo';
@@ -43,12 +42,13 @@ export class ViaturaVistoriaPage implements OnInit {
     private loadingController: LoadingController,
     private policialService: PolicialService,
     private route: ActivatedRoute,
-    public alertCtrl: AlertController) { 
+    public alertCtrl: AlertController,
+    public authService: AuthService) { 
 
       this.situacaoViatura = SituacaoViatura;
 
-      this.resolverViatura();
       this.resolverVistoria()
+      this.resolverViatura();
       this.idViatura = this.activatedRoute.snapshot.paramMap.get('id');
 
       console.log(this.activatedRoute.snapshot.paramMap.get('temVistoria'))
@@ -61,12 +61,17 @@ export class ViaturaVistoriaPage implements OnInit {
       if (!this.temVistoria) {
         this.inserirInicioVistoria(this.idViatura);
       }
-      // this.getVistoria();
+      this.getVistoria();
       this.adjunto = this.activatedRoute.snapshot.paramMap.get('adjunto');
     }
 
   ngOnInit() {
-    
+    this.vistoria = {
+      odometro: 0,
+      nivelCombustivel: '',
+      observacaoMotorista:'',
+      vistoriaViaturaItensVistoria: []
+    }
   }
 
   async enviarVistoria(){
@@ -115,10 +120,12 @@ export class ViaturaVistoriaPage implements OnInit {
   }
 
   async inserirInicioVistoria(idViatura) {
+    console.log('itens a inserir')
     await this.presentLoading();
     try {
       this.subscribeVistoria = this.itensVistoriaService.inserirVistoria(parseInt(idViatura))
         .subscribe(response => {
+          console.log('itens Inseridos')
           this.getVistoria();
           this.loading.dismiss();
         }, (errors => {
@@ -206,7 +213,11 @@ export class ViaturaVistoriaPage implements OnInit {
       // tslint:disable-next-line: no-shadowed-variable
       }).then(alert => {
         alert.present()
-        this.router.navigate(['/viatura-motorista']);
+        if (this.adjunto === 'false') {
+          this.router.navigate(['/viatura-motorista']);
+        } else {
+          this.router.navigate(['/adjunto']);
+        }
       });
       }
 
@@ -220,4 +231,7 @@ export class ViaturaVistoriaPage implements OnInit {
         if (!this.subscribeInvalidarVistoriavar.closed) { this.subscribeInvalidarVistoriavar.unsubscribe(); }
       }
 
+      logout() {
+        this.authService.logout();
+      }
 }

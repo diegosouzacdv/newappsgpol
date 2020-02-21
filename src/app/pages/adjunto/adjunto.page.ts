@@ -5,9 +5,10 @@ import { Subscription } from 'rxjs';
 import { PolicialDTO } from 'src/app/models/policial.dto';
 import { ViaturaService } from 'src/app/services/domain/viatura.service';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
-import { NavigationExtras, Router } from '@angular/router';
+import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-adjunto',
@@ -24,44 +25,44 @@ export class AdjuntoPage {
   adjunto = true;
   temVistoria = false;
   situacaoViatura;
+  semViaturas = false;
 
   constructor(
     private storage: StorageService,
     public router: Router,
     public policialService: PolicialService,
     public viaturaService: ViaturaService,
-    private itensVistoriaService: ItensVistoriaService) {
+    private itensVistoriaService: ItensVistoriaService,
+    private route: ActivatedRoute,
+    public authService: AuthService) {
       this.situacaoViatura = SituacaoViatura;
+      console.log(this.viaturasUnidade)
      }
 
   ngOnInit() {
    this.getPolicial();
   }
 
-  // ionViewWillEnter() {
-  //   this.getPolicial();
-  // }
+  ionViewWillEnter() {
+    this.listarViaturasUnidade();
+  }
 
   listarViaturasUnidade() {
       this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
         .subscribe(response => {
           console.log(response)
           this.viaturasUnidade = response['content'];
+          if (this.viaturasUnidade.length == 0 ) {
+            console.log('entrando aq sem viaturas')
+            this.semViaturas = true;
+          }
         });
   }
 
   getPolicial() {
-    let localUser = this.storage.getLocalUser();
-    if (localUser && localUser.id) {
-      this.subscribeUser = this.policialService.usuarioLogado()
-        .subscribe(response => {
-          this.policial = response;
-          console.log(this.policial);
-          this.listarViaturasUnidade();
-        },
-        error => {}
-        );
-    }
+    this.subscribeUser = this.route.data.subscribe((resolvedRouteData) => {
+      this.policial = resolvedRouteData.policial;
+    })
   }
 
   fichaViatura(viatura: ViaturaDTO) {
@@ -70,7 +71,7 @@ export class AdjuntoPage {
         viatura: viatura
       }
     };
-    this.router.navigate([`/viatura-ficha/${this.adjunto}`], navExtras);
+    this.router.navigate([`/viatura-ficha/${viatura.id}/${this.adjunto}`], navExtras);
   }
 
   public async isVistoria(viatura) {
@@ -104,6 +105,11 @@ export class AdjuntoPage {
       this.listarViaturasUnidade();
       event.target.complete();
     }, 2000);
+  }
+
+  
+  logout() {
+    this.authService.logout();
   }
 
 }

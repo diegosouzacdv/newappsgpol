@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Pages } from '../models/pages';
 import { PagesService } from '../services/page.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,8 @@ export class HomePage implements OnInit {
   public pages: Pages;
 
 
-  constructor(public pagesServices: PagesService) { }
+  constructor(public pagesServices: PagesService,
+    public authService: AuthService) { }
 
   ngOnInit() {
     this.pagesServices.getListingDataSource()
@@ -34,7 +36,9 @@ export class HomePage implements OnInit {
   }
 
   
-
+  logout() {
+    this.authService.logout();
+  }
 
 
 }

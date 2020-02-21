@@ -36,6 +36,10 @@ const routes: Routes = [
   {
     path: 'viatura-motorista',
     loadChildren: () => import('./pages/viatura-motorista/viatura-motorista.module').then( m => m.ViaturaMotoristaPageModule)
+  },
+  {
+    path: 'accessdenied',
+    loadChildren: () => import('./pages/accessdenied/accessdenied.module').then( m => m.AccessdeniedPageModule)
   }
 ];
 @NgModule({

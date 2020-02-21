@@ -1,10 +1,15 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar mode="ios" color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="primary"></ion-buttons>
     <ion-title>Autorização de Viatura</ion-title>
+    <ion-buttons slot="end" (click)="logout()">
+      <ion-chip mode="ios" outline color="light">
+        <ion-label><strong>Sair</strong></ion-label>
+      </ion-chip>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +17,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-card>
+  <ion-card class="cardAll">
     <app-dados-basico-policial></app-dados-basico-policial>
     <ion-card-content>
       <ion-grid>
@@ -31,13 +36,13 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card mode="ios" class="card-children" *ngIf="viaturasUnidade.length !== 0">
     <ion-card-header>
       <ion-card-title>Viaturas da Unidade</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-card *ngFor="let viatura of viaturasUnidade" >
-        <ion-item (click)="fichaViatura(viatura)" routerDirection='forward'>
+      <div *ngFor="let viatura of viaturasUnidade" class="card-for ion-padding-bottom">
+        <ion-item lines="none" (click)="fichaViatura(viatura)" routerDirection='forward'>
           <ion-thumbnail slot="start">
             <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
           </ion-thumbnail>
@@ -47,7 +52,7 @@
           </ion-label>
         </ion-item>
         <ion-row *ngIf="viatura?.status === situacaoViatura.EM_VISTORIA || viatura?.status === situacaoViatura.CAUTELADA">
-          <ion-item>
+          <ion-item lines="none">
             <ion-label>
               <h3>Motorista: </h3>
               <!-- <p>Wallace Silva</p> -->
@@ -99,8 +104,13 @@
             </div>
           </ion-col>
         </ion-row>
-      </ion-card>
+      </div>
     </ion-card-content>
   </ion-card>
 
+  <ion-card mode="ios" class="card-children" *ngIf="semViaturas">
+    <div class="ion-padding">
+      <h1>Sem viaturas em {{policial?.lotacao}}</h1>
+    </div>
+  </ion-card>
 </ion-content>

@@ -10,6 +10,7 @@ import { StorageService } from 'src/app/services/storage.service';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-viatura-motorista',
@@ -48,7 +49,8 @@ export class ViaturaMotoristaPage {
     private loadingController: LoadingController,
     public alertController: AlertController,
     private route: ActivatedRoute,
-    public itensVistoriaService: ItensVistoriaService, ) {
+    public itensVistoriaService: ItensVistoriaService, 
+    public authService: AuthService) {
     this.situacaoViatura = SituacaoViatura;
   }
   ngOnInit() {
@@ -176,6 +178,9 @@ export class ViaturaMotoristaPage {
       mode: 'ios'
     });
     return this.loading.present();
+  }
+  logout() {
+    this.authService.logout();
   }
 
 }

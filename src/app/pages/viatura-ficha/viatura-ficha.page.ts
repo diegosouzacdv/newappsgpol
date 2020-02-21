@@ -6,6 +6,7 @@ import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { Subscription } from 'rxjs';
 import { ViaturaService } from 'src/app/services/domain/viatura.service';
 import { AlertController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-viatura-ficha',
@@ -28,7 +29,8 @@ export class ViaturaFichaPage implements OnInit {
     private route: ActivatedRoute,
     private itensVistoriaService: ItensVistoriaService,
     public alertController: AlertController,
-    public viaturaService: ViaturaService) {
+    public viaturaService: ViaturaService,
+    public authService: AuthService) {
 
 
 
@@ -90,6 +92,10 @@ export class ViaturaFichaPage implements OnInit {
     if (!this.subscribeViaturaFicha.closed) { this.subscribeViaturaFicha.unsubscribe(); }
     if (!this.subscribeItensVistoria.closed) { this.subscribeItensVistoria.unsubscribe(); }
     if (!this.subscribeViaturaVistoria.closed) { this.subscribeViaturaVistoria.unsubscribe(); }
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 }

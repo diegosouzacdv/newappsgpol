@@ -13,7 +13,9 @@ export class ResolverVistoria implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot) {
       let id = route.paramMap.get('id');
+      console.log(id)
       const dataSource: Observable<ViaturaDTO> = this.itensVistoriaService.buscarVistoria(id);
+      console.log(dataSource.subscribe(respose => {console.log(respose)}))
       return dataSource;
             
   }

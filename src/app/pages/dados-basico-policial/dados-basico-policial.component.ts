@@ -18,10 +18,11 @@ export class DadosBasicoPolicialComponent implements OnInit {
   constructor(
     public policialService: PolicialService,
     public sanitizer: DomSanitizer) {
-      this.resolverUser();
+      
      }
 
   ngOnInit() {
+    this.resolverUser();
     this.getImageIfExists();
   }
 

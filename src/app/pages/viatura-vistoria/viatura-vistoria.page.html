@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar mode="ios" color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -45,7 +45,7 @@
       <ion-item >
         <ion-label class="ion-text-wrap">ATENÇÃO: selecione se existerem alterações!</ion-label>
       </ion-item>
-      <ion-item *ngFor="let item of vistoria.vistoriaViaturaItensVistoria">
+      <ion-item *ngFor="let item of vistoria?.vistoriaViaturaItensVistoria">
         <ion-label class="ion-text-wrap">
           <p>{{item.nome}}</p>
         </ion-label>
