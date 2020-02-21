@@ -1,57 +1,88 @@
-<ion-content padding class="animated fadeIn login backlogo">
-  <div class="backlogo">
-      <h2>Polícia Militar do Distrito Federal</h2>
-  </div>
-  
-  <div class="login-content">
-    <div class="ion-text-center ion-padding-horizontal">
-      <div class="logo"></div>
+<ion-content>
+  <div class="area-img">
+    <h2>Polícia Militar do Distrito Federal</h2>
+    <div class="img">
+      <ion-img src="../../../assets/imgs/logo.png"></ion-img>
     </div>
+  </div>
 
-    <!-- Login form -->
+  <ion-slides mode="ios" pager="true" scrollbar="true" [options]="slideOpts" color="light">
+    <ion-slide mode="ios">
+      <div class="slide-inner ion-padding">
+        <div class="titulo3"><span>Login</span></div>
+        <form [formGroup]="loginForm">
+          <ion-item class="ion-margin-top" lines="none">
+            <ion-input placeholder="Usuário" formControlName="username" type="text" [(ngModel)]="creds.username"
+              name="username" autocomplete="off">
+            </ion-input>
+          </ion-item>
+          <ion-item class="ion-margin-top" lines="none">
+            <ion-input placeholder="Senha" formControlName="password" type="password" [(ngModel)]="creds.password"
+              name="password" autocomplete="off">
+            </ion-input>
+          </ion-item>
+          <ion-button class="ion-margin-top entrar" (click)="login()" expand="block">
+            Entrar
+          </ion-button>
+          <ion-row>
+            <ion-col size="6">
+              <a [routerLink]="['/esqueceu']" routerDirection="forward"><span>Esqueci a senha</span></a>
+            </ion-col>
+            <ion-col size="6">
+              <a class="ion-margin-top entrar" [routerLink]="['/cadastro', 0, '']" fill="outline"
+                expand="block"><span>Cadastre-se</span></a>
+            </ion-col>
+          </ion-row>
+        </form>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+  <!-- <div class="login-content">
+
     <form [formGroup]="loginForm" class="list-form">
-        <ion-list lines="full" class="ion-no-margin ion-no-padding">
-      <ion-item>
-        <ion-label position="floating">
-          <ion-icon name="card" item-start class="text-primary"></ion-icon>
-          Usuário:
-        </ion-label>
-        <ion-input formControlName="username" type="text" [(ngModel)]="creds.username" name="username"></ion-input>
-      </ion-item>
-      <div class="ion-padding-horizontal">
-        <ion-text color="danger" *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched">
-          <p class="error">Usuário é obrigatório</p>
-        </ion-text>
-      </div>
+      <ion-list lines="full" class="ion-no-margin ion-no-padding">
+        <ion-item>
+          <ion-label position="floating">
+            <ion-icon name="card" item-start class="text-primary"></ion-icon>
+            Usuário:
+          </ion-label>
+          <ion-input formControlName="username" type="text" [(ngModel)]="creds.username" name="username"></ion-input>
+        </ion-item>
+        <div class="ion-padding-horizontal">
+          <ion-text color="danger" *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched">
+            <p class="error">Usuário é obrigatório</p>
+          </ion-text>
+        </div>
 
-      <ion-item>
-        <ion-label position="floating">
-          <ion-icon name="lock" item-start class="text-primary"></ion-icon>
-          Senha:
-        </ion-label>
-        <ion-input formControlName="password" type="password" [(ngModel)]="creds.password" name="password"></ion-input>
-      </ion-item>
-      <div class="ion-padding-horizontal">
-        <ion-text color="danger" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">
-          <p class="error">Senha é obrigatório</p>
-        </ion-text>
-      </div>
+        <ion-item>
+          <ion-label position="floating">
+            <ion-icon name="lock" item-start class="text-primary"></ion-icon>
+            Senha:
+          </ion-label>
+          <ion-input formControlName="password" type="password" [(ngModel)]="creds.password" name="password">
+          </ion-input>
+        </ion-item>
+        <div class="ion-padding-horizontal">
+          <ion-text color="danger" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">
+            <p class="error">Senha é obrigatório</p>
+          </ion-text>
+        </div>
 
-      <ion-item class="itemsalvar" color="light" lines=none>
-        <ion-label class="labelsalvar">Salvar senha</ion-label>
-        <ion-checkbox slot="end" mode="ios" [checked]="temDados ? true : false" (ionChange)="saveStar($event)">
-        </ion-checkbox>
-      </ion-item>
+        <ion-item class="itemsalvar" color="light" lines=none>
+          <ion-label class="labelsalvar">Salvar senha</ion-label>
+          <ion-checkbox slot="end" mode="ios" [checked]="temDados ? true : false" (ionChange)="saveStar($event)">
+          </ion-checkbox>
+        </ion-item>
 
       </ion-list>
       <br><br><br>
       <div>
         <ion-button [disabled]="loginForm.invalid" expand="block" (click)="login()">
           <ion-icon name="log-in"></ion-icon>
-           &nbsp;ENTRAR
+          &nbsp;ENTRAR
         </ion-button>
       </div>
     </form>
-  </div>
+  </div> -->
 </ion-content>
-

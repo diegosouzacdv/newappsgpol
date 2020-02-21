@@ -1,19 +1,77 @@
-.logo {
-    width: 300px;
-    height: 230px;
-    border-radius: 10%;
-    background: url("../../../assets/imgs/logo.png") no-repeat;
-    background-size: 90%;
-    margin: 0 auto;
-  }
 
-  .backlogo {
-    background-color: #000066;
-    color: white;
-    text-align: center;
-    margin-bottom: 5rem;
-    padding: 1rem;
-    margin: 0px;
-    font-family: 'PMDF Font';
+:host {
+  --page-background: hsla(240, 100%, 20%, 0.904);
+}
 
+ion-content {
+  --background: var(--page-background);
+}
+.area-img {
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.img {
+  position: relative;
+  width: 40%;
+  left: 50%;
+  transform: translateX(-50%); 
+}
+
+ion-slides {
+  
+  ion-slide {
+    --bullet-background-active: #fff;
+    --bullet-background: #fff;
   }
+  margin: 15px;
+
+  .slide-inner {
+      width: 85%;
+      color: #000066;
+      background-color: #fff;
+      border-radius: 10px;
+
+      ion-item {
+          --background: rgb(0, 0, 102);
+          --border-radius: 10px;
+
+          ion-input {
+              --color: #fff;
+          }
+          margin-bottom: 10px;
+      }
+      ion-button {
+          --background: rgb(0, 0, 102);
+          --color: #fff;
+      }
+
+      p {
+        font-size: 13px;
+      }
+
+      a {
+        color: rgb(0, 0, 102);
+        font-size: 13px;
+        text-decoration: none;
+      }
+
+      ion-item.itemsalvar {
+        margin-top: 0px;
+      }
+
+      .labelsalvar {
+        font-size: 13px;
+      }
+
+      ion-checkbox{
+        --size: 15px
+      }
+
+      ion-button.entrar {
+        margin: 0px;
+      }
+      
+  }
+}
