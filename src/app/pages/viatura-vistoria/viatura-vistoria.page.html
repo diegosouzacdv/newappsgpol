@@ -69,21 +69,26 @@
         </ion-range>
       </ion-item>
       <ion-item>
-        <ion-label position="floating"> Observação do Motorista Inicio: </ion-label>
+        <ion-label position="floating">Percurso: </ion-label>
+        <ion-textarea [disabled]="adjunto === 'true'"
+          [(ngModel)]="vistoria.percurso"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">1ª Observação do Motorista: </ion-label>
         <ion-textarea [disabled]="adjunto === 'true' ||  viatura?.status === situacaoViatura.CAUTELADA"
           [(ngModel)]="vistoria.observacaoMotorista"></ion-textarea>
       </ion-item>
       <ion-item *ngIf="viatura?.status === situacaoViatura.CAUTELADA">
-        <ion-label position="floating"> Observação do Motorista Final: </ion-label>
+        <ion-label position="floating">2ª Observação do Motorista: </ion-label>
         <ion-textarea [disabled]="adjunto === 'true'" [(ngModel)]="vistoria.observacaoMotoristaFinal"></ion-textarea>
       </ion-item>
       <ion-item *ngIf="adjunto === 'true'">
-        <ion-label position="floating"> Observação do Adjunto Inicio: </ion-label>
+        <ion-label position="floating">1ª Observação do Adjunto: </ion-label>
         <ion-textarea [disabled]="viatura?.status === situacaoViatura.CAUTELADA"
           [(ngModel)]="vistoria.observacaoValidado"></ion-textarea>
       </ion-item>
       <ion-item *ngIf="adjunto === 'true' && viatura?.status === situacaoViatura.CAUTELADA">
-        <ion-label position="floating"> Observação do Adjunto Final: </ion-label>
+        <ion-label position="floating">2ª Observação do Adjunto: </ion-label>
         <ion-textarea [(ngModel)]="vistoria.observacaoValidadoFinal"></ion-textarea>
       </ion-item>
 

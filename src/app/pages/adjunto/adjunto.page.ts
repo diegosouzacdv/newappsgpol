@@ -51,7 +51,7 @@ export class AdjuntoPage {
       this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
         .subscribe(response => {
           console.log(response)
-          this.viaturasUnidade = response['content'];
+          this.viaturasUnidade = response;
           if (this.viaturasUnidade.length == 0 ) {
             console.log('entrando aq sem viaturas')
             this.semViaturas = true;

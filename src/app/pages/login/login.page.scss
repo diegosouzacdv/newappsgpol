@@ -1,22 +1,72 @@
 
 :host {
-  --page-background: hsla(240, 100%, 20%, 0.904);
+  --page-background: hsla(240, 100%, 20%, 0.938);
 }
 
 ion-content {
-  --background: var(--page-background);
+  background-image: url('../../../assets/imgs/viatura4.png') ;
+  --background: rgba(0, 0, 102, 0.726);
+  background-repeat: no-repeat;
+  background-size: cover; 
 }
+
+.welcome-card {
+    padding: 0px;
+    margin: 0px;
+    background-color: transparent;
+    color: white;
+    box-shadow: none;
+    border-radius: 0px;
+    ion-card-subtitle {
+      font-size: 25px;
+      color: white;
+    }
+    ion-card-title {
+      font-size: 27px;
+      color: white;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+}
+
+.container {
+  position: absolute;
+  left: 48%;
+  width: 75%;
+  margin: 0 auto;
+  z-index: 2;
+
+  &.top {
+    top: 10%;
+}
+
+  &.bottom {
+      bottom: 30%;
+
+      h1 {
+          color: #fff;
+      }
+  }
+}
+
+img.logopv {
+  width: 35%;
+  align-self: center;
+  margin: auto;
+  display: block;
+  padding: 10px;
+}
+
 .area-img {
   color: #FFF;
   text-transform: uppercase;
-  text-align: center;
+  position: absolute;
 }
 
 .img {
-  position: relative;
-  width: 40%;
-  left: 50%;
-  transform: translateX(-50%); 
+  position: absolute;
+  width: 20%;
+  left: 0;
 }
 
 ion-slides {
@@ -25,13 +75,14 @@ ion-slides {
     --bullet-background-active: #fff;
     --bullet-background: #fff;
   }
-  margin: 15px;
 
   .slide-inner {
       width: 85%;
       color: #000066;
       background-color: #fff;
       border-radius: 10px;
+
+      
 
       ion-item {
           --background: rgb(0, 0, 102);
@@ -41,10 +92,6 @@ ion-slides {
               --color: #fff;
           }
           margin-bottom: 10px;
-      }
-      ion-button {
-          --background: rgb(0, 0, 102);
-          --color: #fff;
       }
 
       p {

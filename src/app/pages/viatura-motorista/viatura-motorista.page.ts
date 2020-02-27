@@ -56,7 +56,7 @@ export class ViaturaMotoristaPage {
   ngOnInit() {
     this.via = this.pesquisa
       .pipe(
-        debounceTime(100),
+        debounceTime(300),
         distinctUntilChanged(),
         switchMap((termo: string) => {
           this.busca = termo;
@@ -70,8 +70,8 @@ export class ViaturaMotoristaPage {
     this.via.subscribe((viaturas: ViaturaDTO[]) => {
       // tslint:disable-next-line: no-string-literal
       console.log(viaturas)
-      this.viaturas = viaturas['content'];
-      if (viaturas['content'].length == 0) {
+      this.viaturas = viaturas;
+      if (viaturas.length == 0) {
         this.semViatura(this.busca);
       } else {
         this.showCard = true;
@@ -122,7 +122,7 @@ export class ViaturaMotoristaPage {
         this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
           .subscribe(response => {
             this.loading.dismiss();
-            this.viaturasUnidade = response['content'];
+            this.viaturasUnidade = response;
             if (this.viaturasUnidade.length === 0) {
               this.showWarning = !this.showWarning
             } else {

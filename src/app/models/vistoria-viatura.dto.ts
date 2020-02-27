@@ -14,4 +14,5 @@ export interface VistoriaVistoriaDTO {
     vistoriaViaturaItensVistoria?: ItensVistoria[];
     longitude?: number;
     latitude?: number;
+    percurso?: string
 }

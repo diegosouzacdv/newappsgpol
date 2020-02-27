@@ -55,12 +55,15 @@ export class ViaturaFichaPage implements OnInit {
 
   getViaturaVistoria(response) {
     this.temVistoriaViatura = response;
-    this.temVistoriaViatura.forEach(element => {
-      if (element.placa == this.viatura.placa) {
-        this.temVistoriaViatura = null;
-        this.temVistoriaViatura = element;
-      }
-    });
+    console.log(this.temVistoriaViatura)
+    if (this.temVistoriaViatura != null) {
+      this.temVistoriaViatura.forEach(element => {
+        if (element.placa == this.viatura.placa) {
+          this.temVistoriaViatura = null;
+          this.temVistoriaViatura = element;
+        }
+      });
+    }
     console.log(this.temVistoriaViatura)
   }
 

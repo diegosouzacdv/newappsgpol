@@ -21,5 +21,6 @@ export interface ViaturaDTO {
     lotacaoCodigoSubordinacao: string;
     lotacaoSubordinacao: string;
     marcaSigla: string;
+    motorista?:string;
 }
 

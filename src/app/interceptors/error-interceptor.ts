@@ -13,39 +13,41 @@ export class ErrorInterceptor implements HttpInterceptor {
     public message: string;
 
     constructor(public alertCtrl: AlertController,
-                public toastController: ToastController,
-                public authService: AuthService
-                ) { }
+        public toastController: ToastController,
+        public authService: AuthService
+    ) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req)
-                .pipe(
-                    catchError(error => {
-                        console.log(error)
-                       /* let errorObj = error;
-                        if (errorObj.error) {
-                            errorObj = errorObj.error;
-                        }
-                        let e: any;
-                        if ( !errorObj.status || errorObj.status != undefined) {
-                            if (this.isJson(errorObj)) {
-                                e = this.convertError(errorObj);
-                            }
-                            errorObj = e;
-                        }*/
-                        switch (error.status) {
-                            case 403: this.handle403();
-                                      break;
-                            case 401: this.handle401();
-                                      break;
-                            case 422: this.handle422(error);
-                                      break;
-                            case 0: this.handle0();
-                                    break;
-                            default:
-                                this.handleDefaultError(error);
-                        }
-                        return throwError(error);
-                    })) as any;
+            .pipe(
+                catchError(error => {
+                    console.log(error)
+                    /* let errorObj = error;
+                     if (errorObj.error) {
+                         errorObj = errorObj.error;
+                     }
+                     let e: any;
+                     if ( !errorObj.status || errorObj.status != undefined) {
+                         if (this.isJson(errorObj)) {
+                             e = this.convertError(errorObj);
+                         }
+                         errorObj = e;
+                     }*/
+                    switch (error.status) {
+                        case 403: this.handle403();
+                            break;
+                        case 401: this.handle401();
+                            break;
+                        case 422: this.handle422(error);
+                            break;
+                        case 500: this.handle500(error);
+                            break;
+                        case 0: this.handle0();
+                            break;
+                        default:
+                            this.handleDefaultError(error);
+                    }
+                    return throwError(error);
+                })) as any;
     }
 
     public isJson(str) {
@@ -58,8 +60,8 @@ export class ErrorInterceptor implements HttpInterceptor {
         return true;
     }
 
-    public convertError(error: any){
-            return JSON.parse(error);
+    public convertError(error: any) {
+        return JSON.parse(error);
     }
 
     public async handle0() {
@@ -68,30 +70,30 @@ export class ErrorInterceptor implements HttpInterceptor {
             duration: 3000,
             mode: 'ios',
             translucent: true
-          });
+        });
         toast.present();
         this.authService.logout();
-        }
+    }
 
     public async handle403() {
-    const toast =  await this.toastController.create({
-        message: 'Usuario ou senha errada!',
-        duration: 3000,
-        mode: 'ios',
-        translucent: true
-      });
-    toast.present();
-    //this.authService.logout();
+        const toast = await this.toastController.create({
+            message: 'Usuario ou senha errada!',
+            duration: 3000,
+            mode: 'ios',
+            translucent: true
+        });
+        toast.present();
+        //this.authService.logout();
     }
 
     public async handle401() {
-    const toast = await this.toastController.create({
-        message: 'Usuario ou senha errada!',
-        duration: 3000,
-        mode: 'ios',
-        translucent: true
-      });
-    toast.present();
+        const toast = await this.toastController.create({
+            message: 'Usuario ou senha errada!',
+            duration: 3000,
+            mode: 'ios',
+            translucent: true
+        });
+        toast.present();
     }
 
     public handle422(errorObj) {
@@ -100,25 +102,38 @@ export class ErrorInterceptor implements HttpInterceptor {
             message: this.listErrors(errorObj.errors),
             backdropDismiss: false,
             buttons: [
-                {text: 'Ok'}
+                { text: 'Ok' }
             ]
-        // tslint:disable-next-line: no-shadowed-variable
+            // tslint:disable-next-line: no-shadowed-variable
         }).then(alert => alert.present());
-        }
-
-    public handleDefaultError(errorObj) {
-    const alert = this.alertCtrl.create({
-        header: 'Error ' + errorObj.status + ': ' + errorObj.error,
-        message: errorObj.message,
-        backdropDismiss: false,
-        buttons: [
-            {text: 'Ok'}
-        ]
-    // tslint:disable-next-line: no-shadowed-variable
-    }).then(alert => alert.present());
     }
 
-   private listErrors(messages: FieldMessage[]): string {
+    public handle500(error) {
+        console.log(error)
+        const alert = this.alertCtrl.create({
+            header: 'Error',
+            message: error.error.message,
+            backdropDismiss: false,
+            buttons: [
+                { text: 'Ok' }
+            ]
+            // tslint:disable-next-line: no-shadowed-variable
+        }).then(alert => alert.present());
+    }
+
+    public handleDefaultError(errorObj) {
+        const alert = this.alertCtrl.create({
+            header: 'Error ' + errorObj.status + ': ' + errorObj.error,
+            message: errorObj.message,
+            backdropDismiss: false,
+            buttons: [
+                { text: 'Ok' }
+            ]
+            // tslint:disable-next-line: no-shadowed-variable
+        }).then(alert => alert.present());
+    }
+
+    private listErrors(messages: FieldMessage[]): string {
         let s = '';
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < messages.length; i++) {

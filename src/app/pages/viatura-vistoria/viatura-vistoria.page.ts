@@ -79,6 +79,7 @@ export class ViaturaVistoriaPage implements OnInit {
     this.vistoria.vistoriaViaturaItensVistoria = null;
     await this.presentLoading();
     try {
+      console.log(this.vistoria)
     this.subscribeItensVistoria = this.itensVistoriaService.updateVistoria(this.vistoria)
       .subscribe(response => {
         this.loading.dismiss();
@@ -198,7 +199,7 @@ export class ViaturaVistoriaPage implements OnInit {
     // tslint:disable-next-line: no-shadowed-variable
     }).then(alert => {
       alert.present();
-      this.router.navigate(['/viatura-motorista']);
+      this.router.navigate(['/home']);
     });
     }
 
@@ -213,11 +214,7 @@ export class ViaturaVistoriaPage implements OnInit {
       // tslint:disable-next-line: no-shadowed-variable
       }).then(alert => {
         alert.present()
-        if (this.adjunto === 'false') {
-          this.router.navigate(['/viatura-motorista']);
-        } else {
-          this.router.navigate(['/adjunto']);
-        }
+          this.router.navigate(['/home']);
       });
       }
 
