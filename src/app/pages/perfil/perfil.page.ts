@@ -3,6 +3,8 @@ import { PolicialDTO } from 'src/app/models/policial.dto';
 import { StorageService } from 'src/app/services/storage.service';
 import { PolicialService } from 'src/app/services/domain/policial.service';
 import { Subscription } from 'rxjs';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-perfil',
@@ -17,7 +19,9 @@ export class PerfilPage implements OnInit {
 
   constructor(
     public storage: StorageService,
-    public policialService: PolicialService,) { }
+    public policialService: PolicialService,
+    private appVersion: AppVersion,
+    public alertCtrl: AlertController) { }
 
   ngOnInit() {
     this.getPolicial();
@@ -41,6 +45,35 @@ export class PerfilPage implements OnInit {
 
   ionViewWillLeave() {
     this.subscribeUser.unsubscribe();
+  }
+
+  versionApp() {
+    let version;
+    let name;
+    this.appVersion.getVersionNumber()
+    .then(response => {
+      version = response;
+    });
+    this.appVersion.getAppName()
+    .then(response => {
+      name = response;
+      console.log(name)
+      const alert = this.alertCtrl.create({
+        header: 'Versão',
+        message: this.listVersion(version, name),
+        backdropDismiss: false,
+        buttons: [
+            {text: 'Ok'}
+        ]
+    // tslint:disable-next-line: no-shadowed-variable
+    }).then(alert => alert.present());
+    });
+    }
+
+    private listVersion(version, name): string {
+      let s = '';
+      s = s + '<p>' + 'Nome:<strong> ' + name + '</strong>' + '<br> Versão:<strong>  ' + version + '</strong> ' +  '</p>';
+      return s;
   }
 
 }

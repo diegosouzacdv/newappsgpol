@@ -32,4 +32,5 @@ export interface PolicialDTO {
     recadastramento?: RecadastramentoDTO;
     foto?: any;
     previsaoFerias?: string;
+    siape?: string;
 }

@@ -10,6 +10,7 @@ import { StorageService } from '../services/storage.service';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { PolicialService } from '../services/domain/policial.service';
 
 @Component({
   selector: 'app-home',
@@ -24,9 +25,13 @@ export class HomePage implements OnInit {
   public versaoBD;
   private versaoSubscription: Subscription;
   loading;
+  public nomeUsuario = '';
+  private subscribeUser: Subscription;
+  public urlAtualizacao = this.storage.getAtualizacao();
 
 
   constructor(public pagesServices: PagesService,
+    public policialService: PolicialService,
     public authService: AuthService,
     public alertCtrl: AlertController,
     private appVersion: AppVersion,
@@ -41,6 +46,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.getVersao();
     this.permissaoAdjunto();
+    this.resolverUser();
 
     this.pagesServices.getListingDataSource()
       .subscribe(response => {
@@ -48,6 +54,15 @@ export class HomePage implements OnInit {
         console.log(this.pages)
       })
 
+  }
+
+  public resolverUser() {
+    this.subscribeUser = this.policialService.usuarioLogado()
+    .subscribe((response) => {
+      console.log(response)
+      this.nomeUsuario = response.nomeGuerra.substring(0,1);
+      this.nomeUsuario = this.nomeUsuario + this.nomeUsuario;
+    });
   }
 
   public permissaoAdjunto() {
@@ -64,6 +79,19 @@ export class HomePage implements OnInit {
 
       }
     })
+  }
+
+  downloadatualiza() {
+    this.fileOpener.open(this.urlAtualizacao, 'application/vnd.android.package-archive')
+      .then(sucess => {
+        this.storage.setAtualizacao(null);
+        this.authService.logout();
+      }, (error) => {
+        this.storage.setAtualizacao(null);
+        this.urlAtualizacao = null;
+        this.erroAtualizacao();
+      });
+
   }
 
   getVersao() {

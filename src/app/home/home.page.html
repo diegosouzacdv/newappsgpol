@@ -1,9 +1,9 @@
 <ion-content>
   <ion-card class="welcome-card">
     <ion-toolbar color="primary" mode="ios">
-      <ion-buttons slot="start">
+      <ion-buttons slot="start" [routerLink]="['/perfil']" routerDirection="forward">
         <div class="perfil">
-          <p class="p">dd</p>
+          <p class="p">{{nomeUsuario}}</p>
         </div>
       </ion-buttons>
       <ion-buttons slot="end" (click)="logout()">
