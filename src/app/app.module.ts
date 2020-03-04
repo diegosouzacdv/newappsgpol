@@ -14,9 +14,10 @@ import { AppComponent } from './app.component';
 import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
 import { ErrorInterceptorProvider } from './interceptors/error-interceptor';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { HomePipe } from './pipes/home.pipe';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HomePipe],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
   providers: [

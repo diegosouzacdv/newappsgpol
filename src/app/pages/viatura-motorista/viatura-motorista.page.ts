@@ -148,7 +148,7 @@ export class ViaturaMotoristaPage {
   async semViatura(placa: string) {
     const alert = await this.alertController.create({
       subHeader: 'Viatura não encontrada',
-      message: 'O SGF não possui viatura com a placa ' + placa + '!',
+      message: 'O SGF não possui viatura com a placa <strong>' + placa.toUpperCase() + '</strong>!',
       buttons: ['OK']
     });
     await alert.present();

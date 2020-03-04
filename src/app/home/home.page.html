@@ -30,9 +30,9 @@
   <div class="content-body">
     <ion-row>
       <ion-col size="4">
-        <div  class="cards" (click)="changePage('pessoal')">
-          <div class="conteudo ion-text-center">
-            <div class="icon ion-text-center">
+        <div  [ngClass]= "{'cards': !classes.pessoal, 'card-click': classes.pessoal}" (click)="changePage('pessoal')">
+          <div [ngClass]= "{'conteudo': !classes.pessoal, 'conteudo-click': classes.pessoal}" class="ion-text-center">
+            <div [ngClass]= "{'icon': !classes.pessoal, 'icon-click': classes.pessoal}" class="ion-text-center">
               <ion-icon name="person"></ion-icon><br>
             </div>
               <ion-label>Pessoal</ion-label>
@@ -40,9 +40,9 @@
         </div>
       </ion-col>
       <ion-col size="4">
-        <div  class="cards" (click)="changePage('sgf')">
-          <div class="conteudo ion-text-center">
-            <div class="icon ion-text-center">
+        <div [ngClass]= "{'cards': !classes.sgf, 'card-click': classes.sgf}" (click)="changePage('sgf')">
+          <div [ngClass]= "{'conteudo': !classes.sgf, 'conteudo-click': classes.sgf}" class="ion-text-center">
+            <div [ngClass]= "{'icon': !classes.sgf, 'icon-click': classes.sgf}" class="ion-text-center">
               <ion-icon name="car"></ion-icon><br>
             </div>
               <ion-label>SGF</ion-label>
@@ -50,9 +50,9 @@
         </div>
       </ion-col>
       <ion-col size="4">
-        <div class="cards" (click)="changePage('saude')">
-          <div class="conteudo ion-text-center">
-            <div class="icon ion-text-center">
+        <div [ngClass]= "{'cards': !classes.saude, 'card-click': classes.saude}" (click)="changePage('saude')">
+          <div [ngClass]= "{'conteudo': !classes.saude, 'conteudo-click': classes.saude}" class="ion-text-center">
+            <div [ngClass]= "{'icon': !classes.saude, 'icon-click': classes.saude}" class="ion-text-center">
               <ion-icon name="medkit"></ion-icon><br>
             </div>
               <ion-label>Saúde</ion-label>

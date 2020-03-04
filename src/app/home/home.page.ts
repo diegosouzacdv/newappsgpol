@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ɵConsole } from '@angular/core';
 import { Pages } from '../models/pages';
 import { PagesService } from '../services/page.service';
 import { AuthService } from '../services/auth.service';
@@ -28,6 +28,11 @@ export class HomePage implements OnInit {
   public nomeUsuario = '';
   private subscribeUser: Subscription;
   public urlAtualizacao = this.storage.getAtualizacao();
+  public classes = {
+    pessoal: false,
+    sgf: false,
+    saude: false
+  }
 
 
   constructor(public pagesServices: PagesService,
@@ -217,6 +222,7 @@ export class HomePage implements OnInit {
 
 
   public changePage(pagina: string) {
+    this.mudarClasse(pagina);
     this.pages.page.forEach((element) => {
       if (element.nome === pagina) {
         element.ativo = true;
@@ -224,6 +230,27 @@ export class HomePage implements OnInit {
         element.ativo = false;
       }
     });
+  }
+
+  public mudarClasse(pagina: string) {
+    console.log(pagina)
+    if (pagina == 'pessoal') {
+      this.classes.pessoal = !this.classes.pessoal;
+      this.classes.sgf = false;
+      this.classes.saude = false;
+    }
+
+    if (pagina == 'sgf') {
+      this.classes.sgf = !this.classes.sgf;
+      this.classes.pessoal = false;
+      this.classes.saude = false;
+    }
+
+    if (pagina == 'saude') {
+      this.classes.saude = !this.classes.saude;
+      this.classes.pessoal = false;
+      this.classes.sgf = false;
+    }
   }
 
 
