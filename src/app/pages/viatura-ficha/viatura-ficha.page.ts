@@ -64,7 +64,6 @@ export class ViaturaFichaPage implements OnInit {
         }
       });
     }
-    console.log(this.temVistoriaViatura)
   }
 
   async naoPodeAbrirVistoria() {

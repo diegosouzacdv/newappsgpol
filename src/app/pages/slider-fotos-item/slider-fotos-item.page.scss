@@ -1,0 +1,48 @@
+:host {
+    --page-margin: 10px;
+    --page-background: var(--ion-color-dark);
+  
+    --page-amenity-vertical-gutter: 2px;
+    --page-amenity-horizontal-gutter: 4px;
+    --page-swiper-pagination-space: 30px;
+    --page-color: #d9453a;
+  }
+
+
+.slider-row {
+    .details-slides {
+      --bullet-background: var(--ion-color-dark-tint);
+      --bullet-background-active: var(--ion-color-dark-tint);
+
+      height: 100%;
+      width: 100%;
+
+      .slide-inner-row {
+        height: 100%;
+        width: 100%;
+        padding: 0px;
+        // .swiper-pagination space
+        padding-bottom: var(--page-swiper-pagination-space);
+
+        .bookmark-icon {
+          position: absolute;
+          right: var(--page-margin);
+          top: var(--page-margin);
+          font-size: 32px;
+          background: var(--ion-color-dark);
+          border-radius: 10px;
+          opacity: 0.8; 
+          color: #fff;
+        }
+      }
+    }
+
+    .showcase-image {
+      width: 100%;
+
+      &.centered-image {
+        background-size: auto;
+        background-position: center;
+      }
+    }
+  }

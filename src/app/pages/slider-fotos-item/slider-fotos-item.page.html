@@ -1,0 +1,27 @@
+<ion-row class="slider-row">
+  <ion-slides class="details-slides" pager="true" [options]="slidesOptions">
+    <ion-slide *ngIf="itemVistoria.fotos.length === 0; else slideFtos">
+      <ion-row class="slide-inner-row">
+        <app-image-shell [mode]="'cover'" animation="spinner" class="showcase-image" [src]="fotoCapa">
+          <app-aspect-ratio [ratio]="{w:64, h:50}">
+            <ion-icon class="bookmark-icon" name="camera" md="md-camera" (click)="getCameraPicture()"></ion-icon>
+          </app-aspect-ratio>
+        </app-image-shell>
+      </ion-row>
+    </ion-slide>
+  </ion-slides>
+</ion-row>
+<ion-button (click)="getCameraPicture()" expand="block" fill="solid" size="small">
+  nova foto
+</ion-button>
+<ng-template #slideFtos>
+  <ion-slide *ngFor="let foto of slideFoto">
+    <ion-row class="slide-inner-row">
+      <app-image-shell [mode]="'cover'" animation="spinner" class="showcase-image" [src]="foto" (click)="abrirFotoPerfil(foto ? foto : 'assets/imgs/404.png', foto)">
+        <app-aspect-ratio [ratio]="{w:64, h:50}">
+          <ion-icon class="bookmark-icon" name="camera" md="md-camera" (click)="getCameraPicture()"></ion-icon>
+        </app-aspect-ratio>
+      </app-image-shell>
+    </ion-row>
+  </ion-slide>
+</ng-template>

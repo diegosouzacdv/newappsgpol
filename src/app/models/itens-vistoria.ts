@@ -3,4 +3,5 @@ export interface ItensVistoria {
     tipoItem?: number,
     vistoriaOk?: number,
     nome?: string,
+    fotos?: string[]
 }

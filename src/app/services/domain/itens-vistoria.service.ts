@@ -5,6 +5,7 @@ import { API_CONFIG } from 'src/app/config/api.config';
 import { VistoriaVistoriaDTO } from 'src/app/models/vistoria-viatura.dto';
 import { ItensVistoria } from 'src/app/models/itens-vistoria';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { ImageUtilService } from './image-util.service';
 
 @Injectable({
     providedIn: 'root',
@@ -14,7 +15,8 @@ export class ItensVistoriaService {
     private id
 
     constructor(public http: HttpClient,
-                private geolocation: Geolocation) {
+                private geolocation: Geolocation,
+                private imageUtilService: ImageUtilService) {
 
     }
 
@@ -63,9 +65,21 @@ export class ItensVistoriaService {
 
     inserirItem(idItem: number) {
         const body = {}
-        return this.http.put<VistoriaVistoriaDTO>(
+        return this.http.put<ItensVistoria>(
             `${API_CONFIG.baseUrl}/viatura/vistoria/item/${idItem}`, body);
     }
+
+    public getFotos(URI): Observable<any> {
+        let url = `${API_CONFIG.baseUrl}${URI}`;
+        return this.http.get(url, { responseType: 'blob' });
+    }
+
+    public enviarFoto(file, id): Observable<any> {
+        let pictureBlob = this.imageUtilService.dataUriToBlob(file);
+        let formData: FormData = new FormData();
+        formData.set('file', pictureBlob, 'file.png');
+        return this.http.post<any>(`${API_CONFIG.baseUrl}/imagens/item/foto/${id}`, formData);
+      }
 
 
 }

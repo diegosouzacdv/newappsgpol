@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -31,196 +31,196 @@
 
 //global styles
 * {
-    font-family: 'PMDF'
+  font-family: "PMDF";
+}
+
+hr {
+  background: var(--ion-color-medium);
+}
+
+// Menu user profile
+.user-avatar {
+  width: 68px;
+  height: 68px;
+  display: inline;
+  border-radius: 50%;
+  //box-shadow: inset 0 0 10rem rgba(0,0,0,.25), 0 0 4rem rgba(82, 151, 255, 0.349);
+  img {
+    border-radius: 10%;
   }
-  
-  // Menu user profile
+}
+
+.logo-viatura {
+  width: 68px;
+  height: 68px;
+  display: inline-block;
+  border-radius: 50%;
+  img {
+    border-radius: 10%;
+  }
+}
+
+.user-profile {
   .user-avatar {
     width: 68px;
     height: 68px;
     display: inline;
+    padding-top: 0px;
     border-radius: 50%;
-    //box-shadow: inset 0 0 10rem rgba(0,0,0,.25), 0 0 4rem rgba(82, 151, 255, 0.349);
+    box-shadow: inset 0 0 10rem rgba(0, 0, 0, 0.25), 0 0 4rem rgba(82, 151, 255, 0.349);
     img {
       border-radius: 10%;
     }
   }
-
-  .logo-viatura {
-    width: 68px;
-    height: 68px;
-    display: inline-block;
-    border-radius: 50%;
-    img {
-      border-radius: 10%;
-    }
+  .toolbar-background {
+    background-image: linear-gradient(180deg, --ion-color-primary, --ion-color-dark);
   }
 
-  .user-profile {
-    .user-avatar {
-      width: 68px;
-      height: 68px;
-      display: inline;
-      padding-top: 0px;
-      border-radius: 50%;
-      box-shadow: inset 0 0 10rem rgba(0,0,0,.25), 0 0 4rem rgba(82, 151, 255, 0.349);
-      img {
-        border-radius: 10%;
-      }
-    }
-    .toolbar-background {
-      background-image: linear-gradient(180deg, --ion-color-primary, --ion-color-dark);
-    }
-  
-    .other-data {
-      .column {
-        &:first-child {
-          border-right: 1px solid rgba(36, 50, 157, .25);
-        }
+  .other-data {
+    .column {
+      &:first-child {
+        border-right: 1px solid rgba(36, 50, 157, 0.25);
       }
     }
   }
+}
 
-  .perfil {
-    margin: 5px;
-    padding: 0px;
-    width: 35px;
-    height: 35px;
-    background: #ffffff;
-    color: var(--ion-color-primary);
-    border-radius: 50%;
-  
-    p.p {
-      position: relative;
-      bottom: 40%;
-      text-transform: uppercase;
-      text-align: center;
-      font-weight: bold;
-      font-size: 20px;
-    }
-  }
-  
-  .welcome-card {
-    height: 30%;
-    padding: 0px;
-    margin: 0px 0px 0px 0px;
-    background-color: var(--ion-color-primary);
-    color: var(--ion-color-light);
-    border-radius: 0px 0px 0px 0px;
-  }
-  
-  .card-update {
-    margin-bottom: 50px;
-  }
-  
-  .content-body {
-    display: block;
+.perfil {
+  margin: 5px;
+  padding: 0px;
+  width: 35px;
+  height: 35px;
+  background: #ffffff;
+  color: var(--ion-color-primary);
+  border-radius: 50%;
+
+  p.p {
     position: relative;
-    top: -50px;
-    background: transparent;
-  
-    ion-col {
-      margin: 0px;
-    }
-  
-    .cards {
-      position: relative;
-      margin-left: auto;
-      margin-right: auto;
-      background: #ffffff;
-      height: 100px;
-      width: auto;
-      border-radius: 10px;
-      color: #000;
-      -webkit-box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
-      -moz-box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
-      box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
-    }
-  
-    // .cards:hover {
-    //   transform: scale(1.05);
-  
-    //   .icon {
-    //     background-color: rgb(54, 182, 126);
-    //   }
-    //   ion-icon {
-    //     color: #ffffff;
-    //   }
-  
-    //   .conteudo {
-    //     ion-label {
-    //       color: var(--ion-color-primary);
-    //       font-weight: bold;
-    //       font-size: 13px;
-    //       text-transform: uppercase;
-    //     }
-    //   }
-    // }
-  
-    // .cards:active {
-    //   transform: scale(1.05);
-  
-    //   .icon {
-    //     background-color: rgb(54, 182, 126);
-    //   }
-    //   ion-icon {
-    //     color: #ffffff;
-    //   }
-  
-    //   .conteudo {
-    //     ion-label {
-    //       color: var(--ion-color-primary);
-    //       font-weight: bold;
-    //       font-size: 13px;
-    //       text-transform: uppercase;
-    //     }
-    //   }
-    // }
-  
-    .conteudo {
-      position: relative;
-      color: #202020;
-      top: 16%;
-      margin-left: auto;
-      margin-right: auto;
-  
-      ion-label {
-        font-size: 13px;
-      }
-    }
-  
-    .icon {
-      margin-left: auto;
-      margin-right: auto;
-      position: relative;
-      width: 50px;
-      height: 50px;
-      background: var(--page-background);
-      border-radius: 50%;
-      ion-icon {
-        position: relative;
-        top: 8%;
-        font-size: 40px;
-        color: var(--ion-color-primary);
-      }
-    }
+    bottom: 35%;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
   }
+}
 
-  .cardAll {
+.welcome-card {
+  height: 30%;
+  padding: 0px;
+  margin: 0px 0px 0px 0px;
+  background-color: var(--ion-color-primary);
+  color: var(--ion-color-light);
+  border-radius: 0px 0px 0px 0px;
+}
+
+.card-update {
+  margin-bottom: 50px;
+}
+
+.content-body {
+  display: block;
+  position: relative;
+  top: -50px;
+  background: transparent;
+
+  ion-col {
     margin: 0px;
-    border-radius: 0px;
-    background: var(--ion-color-primary);
-    color: white;
   }
 
-  .card-children {
-    background: white;
+  .cards {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    background: #ffffff;
+    height: 100px;
+    width: auto;
+    border-radius: 10px;
+    color: #000;
+    -webkit-box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
+    -moz-box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
+    box-shadow: 3px 3px 3px rgba(50, 50, 50, 0.3);
   }
 
-  
-  hr {
+  .cards:hover {
+    transform: scale(1.05);
+
+    .icon {
+      background-color: rgb(54, 182, 126);
+    }
+    ion-icon {
+      color: #ffffff;
+    }
+
+    .conteudo {
+      ion-label {
+        color: var(--ion-color-primary);
+        font-weight: bold;
+        font-size: 13px;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .cards:active {
+    transform: scale(1.05);
+
+    .icon {
+      background-color: rgb(54, 182, 126);
+    }
+    ion-icon {
+      color: #ffffff;
+    }
+
+    .conteudo {
+      ion-label {
+        color: var(--ion-color-primary);
+        font-weight: bold;
+        font-size: 13px;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .conteudo {
+    position: relative;
+    color: #202020;
+    top: 16%;
+    margin-left: auto;
+    margin-right: auto;
+
+    ion-label {
+      font-size: 13px;
+    }
+  }
+
+  .icon {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    width: 50px;
+    height: 50px;
     background: var(--page-background);
+    border-radius: 50%;
+    ion-icon {
+      position: relative;
+      top: 8%;
+      font-size: 40px;
+      color: var(--ion-color-primary);
+    }
   }
-  
-  
-  
+}
+
+.cardAll {
+  margin: 0px;
+  border-radius: 0px;
+  background: var(--ion-color-primary);
+  color: white;
+}
+
+.card-children {
+  background: white;
+}
+
+hr {
+  background: var(--page-background);
+}

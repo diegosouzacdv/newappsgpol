@@ -26,6 +26,7 @@ export class ViaturaVistoriaPage implements OnInit {
   adjunto = 'false';
   loading: any;
   situacaoViatura;
+  fotosSlides: string = '';
   subscribeVistoria: Subscription;
   subscribeInvalidarVistoria: Subscription;
   subscribeSalvarAdjunto: Subscription;
@@ -94,7 +95,6 @@ export class ViaturaVistoriaPage implements OnInit {
   public resolverVistoria() {
     this.subscribeBuscarVistoria  = this.route.data.subscribe((resolvedRouteData) => {
       this.vistoria = resolvedRouteData.vistoria;
-      console.log(this.vistoria)
     })
   }
 
@@ -106,7 +106,6 @@ export class ViaturaVistoriaPage implements OnInit {
   }
 
   public getVistoria() {
-    console.log('entrando')
     this.subscribeBuscarVistoria = this.itensVistoriaService.buscarVistoria(this.idViatura)
       .subscribe(response => {
         console.log(response)
@@ -114,9 +113,27 @@ export class ViaturaVistoriaPage implements OnInit {
         });
   }
 
+  public abrirSlidesFotos(nome: string) {
+    console.log(this.fotosSlides)
+    if (this.fotosSlides == '') {
+      this.fotosSlides = nome;
+    } else if (this.fotosSlides == nome){
+        this.fotosSlides = '';
+    } else {
+      this.fotosSlides = nome;
+    }
+  }
+
   recebeItem(item: ItensVistoria ) {
+    console.log(item)
     this.subscribeInserirItemVistoria = this.itensVistoriaService.inserirItem(item.id)
       .subscribe(response => {
+        this.fotosSlides = '';
+        this.vistoria.vistoriaViaturaItensVistoria.forEach(element => {
+          if (element.id == item.id) {
+            element.vistoriaOk = response.vistoriaOk;
+          }
+        });
       });
   }
 
@@ -126,7 +143,7 @@ export class ViaturaVistoriaPage implements OnInit {
     try {
       this.subscribeVistoria = this.itensVistoriaService.inserirVistoria(parseInt(idViatura))
         .subscribe(response => {
-          console.log('itens Inseridos')
+          console.log(response)
           this.getVistoria();
           this.loading.dismiss();
         }, (errors => {

@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ViaturaVistoriaPageRoutingModule } from './viatura-vistoria-routing.module';
 
 import { ViaturaVistoriaPage } from './viatura-vistoria.page';
+import { SliderFotosItemPageModule } from '../slider-fotos-item/slider-fotos-item.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ViaturaVistoriaPageRoutingModule
+    ViaturaVistoriaPageRoutingModule,
+    SliderFotosItemPageModule
   ],
   declarations: [ViaturaVistoriaPage]
 })

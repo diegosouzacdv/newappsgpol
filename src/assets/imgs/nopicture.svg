@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     height="200px" width="200px"
+     version="1.1"
+     viewBox="-190 -200 500 500"
+     font-family="Bitstream Vera Sans,Liberation Sans, Arial, sans-serif"
+     font-size="72"
+     text-anchor="middle" >
+  
+  <circle stroke="#051821" stroke-width="10" r="280" fill="#000066"/>
+  <text style="fill:#d1d2d7">
+    <tspan x="0" y="-8">INSIRA</tspan><tspan x="0" y="80">IMAGEM</tspan>
+  </text>
+</svg>

@@ -32,7 +32,8 @@
     </ion-item>
   </ion-card>
   <div>
-    <ion-button disabled expand="block" *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA" size="small"
+    <ion-button disabled expand="block"
+      *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA" size="small"
       [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'">{{viatura?.status}}
     </ion-button>
     <ion-button disabled expand="block" *ngIf="viatura?.status === situacaoViatura.CAUTELADA" size="small" slot="end"
@@ -42,16 +43,24 @@
   </div>
   <ion-list>
     <ion-card>
-      <ion-item >
+      <ion-item>
         <ion-label class="ion-text-wrap">ATENÇÃO: selecione se existerem alterações!</ion-label>
       </ion-item>
-      <ion-item *ngFor="let item of vistoria?.vistoriaViaturaItensVistoria">
-        <ion-label class="ion-text-wrap">
-          <p>{{item.nome}}</p>
-        </ion-label>
-        <ion-toggle [disabled]="adjunto === 'true'" (ionChange)="recebeItem(item)" [checked]="item.vistoriaOk === 1"
-          color="danger"></ion-toggle>
-      </ion-item>
+      <div *ngFor="let item of vistoria?.vistoriaViaturaItensVistoria">
+        <ion-item lines="none">
+          <ion-label class="ion-text-wrap">
+            <p>{{item.nome}}</p>
+          </ion-label>
+          <ion-toggle [disabled]="adjunto === 'true'" (ionChange)="recebeItem(item)" [checked]="item.vistoriaOk === 1"
+            color="danger"></ion-toggle>
+          <ion-button *ngIf="item.vistoriaOk === 1" expand="block" size="small" fill="outline" color="secondary" (click)="abrirSlidesFotos(item.nome)">Fotos
+          </ion-button>
+        </ion-item>
+        <div *ngIf="fotosSlides == item.nome">
+          <app-slider-fotos-item [itemVistoria]="item"></app-slider-fotos-item>
+        </div>
+        <hr>
+      </div>
     </ion-card>
     <ion-card>
       <ion-item>
@@ -70,8 +79,7 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">Percurso: </ion-label>
-        <ion-textarea [disabled]="adjunto === 'true'"
-          [(ngModel)]="vistoria.percurso"></ion-textarea>
+        <ion-textarea [disabled]="adjunto === 'true'" [(ngModel)]="vistoria.percurso"></ion-textarea>
       </ion-item>
       <ion-item>
         <ion-label position="floating">1ª Observação do Motorista: </ion-label>
@@ -98,8 +106,8 @@
           <ion-icon slot="end" name="ios-alert"></ion-icon>
           Excluir
         </ion-button>
-        <ion-button size="small" *ngIf="adjunto !== 'true' && viatura?.status !== situacaoViatura.CAUTELADA" slot="end" color="danger"
-          (click)="invalidarVistoria(vistoria)">
+        <ion-button size="small" *ngIf="adjunto !== 'true' && viatura?.status !== situacaoViatura.CAUTELADA" slot="end"
+          color="danger" (click)="invalidarVistoria(vistoria)">
           <ion-icon slot="end" name="ios-alert"></ion-icon>
           Excluir
         </ion-button>
