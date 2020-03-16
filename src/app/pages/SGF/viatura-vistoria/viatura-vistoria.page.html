@@ -41,32 +41,44 @@
     <ion-button disabled expand="block" *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small" slot="end"
       color="danger">{{viatura?.status}}</ion-button>
   </div>
-  <ion-list>
     <ion-card>
       <ion-item>
         <ion-label class="ion-text-wrap">ATENÇÃO: selecione se existerem alterações!</ion-label>
+        <ion-button expand="block" fill="clear" shape="round" *ngIf="mostrarItens; else mostrar"
+          (click)="mostrarItens = !mostrarItens">
+          Esconder itens
+        </ion-button>
       </ion-item>
-      <div *ngFor="let item of vistoria?.vistoriaViaturaItensVistoria">
-        <ion-item lines="none">
-          <ion-label class="ion-text-wrap">
-            <p>{{item.nome}}</p>
-          </ion-label>
-          <ion-toggle [disabled]="adjunto === 'true'" (ionChange)="recebeItem(item)" [checked]="item.vistoriaOk === 1"
-            color="danger"></ion-toggle>
-          <!-- <ion-button *ngIf="item.vistoriaOk === 1" expand="block" size="small" fill="outline" color="secondary" (click)="abrirSlidesFotos(item.nome)">Fotos
+      <ng-template #mostrar>
+        <ion-button expand="block" fill="clear" shape="round" (click)="mostrarItens = !mostrarItens">
+          Mostrar itens
+        </ion-button>
+      </ng-template>
+
+      <div *ngIf="mostrarItens">
+        <div *ngFor="let item of vistoria?.vistoriaViaturaItensVistoria">
+          <ion-item >
+            <ion-label class="ion-text-wrap">
+              <p>{{item.nome}}</p>
+            </ion-label>
+            <ion-toggle [disabled]="adjunto === 'true'" (ionChange)="recebeItem(item)" [checked]="item.vistoriaOk === 1"
+              color="danger">
+            </ion-toggle>
+            <!-- <ion-button *ngIf="item.vistoriaOk === 1" expand="block" size="small" fill="outline" color="secondary" (click)="abrirSlidesFotos(item.nome)">Fotos
           </ion-button> -->
-        </ion-item>
-        <div *ngIf="fotosSlides == item.nome">
-          <app-slider-fotos-item [itemVistoria]="item"></app-slider-fotos-item>
+          </ion-item>
+          <div *ngIf="fotosSlides == item.nome">
+            <app-slider-fotos-item [itemVistoria]="item"></app-slider-fotos-item>
+          </div>
+          <hr>
         </div>
-        <hr>
       </div>
     </ion-card>
     <ion-card>
       <ion-item>
         <ion-label>ODÔMETRO KM</ion-label>
-        <ion-input [disabled]="adjunto === 'true'" type="number" placeholder="Km" [value]="vistoria?.odometro"
-          name="odometro" text-right [(ngModel)]="vistoria.odometro" clearInput="true"></ion-input>
+        <ion-input type="number" placeholder="Km" [value]="vistoria?.odometro" name="odometro" text-right
+          [(ngModel)]="vistoria.odometro" clearInput="true"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label> COMBUSTÍVEL </ion-label>
@@ -122,5 +134,4 @@
         </ion-button>
       </ion-toolbar>
     </ion-card>
-  </ion-list>
 </ion-content>

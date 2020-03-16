@@ -27,6 +27,7 @@ export class ViaturaVistoriaPage implements OnInit {
   loading: any;
   situacaoViatura;
   fotosSlides: string = '';
+  mostrarItens: boolean = true;
   subscribeVistoria: Subscription;
   subscribeInvalidarVistoria: Subscription;
   subscribeSalvarAdjunto: Subscription;
