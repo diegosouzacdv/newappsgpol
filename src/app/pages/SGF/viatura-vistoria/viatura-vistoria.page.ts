@@ -114,7 +114,6 @@ export class ViaturaVistoriaPage implements OnInit {
   }
 
   public abrirSlidesFotos(nome: string) {
-    console.log(this.fotosSlides)
     if (this.fotosSlides == '') {
       this.fotosSlides = nome;
     } else if (this.fotosSlides == nome){

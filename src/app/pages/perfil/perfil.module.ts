@@ -9,7 +9,7 @@ import { PerfilPageRoutingModule } from './perfil-routing.module';
 import { PerfilPage } from './perfil.page';
 import { ResolverUser } from 'src/app/resolvers/ResolverUser';
 import { ShellModule } from 'src/app/shell/shell.module';
-import { DadosBasicoPolicialModule } from '../dados-basico-policial/dados-basico-policial.module';
+import { DadosBasicoPolicialModule } from '../../Components/dados-basico-policial/dados-basico-policial.module';
 
 @NgModule({
   imports: [

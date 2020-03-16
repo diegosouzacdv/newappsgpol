@@ -53,8 +53,8 @@
           </ion-label>
           <ion-toggle [disabled]="adjunto === 'true'" (ionChange)="recebeItem(item)" [checked]="item.vistoriaOk === 1"
             color="danger"></ion-toggle>
-          <ion-button *ngIf="item.vistoriaOk === 1" expand="block" size="small" fill="outline" color="secondary" (click)="abrirSlidesFotos(item.nome)">Fotos
-          </ion-button>
+          <!-- <ion-button *ngIf="item.vistoriaOk === 1" expand="block" size="small" fill="outline" color="secondary" (click)="abrirSlidesFotos(item.nome)">Fotos
+          </ion-button> -->
         </ion-item>
         <div *ngIf="fotosSlides == item.nome">
           <app-slider-fotos-item [itemVistoria]="item"></app-slider-fotos-item>

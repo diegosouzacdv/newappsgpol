@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab3Page } from './tab3.page';
-import { FichaPolicialPageModule } from '../pages/ficha-policial/ficha-policial.module';
+import { FichaPolicialPageModule } from '../pages/USUARIO/ficha-policial/ficha-policial.module';
 
 @NgModule({
   imports: [

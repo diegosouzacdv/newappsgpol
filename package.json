@@ -34,6 +34,7 @@
     "@ionic/angular": "^4.7.1",
     "com-sarriaroman-photoviewer": "^1.2.4",
     "cordova-android": "8.1.0",
+    "cordova-browser": "6.0.0",
     "cordova-plugin-appminimize": "^1.0.1",
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-file-opener2": "^3.0.0",
@@ -99,7 +100,8 @@
       "com-sarriaroman-photoviewer": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "browser"
     ]
   }
 }

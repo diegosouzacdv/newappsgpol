@@ -4,8 +4,9 @@ import { Subscription } from 'rxjs';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
 import { API_CONFIG } from 'src/app/config/api.config';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { PhotoViewer, PhotoViewerOptions } from '@ionic-native/photo-viewer/ngx';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-slider-fotos-item',
@@ -17,7 +18,7 @@ export class SliderFotosItemPage implements OnInit {
   @Input() itemVistoria: ItensVistoria;
   private subscribeGetFoto: Subscription;
   public fotoCapa = './assets/imgs/nopicture.svg';
-  public slideFoto: string[] = [];
+  public slideFoto: any[] = [];
   public picture = '';
   loading: any;
   private subscribeSalvarFoto: Subscription;
@@ -30,28 +31,44 @@ export class SliderFotosItemPage implements OnInit {
   constructor(private itensVistoriaService: ItensVistoriaService,
               private camera: Camera,
               private loadingController: LoadingController,
-              private photoViewer: PhotoViewer) { 
+              private photoViewer: PhotoViewer,
+              public toastController: ToastController,
+              public sanitizer: DomSanitizer) { 
     this.fotoCapa = './assets/imgs/nopicture.svg';
   }
 
   ngOnInit() {
     console.log(this.itemVistoria)
-      this.getFotosImovel(this.itemVistoria.fotos);
+      this.getFotosItens(this.itemVistoria.fotos);
   }
 
-  abrirFotoPerfil(imageUrl, foto) {
-    this.photoViewer.show(imageUrl, `Foto do item: ${foto.nome}`, {share: true});
+  abrirFotoPerfil(imageUrl) {
+    console.log(imageUrl)
+    this.photoViewer.show(imageUrl, `Foto do item: ${this.itemVistoria.nome}`, {share: true});
   }
 
-  getFotosImovel(url) {
-    url.forEach(element => {
+   getFotosItens(url) {
+    url.forEach(async element => {
     this.subscribeGetFoto =  this.itensVistoriaService.getFotos(element)
         .subscribe(response => {
-          let url = `${API_CONFIG.baseUrl}${element}`;
-          this.slideFoto.push(url);
+            console.log(response)
+            this.blobToDataURL(response).then(dataUrl => {
+              let str: string = dataUrl as string;
+              this.slideFoto.push(this.sanitizer.bypassSecurityTrustUrl(str))
+              console.log(this.slideFoto[0].changingThisBreaksApplicationSecurity)
+            })
+        }, error => {
         });
-    });
-    console.log(this.slideFoto)
+      });
+  }
+
+  public blobToDataURL(blob) {
+    return new Promise((fulfill, reject) => {
+      let reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = (e) => fulfill(reader.result);
+      reader.readAsDataURL(blob);
+    })
   }
 
   public getCameraPicture() {
@@ -77,12 +94,13 @@ export class SliderFotosItemPage implements OnInit {
     try {
    this.subscribeSalvarFoto = this.itensVistoriaService.enviarFoto(this.picture, this.itemVistoria.id)
       .subscribe(response => {
-        this.slideFoto.unshift(this.picture);
+        this.slideFoto.unshift(this.sanitizer.bypassSecurityTrustUrl(this.picture));
+        this.slideFoto = [...this.slideFoto, this.sanitizer.bypassSecurityTrustUrl(this.picture)]
         console.log(this.slideFoto)
         this.picture = null;
         this.loading.dismiss();
 
-      }, error => {
+      }, error => {            
         this.loading.dismiss();
       });
     } finally{}

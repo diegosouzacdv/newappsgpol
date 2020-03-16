@@ -8,7 +8,7 @@ import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
 import { PessoalPageRoutingModule } from '../pages/menu/pessoal/pessoal-routing.module';
-import { DadosBasicoPolicialModule } from '../pages/dados-basico-policial/dados-basico-policial.module';
+import { DadosBasicoPolicialModule } from '../Components/dados-basico-policial/dados-basico-policial.module';
 import { SgfPageRoutingModule } from '../pages/menu/sgf/sgf-routing.module';
 import { SaudePageRoutingModule } from '../pages/menu/saude/saude-routing.module';
 

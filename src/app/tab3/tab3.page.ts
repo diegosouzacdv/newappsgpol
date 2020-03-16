@@ -6,7 +6,7 @@ import { API_CONFIG } from '../config/api.config';
 import { StorageService } from '../services/storage.service';
 import { PolicialService } from '../services/domain/policial.service';
 import { PolicialDTO } from '../models/policial.dto';
-import { FichaPolicialPage } from '../pages/ficha-policial/ficha-policial.page';
+import { FichaPolicialPage } from '../pages/USUARIO/ficha-policial/ficha-policial.page';
 import { Subscription } from 'rxjs';
 
 @Component({

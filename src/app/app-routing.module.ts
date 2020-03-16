@@ -19,15 +19,15 @@ const routes: Routes = [
   },
   {
     path: 'viatura-ficha/:id/:adjunto',
-    loadChildren: () => import('./pages/viatura-ficha/viatura-ficha.module').then( m => m.ViaturaFichaPageModule)
+    loadChildren: () => import('./pages/SGF/viatura-ficha/viatura-ficha.module').then( m => m.ViaturaFichaPageModule)
   },
   {
     path: 'vistoria/:id/:temVistoria/:adjunto',
-    loadChildren: () => import('./pages/viatura-vistoria/viatura-vistoria.module').then( m => m.ViaturaVistoriaPageModule)
+    loadChildren: () => import('./pages/SGF/viatura-vistoria/viatura-vistoria.module').then( m => m.ViaturaVistoriaPageModule)
   },
   {
     path: 'adjunto',
-    loadChildren: () => import('./pages/adjunto/adjunto.module').then( m => m.AdjuntoPageModule), canActivateChild: [AuthorizationGuard]
+    loadChildren: () => import('./pages/SGF/adjunto/adjunto.module').then( m => m.AdjuntoPageModule), canActivateChild: [AuthorizationGuard]
   },
   {
     path: 'home',
@@ -35,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'viatura-motorista',
-    loadChildren: () => import('./pages/viatura-motorista/viatura-motorista.module').then( m => m.ViaturaMotoristaPageModule)
+    loadChildren: () => import('./pages/SGF/viatura-motorista/viatura-motorista.module').then( m => m.ViaturaMotoristaPageModule)
   },
   {
     path: 'accessdenied',

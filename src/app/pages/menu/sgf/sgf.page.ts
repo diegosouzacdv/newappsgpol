@@ -21,4 +21,8 @@ export class SgfPage implements OnInit {
     this.navCtrl.navigateForward([`/adjunto`]);
   }
 
+  public routeEntradaSaida() {
+    this.navCtrl.navigateForward([`/adjunto`]);
+  }
+
 }

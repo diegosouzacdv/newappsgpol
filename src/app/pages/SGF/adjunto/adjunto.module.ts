@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AdjuntoPageRoutingModule } from './adjunto-routing.module';
 
 import { AdjuntoPage } from './adjunto.page';
-import { DadosBasicoPolicialModule } from '../dados-basico-policial/dados-basico-policial.module';
+import { DadosBasicoPolicialModule } from '../../../Components/dados-basico-policial/dados-basico-policial.module';
 import { ShellModule } from 'src/app/shell/shell.module';
 
 @NgModule({

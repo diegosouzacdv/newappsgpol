@@ -7,7 +7,7 @@ import { ViaturaMotoristaPageRoutingModule } from './viatura-motorista-routing.m
 
 import { ViaturaMotoristaPage } from './viatura-motorista.page';
 import { ShellModule } from 'src/app/shell/shell.module';
-import { DadosBasicoPolicialModule } from '../dados-basico-policial/dados-basico-policial.module';
+import { DadosBasicoPolicialModule } from '../../../Components/dados-basico-policial/dados-basico-policial.module';
 
 @NgModule({
   imports: [

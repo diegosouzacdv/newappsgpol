@@ -110,9 +110,15 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     public handle500(error) {
         console.log(error)
+        let msg: string;
+        if (error.error.message) {
+            msg = error.error.message
+        } else {
+            msg = error.message
+        }
         const alert = this.alertCtrl.create({
             header: 'Error',
-            message: error.error.message,
+            message: msg,
             backdropDismiss: false,
             buttons: [
                 { text: 'Ok' }
