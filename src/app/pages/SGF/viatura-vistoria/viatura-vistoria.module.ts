@@ -8,6 +8,7 @@ import { ViaturaVistoriaPageRoutingModule } from './viatura-vistoria-routing.mod
 
 import { ViaturaVistoriaPage } from './viatura-vistoria.page';
 import { SliderFotosItemPageModule } from '../slider-fotos-item/slider-fotos-item.module';
+import { BotaoSituacaoViaturaComponentModule } from 'src/app/Components/botao-situacao-viatura/botao-situacao-viatura.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { SliderFotosItemPageModule } from '../slider-fotos-item/slider-fotos-ite
     FormsModule,
     IonicModule,
     ViaturaVistoriaPageRoutingModule,
+    BotaoSituacaoViaturaComponentModule,
     SliderFotosItemPageModule
   ],
   declarations: [ViaturaVistoriaPage]

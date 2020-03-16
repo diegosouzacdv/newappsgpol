@@ -31,16 +31,9 @@
       </ion-row>
     </ion-item>
   </ion-card>
-  <div>
-    <ion-button disabled expand="block"
-      *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA" size="small"
-      [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'">{{viatura?.status}}
-    </ion-button>
-    <ion-button disabled expand="block" *ngIf="viatura?.status === situacaoViatura.CAUTELADA" size="small" slot="end"
-      [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'">{{viatura?.status}}</ion-button>
-    <ion-button disabled expand="block" *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small" slot="end"
-      color="danger">{{viatura?.status}}</ion-button>
-  </div>
+
+  <app-botao-situacao-viatura [viatura]="viatura"></app-botao-situacao-viatura>
+  
     <ion-card>
       <ion-item>
         <ion-label class="ion-text-wrap">ATENÇÃO: selecione se existerem alterações!</ion-label>

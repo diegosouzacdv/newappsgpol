@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ViaturaFichaPageRoutingModule } from './viatura-ficha-routing.module';
 
 import { ViaturaFichaPage } from './viatura-ficha.page';
+import { BotaoSituacaoViaturaComponentModule } from 'src/app/Components/botao-situacao-viatura/botao-situacao-viatura.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ViaturaFichaPageRoutingModule
+    ViaturaFichaPageRoutingModule,
+    BotaoSituacaoViaturaComponentModule
   ],
   declarations: [ViaturaFichaPage]
 })

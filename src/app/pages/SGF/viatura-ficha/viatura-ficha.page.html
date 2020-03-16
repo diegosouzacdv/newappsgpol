@@ -22,22 +22,11 @@
       <p color="dark"><strong>{{viatura?.anoFabricacao}}/{{viatura?.anoModelo}}</strong></p>
     </div>
   </ion-card>
-  <ion-card class="card-children">
 
-    <div>
-      <ion-toolbar>
-        <ion-button size="small"
-          *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA" slot="end"
-          [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'">
-          {{viatura?.status}}</ion-button>
-        <ion-button size="small" *ngIf="viatura?.status === situacaoViatura.CAUTELADA" slot="end"
-          [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'">{{viatura?.status}}
-        </ion-button>
-        <ion-button size="small" *ngIf="viatura?.status === situacaoViatura.BAIXADA" slot="end" color="danger">
-          {{viatura?.status}}
-        </ion-button>
-      </ion-toolbar>
-    </div>
+  <app-botao-situacao-viatura [viatura]="viatura"></app-botao-situacao-viatura>
+  
+
+  <ion-card class="card-children">
     <ion-item>
       <p><strong><i>Placa:&nbsp;</i></strong> {{viatura?.placa}}</p>
     </ion-item>
