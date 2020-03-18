@@ -9,7 +9,6 @@ import { PolicialService } from 'src/app/services/domain/policial.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
-import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -18,12 +17,12 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./viatura-motorista.page.scss'],
 })
 export class ViaturaMotoristaPage {
-  viaturas: ViaturaDTO[];
   viaturasUnidade: ViaturaDTO[] = [];
+  public viaturas: ViaturaDTO[];
   viatura: ViaturaDTO;
   public policial: PolicialDTO;
   public page: number = 0;
-  public busca: string = ''
+  public busca: string = '';
   showCard = false;
   loading: any;
   showWarning = false;
@@ -54,42 +53,12 @@ export class ViaturaMotoristaPage {
     this.situacaoViatura = SituacaoViatura;
   }
   ngOnInit() {
-    this.via = this.pesquisa
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        switchMap((termo: string) => {
-          this.busca = termo;
-          console.log(termo)
-          return this.viaturaService.pesquisarViatura(3, this.page, this.busca)
-        }),
-        catchError((erro) => {
-          return of<ViaturaDTO>();
-        })
-      );
-    this.via.subscribe((viaturas: ViaturaDTO[]) => {
-      // tslint:disable-next-line: no-string-literal
-      console.log(viaturas)
-      this.viaturas = viaturas;
-      if (viaturas.length == 0) {
-        this.semViatura(this.busca);
-      } else {
-        this.showCard = true;
-      }
-    });
   }
 
   ionViewWillEnter() {
     this.getPolicial();
     this.getViaturaVistoria();
     this.showViaturaUnidade = false;
-
-
-
-  }
-
-  public async getPesquisa(nome: string) {
-    this.pesquisa.next(nome);
   }
 
   getViaturaVistoria() {
@@ -98,6 +67,7 @@ export class ViaturaMotoristaPage {
       console.log(this.temVistoriaViatura)
     })
   }
+
 
   getPolicial() {
     let localUser = this.storage.getLocalUser();
@@ -108,11 +78,6 @@ export class ViaturaMotoristaPage {
         },
           error => { });
     }
-  }
-
-  limparPlaca() {
-    this.viatura = null;
-    this.viaturas = null;
   }
 
   async listarViaturasUnidade() {
@@ -135,25 +100,6 @@ export class ViaturaMotoristaPage {
     } finally { }
   }
 
-  fichaViatura(viatura: ViaturaDTO) {
-    this.viatura = viatura;
-    const navExtras: NavigationExtras = {
-      state: {
-        viatura
-      }
-    };
-    this.router.navigate([`/viatura-ficha/${this.adjunto}`], navExtras);
-  }
-
-  async semViatura(placa: string) {
-    const alert = await this.alertController.create({
-      subHeader: 'Viatura não encontrada',
-      message: 'O SGF não possui viatura com a placa <strong>' + placa.toUpperCase() + '</strong>!',
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
-
   ionViewWillLeave() {
     if (!this.subscribeUser.closed) { this.subscribeUser.unsubscribe(); }
     if (!this.subscribeViaUni.closed) { this.subscribeViaUni.unsubscribe(); }
@@ -167,7 +113,6 @@ export class ViaturaMotoristaPage {
     console.log('Begin async operation');
     setTimeout(() => {
       this.listarViaturasUnidade();
-      this.viaturas = null;
       event.target.complete();
     }, 2000);
   }

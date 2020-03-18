@@ -22,7 +22,7 @@ export class SgfPage implements OnInit {
   }
 
   public routeEntradaSaida() {
-    this.navCtrl.navigateForward([`/adjunto`]);
+    this.navCtrl.navigateForward([`/entrada-saida`]);
   }
 
 }

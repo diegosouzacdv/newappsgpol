@@ -13,12 +13,27 @@ export class ViaturaService {
     constructor(public http: HttpClient, public storage: StorageService) {
     }
 
-    pesquisarViatura(quant: number, page: number = 0, busca: String): Observable<ViaturaDTO[]> {
+    pesquisarViatura(quant: number, page: number = 0, busca: string): Observable<ViaturaDTO[]> {
+        let placa = '';
+        let prefixo = '';
+        if (this.tem_numeros(busca)) {
+            placa = busca;
+        } else if (!this.tem_numeros(busca)) {
+            prefixo = busca;
+        } else {
+            placa = '';
+            prefixo = '';
+        }
         return this.http.get<ViaturaDTO[]>(
-            `${API_CONFIG.baseUrl}/viaturas?placa=${busca}&size=${quant}&page=${page}`);
+            `${API_CONFIG.baseUrl}/viaturas?placa=${placa}&prefixo=${prefixo}&size=${quant}&page=${page}`);
     }
 
-    buscarViaturaId(id: string): Observable<ViaturaDTO> {
+    public tem_numeros(texto){
+        let regexAlfabeto = /[abcdefghijklmnopqrstuvxwz]/i;
+        return regexAlfabeto.test(texto);
+     }
+
+    public buscarViaturaId(id: string): Observable<ViaturaDTO> {
         console.log(id);
         return this.http.get<ViaturaDTO>(
             `${API_CONFIG.baseUrl}/viaturas/${id}`);

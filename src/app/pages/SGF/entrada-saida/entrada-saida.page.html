@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar mode="ios" color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Entrada e Saída</ion-title>
+    <ion-buttons slot="end" (click)="logout()">
+      <ion-chip mode="ios" outline color="light">
+        <ion-label><strong>Sair</strong></ion-label>
+      </ion-chip>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="dados-policial">
+    <app-dados-basico-policial></app-dados-basico-policial>
+    <ion-card mode="ios" class="card-children">
+      <ion-card-header>
+        <ion-card-title>Viaturas da Unidade</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

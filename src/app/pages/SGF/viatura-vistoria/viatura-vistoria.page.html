@@ -34,7 +34,7 @@
 
   <app-botao-situacao-viatura [viatura]="viatura"></app-botao-situacao-viatura>
   
-    <ion-card>
+    <ion-card color="light">
       <ion-item>
         <ion-label class="ion-text-wrap">ATENÇÃO: selecione se existerem alterações!</ion-label>
         <ion-button expand="block" fill="clear" shape="round" *ngIf="mostrarItens; else mostrar"
@@ -50,7 +50,7 @@
 
       <div *ngIf="mostrarItens">
         <div *ngFor="let item of vistoria?.vistoriaViaturaItensVistoria">
-          <ion-item >
+          <ion-item color="light">
             <ion-label class="ion-text-wrap">
               <p>{{item.nome}}</p>
             </ion-label>

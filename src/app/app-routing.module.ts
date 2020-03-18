@@ -40,6 +40,10 @@ const routes: Routes = [
   {
     path: 'accessdenied',
     loadChildren: () => import('./pages/accessdenied/accessdenied.module').then( m => m.AccessdeniedPageModule)
+  },
+  {
+    path: 'entrada-saida',
+    loadChildren: () => import('./pages/sgf/entrada-saida/entrada-saida.module').then( m => m.EntradaSaidaPageModule)
   }
 ];
 @NgModule({

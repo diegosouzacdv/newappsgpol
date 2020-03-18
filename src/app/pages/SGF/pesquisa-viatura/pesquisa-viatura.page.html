@@ -1,0 +1,11 @@
+<ion-card mode="ios" class="card-children">
+  <ion-card-header>
+    <ion-card-title>Vistoria Prévia</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    Pesquise a viatura informando a placa (ex.: JJJ1111) ou o prefixo (ex.: 1111) abaixo.
+    <ion-searchbar class="items-searchbar" #pesquisa animated mode="ios"
+            placeholder="Placa ou Prefixo" color="primary" (ionClear)="limparPlaca()" (keyup)="getPesquisa(pesquisa.value)">
+    </ion-searchbar>
+  </ion-card-content>
+</ion-card>

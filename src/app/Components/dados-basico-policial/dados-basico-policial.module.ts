@@ -3,13 +3,11 @@ import { DadosBasicoPolicialComponent } from './dados-basico-policial.component'
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ShellModule } from 'src/app/shell/shell.module';
 
 @NgModule({
     imports: [IonicModule,
             CommonModule,  
-            FormsModule,
-            ShellModule],
+            FormsModule],
     declarations: [DadosBasicoPolicialComponent],
     exports: [DadosBasicoPolicialComponent]
 })
