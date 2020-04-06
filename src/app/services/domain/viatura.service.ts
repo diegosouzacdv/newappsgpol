@@ -54,5 +54,16 @@ export class ViaturaService {
     return this.http.get<ViaturaDTO>(
         `${API_CONFIG.baseUrl}/viatura/vistoria/visualizar`);
    }
+
+   entradaSaida(idViatura: number) {
+    const body = {}
+    return this.http.put<any>(
+        `${API_CONFIG.baseUrl}/controle/mudarstatus/${idViatura}`, body);
+}
+
+getEntradasSaidas(idViatura: string) {
+    return this.http.get<any>(
+        `${API_CONFIG.baseUrl}/controle/entradasaida/${idViatura}`);
+}
     
 }

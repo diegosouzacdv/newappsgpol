@@ -73,17 +73,18 @@ export class HomePage implements OnInit {
   public permissaoAdjunto() {
     let permissao = this.storage.getLocalUser()
     console.log(permissao)
+    if (permissao.authorities) {
+      permissao.authorities.forEach(respose => {
+        if (respose == 'ROLE_SGF_ADJUNTO') {
+          this.app.appPages.forEach((element, i) => {
+            if (element.title === 'Adjunto') {
+              this.app.appPages[i].roels = true;
+            }
+          });
 
-    permissao.authorities.forEach(respose => {
-      if (respose == 'ROLE_SGF_ADJUNTO') {
-        this.app.appPages.forEach((element, i) => {
-          if (element.title === 'Adjunto') {
-            this.app.appPages[i].roels = true;
-          }
-        });
-
-      }
-    })
+        }
+      })
+    }
   }
 
   downloadatualiza() {

@@ -21,9 +21,7 @@ export class ViaturaMotoristaPage {
   public viaturas: ViaturaDTO[];
   viatura: ViaturaDTO;
   public policial: PolicialDTO;
-  public page: number = 0;
-  public busca: string = '';
-  showCard = false;
+  public quantPagina: number = 3;
   loading: any;
   showWarning = false;
   showViaturaUnidade = false;
@@ -36,8 +34,6 @@ export class ViaturaMotoristaPage {
   adjunto = false;
   situacaoViatura;
   public temVistoriaViatura: ViaturaDTO[];
-  public pesquisa: Subject<string> = new Subject<string>();
-  public via: Observable<ViaturaDTO | ViaturaDTO[]>;
 
   constructor(
     public navCtrl: NavController,

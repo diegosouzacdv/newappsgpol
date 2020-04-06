@@ -28,7 +28,11 @@ export class AuthorizationService {
             return false;
         }
         // check if the user roles is in the list of allowed roles, return true if allowed and false if not allowed
-        return allowedRoles.some(decodeToken['authorities'].includes.bind(decodeToken['authorities']));
+        if (decodeToken['authorities']) {
+            return allowedRoles.some(decodeToken['authorities'].includes.bind(decodeToken['authorities']));
+        } else {
+            return false;
+        }
     }
 
 }

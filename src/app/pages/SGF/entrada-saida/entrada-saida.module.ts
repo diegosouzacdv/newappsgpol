@@ -8,6 +8,7 @@ import { EntradaSaidaPageRoutingModule } from './entrada-saida-routing.module';
 
 import { EntradaSaidaPage } from './entrada-saida.page';
 import { DadosBasicoPolicialModule } from 'src/app/Components/dados-basico-policial/dados-basico-policial.module';
+import { PesquisaViaturaPageModule } from '../pesquisa-viatura/pesquisa-viatura.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { DadosBasicoPolicialModule } from 'src/app/Components/dados-basico-polic
     FormsModule,
     IonicModule,
     EntradaSaidaPageRoutingModule,
-    DadosBasicoPolicialModule
+    DadosBasicoPolicialModule,
+    PesquisaViaturaPageModule
   ],
   declarations: [EntradaSaidaPage]
 })

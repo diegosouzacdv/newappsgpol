@@ -15,12 +15,40 @@
 <ion-content>
   <div class="dados-policial">
     <app-dados-basico-policial></app-dados-basico-policial>
-    <ion-card mode="ios" class="card-children">
-      <ion-card-header>
-        <ion-card-title>Viaturas da Unidade</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-      </ion-card-content>
+  </div>
+
+  <app-pesquisa-viatura (responseImovel)="viaturasPesquisa($event)"></app-pesquisa-viatura>
+
+  <div *ngFor="let viatura of viaturas">
+    <ion-card mode="ios" color="light" class="card-children ion-padding-start ion-padding-end">
+      <div class="ion-text-center">
+      <ion-avatar class="logo-viatura">
+        <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
+      </ion-avatar>
+      </div>
+      <ion-text [color]="!viaturaService.tem_numeros(busca) ? 'primary' : ''">
+        <p><strong>Prefixo: </strong>{{viatura?.prefixo}}</p>
+      </ion-text>
+      <p><strong>Viatura: </strong>{{viatura?.modelo}}</p>
+      <ion-text [color]="viaturaService.tem_numeros(busca) ? 'primary' : ''">
+        <p><strong>Placa: </strong>{{viatura?.placa}}</p>
+      </ion-text>
+      <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
+
+      <ion-list>
+        <ion-item>
+          <ion-label></ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-item >
+        <ion-button expand="block" shape="round" slot="start" (click)="entradaSaida(viatura.id)">
+          Entrada
+        </ion-button>
+        <ion-button expand="block" shape="round" slot="end" (click)="entradaSaida(viatura.id)">
+          Saída
+        </ion-button>
+      </ion-item>
     </ion-card>
   </div>
 

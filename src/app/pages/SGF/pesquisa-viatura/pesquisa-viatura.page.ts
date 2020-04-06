@@ -13,8 +13,8 @@ import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 })
 export class PesquisaViaturaPage implements OnInit {
 
-  @Input() adjunto;
   @Output() responseImovel = new EventEmitter();
+  @Input() quantPagina = 1;
 
   public viaturas: ViaturaDTO[];
   public pesquisa: Subject<string> = new Subject<string>();
@@ -36,11 +36,12 @@ export class PesquisaViaturaPage implements OnInit {
     this.via = this.pesquisa
       .pipe(
         debounceTime(400),
-        distinctUntilChanged(),
+        //distinctUntilChanged(),
         switchMap((termo: string) => {
+          console.log(termo)
            this.viaturas = null;
           this.busca = termo;
-          if(termo != '') { return this.viaturaService.pesquisarViatura(3, this.page, this.busca) }
+          if (termo != '') { return this.viaturaService.pesquisarViatura(this.quantPagina, this.page, this.busca) }
         }),
         catchError((erro) => {
           return of<ViaturaDTO>();
@@ -84,11 +85,6 @@ export class PesquisaViaturaPage implements OnInit {
       this.viaturas = null;
       event.target.complete();
     }, 2000);
-  }
-
-  public rotas(id, adjunto) {
-    console.log(id, adjunto)
-    this.navCtrl.navigateForward([`/viatura-ficha/`, id, adjunto]);
   }
 
 }

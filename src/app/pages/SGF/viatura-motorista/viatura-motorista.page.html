@@ -63,7 +63,7 @@
   </div>
   </ion-card>
 
-<app-pesquisa-viatura [adjunto]="adjunto" (responseImovel)="viaturas = $event"></app-pesquisa-viatura>
+<app-pesquisa-viatura [quantPagina]="quantPagina" (responseImovel)="viaturas = $event"></app-pesquisa-viatura>
 
 <div *ngFor="let viatura of viaturas">
   <ion-card mode="ios" color="light" class="ion-padding-start">
@@ -81,9 +81,9 @@
     </ion-text>
     <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
     <div class="ion-text-end" >
-      <ion-button *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA"  size="small" [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'" (click)="rotas(viatura.id, adjunto)" routerDirection="forward" >{{viatura?.status}}</ion-button>
-      <ion-button *ngIf="viatura?.status === situacaoViatura.CAUTELADA" size="small"  slot="end" [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'" (click)="rotas(viatura.id, adjunto)" routerDirection="forward" >{{viatura?.status}}</ion-button>
-      <ion-button *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger" (click)="rotas(viatura.id, adjunto)" routerDirection="forward" >{{viatura?.status}}</ion-button>
+      <ion-button *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA"  size="small" [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'"  [routerLink]="['/viatura-ficha', viatura.id, adjunto]" routerDirection="forward" >{{viatura?.status}}</ion-button>
+          <ion-button *ngIf="viatura?.status === situacaoViatura.CAUTELADA" size="small"  slot="end" [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'"  [routerLink]="['/viatura-ficha', viatura.id, adjunto]" routerDirection="forward" >{{viatura?.status}}</ion-button>
+          <ion-button *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger"  [routerLink]="['/viatura-ficha', viatura.id, adjunto]" routerDirection="forward" >{{viatura?.status}}</ion-button>
     </div>
   </ion-card>
 </div>
