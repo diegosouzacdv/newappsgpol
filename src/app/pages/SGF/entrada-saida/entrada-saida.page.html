@@ -21,35 +21,49 @@
 
   <div *ngFor="let viatura of viaturas">
     <ion-card mode="ios" color="light" class="card-children ion-padding-start ion-padding-end">
-      <div class="ion-text-center">
-      <ion-avatar class="logo-viatura">
+      <ion-item>
+      <ion-avatar class="logo-viatura" slot="start">
         <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
       </ion-avatar>
-      </div>
-      <ion-text [color]="!viaturaService.tem_numeros(busca) ? 'primary' : ''">
-        <p><strong>Prefixo: </strong>{{viatura?.prefixo}}</p>
-      </ion-text>
-      <p><strong>Viatura: </strong>{{viatura?.modelo}}</p>
-      <ion-text [color]="viaturaService.tem_numeros(busca) ? 'primary' : ''">
-        <p><strong>Placa: </strong>{{viatura?.placa}}</p>
-      </ion-text>
-      <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
-
-      <ion-list>
-        <ion-item>
-          <ion-label></ion-label>
-        </ion-item>
-      </ion-list>
-
-      <ion-item >
-        <ion-button expand="block" shape="round" slot="start" (click)="entradaSaida(viatura.id)">
-          Entrada
-        </ion-button>
-        <ion-button expand="block" shape="round" slot="end" (click)="entradaSaida(viatura.id)">
-          Saída
-        </ion-button>
+      <ion-button expand="block" shape="round" slot="end" color="success" (click)="presentAlertConfirm(viatura)">
+        Entrada
+      </ion-button>
       </ion-item>
+      <ion-row>
+        <ion-col size="6">
+          <ion-text [color]="!viaturaService.tem_numeros(busca) ? 'primary' : ''">
+            <p><strong>Prefixo: </strong>{{viatura?.prefixo}}</p>
+          </ion-text>
+        </ion-col>
+        <ion-col size="6"  class="ion-text-end">
+          <p><strong>Viatura: </strong>{{viatura?.modelo}}</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-text [color]="viaturaService.tem_numeros(busca) ? 'primary' : ''">
+            <p><strong>Placa: </strong>{{viatura?.placa}}</p>
+          </ion-text>
+        </ion-col>
+        <ion-col size="6"  class="ion-text-end">
+          <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
+        </ion-col>
+      </ion-row>
     </ion-card>
   </div>
+
+  <ion-item *ngFor="let viatura of viaturasPatio" >
+    <ion-label class="ion-text-wrap" slot="start">
+      <h3>{{viatura?.modelo}}</h3>
+      <p>{{viatura?.placa}}</p>
+    </ion-label>
+    <ion-label class="ion-text-wrap">
+      <h3>{{viatura?.modelo}}</h3>
+      <p>{{viatura?.placa}}</p>
+    </ion-label>
+    <ion-button *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA"  size="small" [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'"  [routerLink]="['/viatura-ficha', viatura.id, adjunto]" routerDirection="forward" >{{viatura?.status}}</ion-button>
+    <ion-button *ngIf="viatura?.status === situacaoViatura.CAUTELADA" size="small"  slot="end" [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'"  [routerLink]="['/viatura-ficha', viatura.id, adjunto]" routerDirection="forward" >{{viatura?.status}}</ion-button>
+    <ion-button *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger"  [routerLink]="['/viatura-ficha', viatura.id, adjunto]" routerDirection="forward" >{{viatura?.status}}</ion-button>
+  </ion-item>
 
 </ion-content>

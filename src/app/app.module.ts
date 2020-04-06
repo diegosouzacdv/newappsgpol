@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { AuthInterceptorProvider } from './interceptors/auth-interceptor';
 import { ErrorInterceptorProvider } from './interceptors/error-interceptor';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import { HomePipe } from './pipes/home.pipe';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { HomePipe } from './pipes/home.pipe';
     AppVersion,
     SplashScreen,
     Geolocation,
+    StreamingMedia,
     File,
     FileOpener,
     FileTransfer,

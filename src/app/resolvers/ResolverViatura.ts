@@ -4,6 +4,7 @@ import { ViaturaService } from '../services/domain/viatura.service';
 import { Observable } from 'rxjs';
 import { ViaturaDTO } from '../models/viatura.dto';
 import { ItensVistoriaService } from '../services/domain/itens-vistoria.service';
+import { EntradaSaida } from '../models/entrada-saida';
 
 
 @Injectable()
@@ -46,5 +47,17 @@ export class ResolverTemVistoria implements Resolve<any> {
       const dataSource: Observable<any> = this.itensVistoriaService.buscarVistoria(id);
       return dataSource;
             
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class ResolverPatio implements Resolve<any> {
+
+  constructor(
+    private viaturaService: ViaturaService) { }
+
+  resolve(route: ActivatedRouteSnapshot) {
+      const dataSource: Observable<EntradaSaida> = this.viaturaService.getPatio();
+      return dataSource;
   }
 }

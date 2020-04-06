@@ -4,6 +4,7 @@ import { StorageService } from '../storage.service';
 import { Observable } from 'rxjs';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
 import { API_CONFIG } from 'src/app/config/api.config';
+import { EntradaSaida } from 'src/app/models/entrada-saida';
 
 @Injectable({
     providedIn: 'root',
@@ -58,12 +59,12 @@ export class ViaturaService {
    entradaSaida(idViatura: number) {
     const body = {}
     return this.http.put<any>(
-        `${API_CONFIG.baseUrl}/controle/mudarstatus/${idViatura}`, body);
+        `${API_CONFIG.baseUrl}/controle/viaturaEntrada/${idViatura}`, body);
 }
 
-getEntradasSaidas(idViatura: string) {
-    return this.http.get<any>(
-        `${API_CONFIG.baseUrl}/controle/entradasaida/${idViatura}`);
+getPatio() {
+    return this.http.get<EntradaSaida>(
+        `${API_CONFIG.baseUrl}/controle/patio`);
 }
     
 }

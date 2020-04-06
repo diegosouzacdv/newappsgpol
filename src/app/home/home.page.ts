@@ -11,6 +11,7 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { PolicialService } from '../services/domain/policial.service';
+import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-media/ngx';
 
 @Component({
   selector: 'app-home',
@@ -46,7 +47,8 @@ export class HomePage implements OnInit {
     private file: File,
     public app: AppComponent,
     private fileOpener: FileOpener,
-    private loadingController: LoadingController) { }
+    private loadingController: LoadingController,
+    private streamingMedia: StreamingMedia) { }
 
   ngOnInit() {
     this.getVersao();
@@ -60,6 +62,19 @@ export class HomePage implements OnInit {
       })
 
   }
+
+  // public streaming() {
+  //   console.log('streaming')
+  //   let options: StreamingVideoOptions = {
+  //     successCallback: () => { console.log('Video played') },
+  //     errorCallback: (e) => { console.log('Error streaming', e)},
+  //     orientation: 'portrait',
+  //     shouldAutoClose: true,
+  //     controls: true
+  //   };
+
+  //   this.streamingMedia.playVideo('https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4', options);
+  // }
 
   public resolverUser() {
     this.subscribeUser = this.policialService.usuarioLogado()
