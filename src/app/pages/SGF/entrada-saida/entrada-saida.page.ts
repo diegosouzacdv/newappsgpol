@@ -19,6 +19,8 @@ export class EntradaSaidaPage implements OnInit {
   public loading;
   public viaturasPatio: EntradaSaida[];
   situacaoViatura;
+  public upm: string;
+  public tipo = 'patio';
 
   constructor(
     public authService: AuthService,
@@ -47,7 +49,28 @@ export class EntradaSaidaPage implements OnInit {
     this.route.data.subscribe((resolvedRouteData) => {
 
       this.viaturasPatio = resolvedRouteData.data;
+      this.upm = this.viaturasPatio[0].unidadePolicialDTO.sigla;
       console.log(this.viaturasPatio);
+    },
+    (error) => {});
+  }
+
+  getPatioClick() {
+    this.tipo = 'patio'
+    this.viaturaService.getPatio()
+      .subscribe(response => {
+        this.viaturasPatio = response;
+        console.log(this.viaturasPatio);
+    },
+    (error) => {});
+  }
+
+  getViaturasPatioUpmLocal() {
+    this.tipo = 'upmLocal'
+    this.viaturaService.getViaturasPatioUpmLocal()
+      .subscribe(response => {
+        this.viaturasPatio = response;
+        console.log(response);
     },
     (error) => {});
   }
@@ -87,6 +110,7 @@ export class EntradaSaidaPage implements OnInit {
         console.log(response);
         this.loading.dismiss();
         this.toastViaturaPatio(viatura);
+        this.viaturasPatio.push(response);
         this.viaturas.length = 0;
 
       }, error => this.loading.dismiss())

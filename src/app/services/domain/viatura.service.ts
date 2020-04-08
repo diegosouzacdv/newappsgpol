@@ -63,8 +63,13 @@ export class ViaturaService {
 }
 
 getPatio() {
-    return this.http.get<EntradaSaida>(
+    return this.http.get<EntradaSaida[]>(
         `${API_CONFIG.baseUrl}/controle/patio`);
+}
+
+getViaturasPatioUpmLocal() {
+    return this.http.get<EntradaSaida[]>(
+        `${API_CONFIG.baseUrl}/controle/upmlocal`);
 }
     
 }

@@ -52,18 +52,45 @@
     </ion-card>
   </div>
 
+  <ion-list>
+    <ion-segment value="favorite" mode="ios">
+      <ion-segment-button value="call">
+        <ion-label>Call</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="favorite">
+        <ion-label>Favorite</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="map">
+        <ion-label>Map</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  <ion-list-header lines="full" *ngIf="tipo === 'patio'">
+    <ion-label>Viaturas no Pátio da <strong>{{ upm | uppercase}}:</strong></ion-label>
+    <ion-button color="success" size="small" expand="block" fill="clear" shape="round" (click)="getViaturasPatioUpmLocal()">
+      Viaturas do(a): {{ upm | uppercase}}
+    </ion-button>
+  </ion-list-header>
+
+  <ion-list-header lines="full" *ngIf="tipo === 'upmLocal'">
+    <ion-label>Viaturas do(a): {{ upm | uppercase}}:</ion-label>
+    <ion-button color="success" size="small" expand="block" fill="clear" shape="round" (click)="getPatioClick()">
+      Viaturas no Pátio da {{ upm | uppercase}}
+    </ion-button>
+  </ion-list-header>
+
   <ion-item *ngFor="let viatura of viaturasPatio" >
     <ion-label class="ion-text-wrap" slot="start">
-      <h3>{{viatura?.modelo}}</h3>
-      <p>{{viatura?.placa}}</p>
+      <h3>{{viatura?.viaturaDTO?.modelo}}</h3>
+      <p>Placa: {{viatura?.viaturaDTO?.placa}}</p>
+      <p>Prefixo: {{viatura?.viaturaDTO?.prefixo}}</p>
     </ion-label>
-    <ion-label class="ion-text-wrap">
-      <h3>{{viatura?.modelo}}</h3>
-      <p>{{viatura?.placa}}</p>
+    <ion-label class="ion-text-wrap" slot="start">
+      <h3>Entrada</h3>
+      <p>{{viatura?.dataEntradaSaida | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
     </ion-label>
-    <ion-button *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA"  size="small" [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'"  [routerLink]="['/viatura-ficha', viatura.id, adjunto]" routerDirection="forward" >{{viatura?.status}}</ion-button>
-    <ion-button *ngIf="viatura?.status === situacaoViatura.CAUTELADA" size="small"  slot="end" [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'"  [routerLink]="['/viatura-ficha', viatura.id, adjunto]" routerDirection="forward" >{{viatura?.status}}</ion-button>
-    <ion-button *ngIf="viatura?.status === situacaoViatura.BAIXADA" size="small"  slot="end" color="danger"  [routerLink]="['/viatura-ficha', viatura.id, adjunto]" routerDirection="forward" >{{viatura?.status}}</ion-button>
+    <ion-button size="small" color="danger" slot="end">Saída</ion-button>
   </ion-item>
+  
+</ion-list>
 
 </ion-content>
