@@ -57,7 +57,7 @@ export class ResolverPatio implements Resolve<any> {
     private viaturaService: ViaturaService) { }
 
   resolve(route: ActivatedRouteSnapshot) {
-      const dataSource: Observable<EntradaSaida> = this.viaturaService.getPatio();
+      const dataSource: Observable<EntradaSaida[]> = this.viaturaService.getPatio();
       return dataSource;
   }
 }
