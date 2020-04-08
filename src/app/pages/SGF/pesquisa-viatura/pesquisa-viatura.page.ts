@@ -16,7 +16,7 @@ export class PesquisaViaturaPage implements OnInit {
   @Output() responseImovel = new EventEmitter();
   @Input() quantPagina = 1;
 
-  public viaturas: ViaturaDTO[];
+  @Input() public viaturas: ViaturaDTO[];
   public pesquisa: Subject<string> = new Subject<string>();
   public via: Observable<ViaturaDTO | ViaturaDTO[]>;
   public busca: string = '';

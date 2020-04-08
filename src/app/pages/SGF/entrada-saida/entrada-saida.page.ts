@@ -20,7 +20,7 @@ export class EntradaSaidaPage implements OnInit {
   public viaturasPatio: EntradaSaida[];
   situacaoViatura;
   public upm: string;
-  public tipo = 'patio';
+  public page: string;
 
   constructor(
     public authService: AuthService,
@@ -33,7 +33,18 @@ export class EntradaSaidaPage implements OnInit {
      }
 
   ngOnInit() {
+    this.page = 'patio'
     this.getPatio();
+  }
+
+  segmentChanged(ev: any) {
+    if (ev.detail.value === 'patio') {
+      this.getPatioClick();
+      this.page = 'patio'
+    } else {
+      this.getViaturasPatioUpmLocal();
+      this.page = 'upm'
+    }
   }
 
   logout() {
@@ -47,7 +58,6 @@ export class EntradaSaidaPage implements OnInit {
 
   getPatio() {
     this.route.data.subscribe((resolvedRouteData) => {
-
       this.viaturasPatio = resolvedRouteData.data;
       this.upm = this.viaturasPatio[0].unidadePolicialDTO.sigla;
       console.log(this.viaturasPatio);
@@ -56,7 +66,6 @@ export class EntradaSaidaPage implements OnInit {
   }
 
   getPatioClick() {
-    this.tipo = 'patio'
     this.viaturaService.getPatio()
       .subscribe(response => {
         this.viaturasPatio = response;
@@ -66,7 +75,6 @@ export class EntradaSaidaPage implements OnInit {
   }
 
   getViaturasPatioUpmLocal() {
-    this.tipo = 'upmLocal'
     this.viaturaService.getViaturasPatioUpmLocal()
       .subscribe(response => {
         this.viaturasPatio = response;
