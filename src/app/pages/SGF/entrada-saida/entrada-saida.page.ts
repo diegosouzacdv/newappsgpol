@@ -18,9 +18,11 @@ export class EntradaSaidaPage implements OnInit {
   public viaturas: ViaturaDTO[];
   public loading;
   public viaturasPatio: EntradaSaida[];
+  public viaturasLocal: EntradaSaida[];
   situacaoViatura;
   public upm: string;
   public page: string;
+  public paginator: number = 0;
 
   constructor(
     public authService: AuthService,
@@ -58,17 +60,23 @@ export class EntradaSaidaPage implements OnInit {
 
   getPatio() {
     this.route.data.subscribe((resolvedRouteData) => {
-      this.viaturasPatio = resolvedRouteData.data;
+     this.viaturasPatio = resolvedRouteData.data.content;
+     console.log(this.viaturasPatio)
       this.upm = this.viaturasPatio[0].unidadePolicialDTO.sigla;
-      console.log(this.viaturasPatio);
     },
     (error) => {});
   }
 
   getPatioClick() {
-    this.viaturaService.getPatio()
+    this.viaturaService.getPatio(this.paginator)
       .subscribe(response => {
-        this.viaturasPatio = response;
+        if (this.viaturasPatio != null && this.viaturasPatio.length != 1) {
+          console.log('entrando no if')
+          this.viaturasPatio = this.viaturasPatio.concat(response['content']);
+        } else {
+          console.log('entrando no else')
+          this.viaturasPatio = response['content'];
+        }
         console.log(this.viaturasPatio);
     },
     (error) => {});
@@ -77,18 +85,18 @@ export class EntradaSaidaPage implements OnInit {
   getViaturasPatioUpmLocal() {
     this.viaturaService.getViaturasPatioUpmLocal()
       .subscribe(response => {
-        this.viaturasPatio = response;
-        console.log(response);
+        this.viaturasLocal = response['content'];
+        console.log(this.viaturasLocal);
     },
     (error) => {});
   }
 
 
-  async presentAlertConfirm(viatura: ViaturaDTO) {
+  async presentAlertConfirmeEntrada(viatura: ViaturaDTO) {
     console.log(viatura)
     const alert = await this.alertController.create({
       header: 'Confirme!',
-      message: `Confirma a entrada da viatura <strong>${viatura.marca} ${viatura.modelo}</strong>, placa <strong>${viatura.placa}</strong>?`,
+      message: `Confirma a ENTRADA da viatura <strong>${viatura.marca} ${viatura.modelo}</strong>, placa <strong>${viatura.placa}</strong>?`,
       buttons: [
         {
           text: 'Cancelar',
@@ -100,7 +108,32 @@ export class EntradaSaidaPage implements OnInit {
         }, {
           text: 'Confirmar',
           handler: () => {
-            this.entradaSaida(viatura);
+            this.entradaViatura(viatura);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async presentAlertConfirmSaida(viatura: ViaturaDTO) {
+    console.log(viatura)
+    const alert = await this.alertController.create({
+      header: 'Confirme!',
+      message: `Confirma a SAÍDA da viatura <strong>${viatura.marca} ${viatura.modelo}</strong>, placa <strong>${viatura.placa}</strong>?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            
+          }
+        }, {
+          text: 'Confirmar',
+          handler: () => {
+            this.saidaViatura(viatura);
           }
         }
       ]
@@ -110,10 +143,10 @@ export class EntradaSaidaPage implements OnInit {
   }
 
 
-  async entradaSaida(viatura: ViaturaDTO) {
+  async entradaViatura(viatura: ViaturaDTO) {
     await this.presentLoading();
     try {
-      await this.viaturaService.entradaSaida(parseInt(viatura.id))
+      await this.viaturaService.entradaViatura(parseInt(viatura.id))
       .subscribe(response => {
         console.log(response);
         this.loading.dismiss();
@@ -128,12 +161,51 @@ export class EntradaSaidaPage implements OnInit {
     
   }
 
+  async saidaViatura(viatura: ViaturaDTO) {
+    await this.presentLoading();
+    try {
+      await this.viaturaService.saidaViatura(parseInt(viatura.id))
+      .subscribe(response => {
+        this.paginator = 0;
+        this.viaturasPatio = null;
+        this.getPatioClick();
+        this.loading.dismiss();
+        this.toastViaturaSaiu(viatura);
+
+      }, error => this.loading.dismiss())
+    } catch (error) {
+        this.loading.dismiss();
+    }
+    
+  }
+
   async toastViaturaPatio(viatura: ViaturaDTO) {
     const toast = await this.toastController.create({
       message: `Viatura <strong>${viatura.marca} ${viatura.modelo}</strong>, placa <strong>${viatura.placa}</strong> no pátio`,
       duration: 2000
     });
     toast.present();
+  }
+
+  async toastViaturaSaiu(viatura: ViaturaDTO) {
+    const toast = await this.toastController.create({
+      message: `Viatura <strong>${viatura.marca} ${viatura.modelo}</strong>, placa <strong>${viatura.placa}</strong> saiu do pátio`,
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  loadData(event) {
+    setTimeout(() => {
+      console.log('Done');
+      this.paginator++;
+      this.getPatioClick();
+      console.log(this.paginator)
+      event.target.complete();
+      if (this.viaturasPatio.length < 0) {
+        event.target.disabled = true;
+      }
+    }, 500);
   }
 
   public async presentLoading() {

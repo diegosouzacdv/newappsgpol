@@ -5,8 +5,8 @@ export interface EntradaSaida {
     tipoEntradaSaida?: number,
     dataEntradaSaida?: Date,
     ativo?: number,
-    viaturaDTO: ViaturaDTO;
-    unidadePolicialDTO: {
+    viaturaDTO?: ViaturaDTO;
+    unidadePolicialDTO?: {
         id: number,
         sigla: string,
     },
