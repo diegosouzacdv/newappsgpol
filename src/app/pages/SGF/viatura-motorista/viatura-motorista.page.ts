@@ -34,6 +34,7 @@ export class ViaturaMotoristaPage {
   adjunto = false;
   situacaoViatura;
   public temVistoriaViatura: ViaturaDTO[];
+  public busca: string;
 
   constructor(
     public navCtrl: NavController,
@@ -55,6 +56,10 @@ export class ViaturaMotoristaPage {
     this.getPolicial();
     this.getViaturaVistoria();
     this.showViaturaUnidade = false;
+  }
+
+  buscaPesquisa(event) {
+    this.busca = event;
   }
 
   getViaturaVistoria() {

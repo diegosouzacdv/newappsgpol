@@ -23,6 +23,7 @@ export class EntradaSaidaPage implements OnInit {
   public upm: string;
   public page: string;
   public paginator: number = 0;
+  public busca: string;
 
   constructor(
     public authService: AuthService,
@@ -56,6 +57,10 @@ export class EntradaSaidaPage implements OnInit {
   viaturasPesquisa(event) {
     this.viaturas = event;
     console.log(this.viaturas)
+  }
+
+  buscaPesquisa(event) {
+    this.busca = event;
   }
 
   getPatio() {

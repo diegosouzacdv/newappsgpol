@@ -14,6 +14,7 @@ import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 export class PesquisaViaturaPage implements OnInit {
 
   @Output() responseImovel = new EventEmitter();
+  @Output() responseBusca = new EventEmitter();
   @Input() quantPagina = 1;
 
   @Input() public viaturas: ViaturaDTO[];
@@ -52,6 +53,7 @@ export class PesquisaViaturaPage implements OnInit {
       console.log(viaturas)
       this.viaturas = viaturas;
       this.responseImovel.emit(this.viaturas);
+      this.responseBusca.emit(this.busca)
       if (viaturas.length == 0) {
         this.semViatura(this.busca);
       } else {

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar mode="ios" color="primary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Entrada e Saída</ion-title>
     <ion-buttons slot="end" (click)="logout()">
@@ -17,7 +17,7 @@
     <app-dados-basico-policial></app-dados-basico-policial>
   </div>
 
-  <app-pesquisa-viatura [viaturas]="viaturas" (responseImovel)="viaturasPesquisa($event)"></app-pesquisa-viatura>
+  <app-pesquisa-viatura [viaturas]="viaturas" (responseImovel)="viaturasPesquisa($event)" (responseBusca)="buscaPesquisa($event)"></app-pesquisa-viatura>
 
   <div *ngFor="let viatura of viaturas">
     <ion-card mode="ios" color="light" class="card-children">

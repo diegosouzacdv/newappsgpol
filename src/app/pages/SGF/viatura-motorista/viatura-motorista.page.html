@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar mode="ios" color="primary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Vistoria de Viatura</ion-title>
     <ion-buttons slot="end" (click)="logout()">
@@ -63,7 +63,7 @@
   </div>
   </ion-card>
 
-<app-pesquisa-viatura [quantPagina]="quantPagina" (responseImovel)="viaturas = $event"></app-pesquisa-viatura>
+<app-pesquisa-viatura [quantPagina]="quantPagina" (responseImovel)="viaturas = $event" (responseBusca)="buscaPesquisa($event)"></app-pesquisa-viatura>
 
 <div *ngFor="let viatura of viaturas">
   <ion-card mode="ios" color="light" class="ion-padding-start">
@@ -88,11 +88,11 @@
   </ion-card>
 </div>
 
-  <ion-card mode="ios" class="card-children" *ngIf="policial">
+  <ion-card mode="ios" class="card-children" *ngIf="policial" >
     <ion-card-header>
       <ion-card-title>Viaturas da Unidade</ion-card-title>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content class="ion-no-padding">
       <ion-item>
         <div *ngIf="showWarning">
           <h2>Sem Viaturas em <app-text-shell [data]="policial?.lotacao"></app-text-shell></h2>
@@ -110,7 +110,7 @@
         </div>
       </ion-item>
       <div *ngIf="showViaturaUnidade">
-        <ion-item *ngFor="let viatura of viaturasUnidade"  [routerLink]="['/viatura-ficha', viatura.id, adjunto]" routerDirection="forward"  routerDirection='forward'>
+        <ion-item *ngFor="let viatura of viaturasUnidade"  [routerLink]="['/viatura-ficha', viatura.id, adjunto]" routerDirection="forward"  routerDirection='forward' detail="false">
           <ion-thumbnail slot="start">
             <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
           </ion-thumbnail>
