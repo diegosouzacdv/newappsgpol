@@ -6,6 +6,9 @@ import { AlertController, LoadingController, ToastController } from '@ionic/angu
 import { ActivatedRoute } from '@angular/router';
 import { EntradaSaida } from 'src/app/models/entrada-saida';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
+import { StorageService } from 'src/app/services/storage.service';
+import { PolicialService } from 'src/app/services/domain/policial.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-entrada-saida',
@@ -24,6 +27,7 @@ export class EntradaSaidaPage implements OnInit {
   public page: string;
   public paginator: number = 0;
   public busca: string;
+  private subscribeUser: Subscription;
 
   constructor(
     public authService: AuthService,
@@ -31,13 +35,28 @@ export class EntradaSaidaPage implements OnInit {
     public alertController: AlertController,
     public loadingController: LoadingController,
     public toastController: ToastController,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    public storage: StorageService,
+    public policialService: PolicialService) {
     this.situacaoViatura = SituacaoViatura;
      }
 
   ngOnInit() {
+    this.getPolicial();
     this.page = 'patio'
     this.getPatio();
+  }
+
+  getPolicial() {
+    let localUser = this.storage.getLocalUser();
+    if (localUser && localUser.id) {
+     this.subscribeUser = this.policialService.usuarioLogado()
+        .subscribe(response => {
+          this.upm = response.lotacao;
+        },
+        error => {}
+        );
+    }
   }
 
   segmentChanged(ev: any) {
@@ -67,7 +86,6 @@ export class EntradaSaidaPage implements OnInit {
     this.route.data.subscribe((resolvedRouteData) => {
      this.viaturasPatio = resolvedRouteData.data.content;
      console.log(this.viaturasPatio)
-      this.upm = this.viaturasPatio[0].unidadePolicialDTO.sigla;
     },
     (error) => {});
   }

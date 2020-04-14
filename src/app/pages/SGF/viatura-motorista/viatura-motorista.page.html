@@ -72,11 +72,11 @@
       <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
     </ion-avatar>
     </div>
-    <ion-text [color]="!viaturaService.tem_numeros(busca) ? 'primary' : ''">
+    <ion-text [color]="!viaturaService.tem_numeros(busca) ? 'danger' : ''">
       <p><strong>Prefixo: </strong>{{viatura?.prefixo}}</p>
     </ion-text>
     <p><strong>Viatura: </strong>{{viatura?.modelo}}</p>
-    <ion-text [color]="viaturaService.tem_numeros(busca) ? 'primary' : ''">
+    <ion-text [color]="viaturaService.tem_numeros(busca) ? 'danger' : ''">
       <p><strong>Placa: </strong>{{viatura?.placa}}</p>
     </ion-text>
     <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
