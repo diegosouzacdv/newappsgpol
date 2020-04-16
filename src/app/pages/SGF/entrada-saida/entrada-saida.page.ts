@@ -9,6 +9,8 @@ import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { StorageService } from 'src/app/services/storage.service';
 import { PolicialService } from 'src/app/services/domain/policial.service';
 import { Subscription } from 'rxjs';
+import { TipoEntradaSaida } from 'src/app/models/tipo-entrada-saida.enum';
+import { EntradaSaidaDTO } from 'src/app/models/entrada-saida-DTO';
 
 @Component({
   selector: 'app-entrada-saida',
@@ -21,13 +23,15 @@ export class EntradaSaidaPage implements OnInit {
   public viaturas: ViaturaDTO[];
   public loading;
   public viaturasPatio: EntradaSaida[];
-  public viaturasLocal: EntradaSaida[];
+  public viaturasLocal: EntradaSaidaDTO[];
   situacaoViatura;
   public upm: string;
   public page: string;
   public paginator: number = 0;
+  public paginatorUpmLocal: number = 0;
   public busca: string;
   private subscribeUser: Subscription;
+  tipoEntradaSaida;
 
   constructor(
     public authService: AuthService,
@@ -39,6 +43,7 @@ export class EntradaSaidaPage implements OnInit {
     public storage: StorageService,
     public policialService: PolicialService) {
     this.situacaoViatura = SituacaoViatura;
+    this.tipoEntradaSaida = TipoEntradaSaida;
      }
 
   ngOnInit() {
@@ -90,10 +95,10 @@ export class EntradaSaidaPage implements OnInit {
     (error) => {});
   }
 
-  getPatioClick() {
+  getPatioLoading() {
     this.viaturaService.getPatio(this.paginator)
       .subscribe(response => {
-        if (this.viaturasPatio != null && this.viaturasPatio.length != 1) {
+        if (this.viaturasPatio != null) {
           console.log('entrando no if')
           this.viaturasPatio = this.viaturasPatio.concat(response['content']);
         } else {
@@ -105,11 +110,29 @@ export class EntradaSaidaPage implements OnInit {
     (error) => {});
   }
 
-  getViaturasPatioUpmLocal() {
-    this.viaturaService.getViaturasPatioUpmLocal()
+  getPatioClick() {
+    this.viaturaService.getPatio(this.paginator)
       .subscribe(response => {
-        this.viaturasLocal = response['content'];
+          this.viaturasPatio = response['content'];
+        console.log(this.viaturasPatio);
+    },
+    (error) => {});
+  }
+
+  getViaturasPatioUpmLocalLoading() {
+    this.viaturaService.getViaturasPatioUpmLocal(this.paginatorUpmLocal)
+      .subscribe(response => {
+        this.viaturasLocal = this.viaturasLocal.concat(response);
         console.log(this.viaturasLocal);
+    },
+    (error) => {});
+  }
+
+  getViaturasPatioUpmLocal() {
+    this.viaturaService.getViaturasPatioUpmLocal(this.paginatorUpmLocal)
+      .subscribe(response => {
+        this.viaturasLocal = response;
+        console.log(response);
     },
     (error) => {});
   }
@@ -176,7 +199,7 @@ export class EntradaSaidaPage implements OnInit {
         this.toastViaturaPatio(viatura);
         this.viaturasPatio.push(response);
         this.viaturas.length = 0;
-
+        this.getViaturasPatioUpmLocal();
       }, error => this.loading.dismiss())
     } catch (error) {
         this.loading.dismiss();
@@ -218,12 +241,25 @@ export class EntradaSaidaPage implements OnInit {
     toast.present();
   }
 
-  loadData(event) {
+  loadPatio(event) {
     setTimeout(() => {
       console.log('Done');
       this.paginator++;
-      this.getPatioClick();
+      this.getPatioLoading();
       console.log(this.paginator)
+      event.target.complete();
+      if (this.viaturasPatio.length < 0) {
+        event.target.disabled = true;
+      }
+    }, 500);
+  }
+
+  loadUpmLocal(event) {
+    setTimeout(() => {
+      console.log('Done');
+      this.paginatorUpmLocal++;
+      this.getViaturasPatioUpmLocalLoading();
+      console.log(this.paginatorUpmLocal)
       event.target.complete();
       if (this.viaturasPatio.length < 0) {
         event.target.disabled = true;

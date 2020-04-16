@@ -112,7 +112,6 @@ export class HomePage implements OnInit {
         this.urlAtualizacao = null;
         this.erroAtualizacao();
       });
-
   }
 
   getVersao() {

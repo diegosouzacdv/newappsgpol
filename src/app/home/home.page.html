@@ -11,12 +11,15 @@
           <ion-label><strong>Sair</strong></ion-label>
         </ion-chip>
       </ion-buttons>
+      <div class="ion-text-center">
+        <p class="sgpol"> {{'Sgpol Mobile' | uppercase}} </p>
+       </div>
     </ion-toolbar>
     <div class="dados-policial">
       <app-dados-basico-policial></app-dados-basico-policial>
     </div>
   </ion-card>
-  <ion-card class="card-update" mode="ios" color="light" *ngIf="urlAtualizacao != null">
+  <!-- <ion-card class="card-update" mode="ios" color="light" *ngIf="urlAtualizacao != null">
     <img src="assets/imgs/update.jpeg" />
     <ion-card-header>
       <ion-card-title>Atualização Disponível</ion-card-title>
@@ -26,7 +29,7 @@
         Atualizar
       </ion-button>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
   <div class="content-body">
     <ion-row>
       <ion-col size="4">

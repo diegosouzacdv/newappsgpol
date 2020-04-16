@@ -58,11 +58,11 @@
     </ion-card>
   </div>
 
-  <ion-segment value="patio" mode="ios" color="dark" (ionChange)="segmentChanged($event)">
-    <ion-segment-button value="patio" (click)="getViaturasPatioUpmLocal()">
+  <ion-segment scrollable value="patio" mode="ios" color="dark" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="patio">
       <ion-label>Viaturas no Pátio da <strong>{{ upm | uppercase}}</strong></ion-label>
     </ion-segment-button>
-    <ion-segment-button value="upm" (click)="getPatioClick()">
+    <ion-segment-button value="upm">
       <ion-label>Viaturas do(a): {{ upm | uppercase}}</ion-label>
     </ion-segment-button>
   </ion-segment>
@@ -87,7 +87,7 @@
           <p class="ion-text-center"><strong>Sem viaturas no Pátio</strong></p>
         </ion-toolbar>
       </ng-template>
-      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadPatio($event)">
         <ion-infinite-scroll-content
           loadingSpinner="bubbles"
           loadingText="carregando...">
@@ -95,25 +95,31 @@
       </ion-infinite-scroll>
     </div>
     <ng-template #upmtemplate>
-      <div *ngIf="viaturasLocal.length !== 0; else semViaturaLocal">
         <ion-item *ngFor="let viatura of viaturasLocal">
           <ion-label class="ion-text-wrap">
-            <h3>{{viatura?.viaturaDTO?.modelo}}</h3>
-            <p>Placa: {{viatura?.viaturaDTO?.placa}}</p>
-            <p>Prefixo: {{viatura?.viaturaDTO?.prefixo}}</p>
+            <h3>{{viatura?.modelo}}</h3>
+            <p>Placa: {{viatura?.placa}}</p>
+            <p>Prefixo: {{viatura?.prefixo}}</p>
           </ion-label>
-          <ion-label class="ion-text-wrap">
+          <ion-label class="ion-text-wrap" *ngIf="viatura?.tipoEntradaSaidaMomentoAtual !== 0; else patrulhamento">
             <h3>Local</h3>
-            <p>{{viatura?.unidadePolicialDTO.sigla}}</p>
-            <p>{{viatura?.dataEntradaSaida | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+            <p>
+              {{viatura?.tipoEntradaSaidaMomentoAtual === 2? tipoEntradaSaida.SAIDA : tipoEntradaSaida.ENTRADA}}
+              {{viatura?.upmMomentoAtual}}
+            </p>
+            <p>{{viatura?.dataEntradaSaidaMomentoAtual | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
           </ion-label>
+          <ng-template #patrulhamento>
+            <ion-label class="ion-text-wrap"><p>sem registro de entrada e saída</p></ion-label>
+          </ng-template>
+          
         </ion-item>
-      </div>
-      <ng-template #semViaturaLocal>
-        <ion-toolbar mode="ios" color="secondary">
-          <p class="ion-text-center"><strong>Em Implementação...</strong></p>
-        </ion-toolbar>
-      </ng-template>
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadUpmLocal($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="carregando...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
     </ng-template>
   </ion-list>
 

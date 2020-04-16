@@ -6,6 +6,7 @@ import { ViaturaDTO } from 'src/app/models/viatura.dto';
 import { API_CONFIG } from 'src/app/config/api.config';
 import { EntradaSaida } from 'src/app/models/entrada-saida';
 import { map, retry } from 'rxjs/operators';
+import { EntradaSaidaDTO } from 'src/app/models/entrada-saida-DTO';
 
 @Injectable({
     providedIn: 'root',
@@ -76,10 +77,11 @@ export class ViaturaService {
             .pipe(map((response: EntradaSaida[]) => response), retry(2));
     }
 
-    getViaturasPatioUpmLocal() {
-        return this.http.get<EntradaSaida[]>(
-            `${API_CONFIG.baseUrl}/controle/upmlocal`)
-            .pipe(map((response: EntradaSaida[]) => response), retry(2));
+    getViaturasPatioUpmLocal(page: number) {
+        console.log(page)
+        return this.http.get<EntradaSaidaDTO[]>(
+            `${API_CONFIG.baseUrl}/controle/upmlocal?size=10&page=${page}`)
+            .pipe(map((response: EntradaSaidaDTO[]) => response), retry(2));
     }
 
 }

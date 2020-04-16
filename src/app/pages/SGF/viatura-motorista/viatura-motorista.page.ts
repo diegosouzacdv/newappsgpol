@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
-import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PolicialDTO } from 'src/app/models/policial.dto';
-import { Subscription, Subject, Observable, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { NavController, LoadingController, AlertController } from '@ionic/angular';
 import { ViaturaService } from 'src/app/services/domain/viatura.service';
 import { PolicialService } from 'src/app/services/domain/policial.service';
