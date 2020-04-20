@@ -157,7 +157,7 @@ export class HomePage implements OnInit {
   public async alertaNovaVersao() {
     const alertCtrl = await this.alertCtrl.create({
       header: 'Nova versão disponível',
-      message: 'Atualizar o aplicativo?',
+      message: '<strong>Atualize para novas funcionalidades e correções</strong> <br> Atualizar o aplicativo?',
       buttons: [
         {
           text: 'Cancelar',

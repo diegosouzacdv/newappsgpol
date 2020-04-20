@@ -60,10 +60,10 @@
 
   <ion-segment scrollable value="patio" mode="ios" color="dark" (ionChange)="segmentChanged($event)">
     <ion-segment-button value="patio">
-      <ion-label>Viaturas no Pátio da <strong>{{ upm | uppercase}}</strong></ion-label>
+      <ion-label class="ion-text-wrap">Viaturas no Pátio da <strong>{{ upm | uppercase}}</strong></ion-label>
     </ion-segment-button>
     <ion-segment-button value="upm">
-      <ion-label>Viaturas do(a): {{ upm | uppercase}}</ion-label>
+      <ion-label class="ion-text-wrap">Viaturas do(a): {{ upm | uppercase}}</ion-label>
     </ion-segment-button>
   </ion-segment>
   <ion-list >
@@ -114,6 +114,9 @@
           </ng-template>
           
         </ion-item>
+        <ion-toolbar mode="ios" color="tertiary" *ngIf="viaturasLocal.length === 0">
+          <p class="ion-text-center"><strong>Sem viaturas no(a) {{upm | uppercase}}</strong></p>
+        </ion-toolbar>
         <ion-infinite-scroll threshold="100px" (ionInfinite)="loadUpmLocal($event)">
           <ion-infinite-scroll-content
             loadingSpinner="bubbles"

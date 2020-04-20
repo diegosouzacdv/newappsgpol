@@ -31,6 +31,8 @@ export class EntradaSaidaPage implements OnInit {
   public paginatorUpmLocal: number = 0;
   public busca: string;
   private subscribeUser: Subscription;
+  private subscribePatio: Subscription;
+  private subscribeUpmLocal: Subscription;
   tipoEntradaSaida;
 
   constructor(
@@ -88,7 +90,7 @@ export class EntradaSaidaPage implements OnInit {
   }
 
   getPatio() {
-    this.route.data.subscribe((resolvedRouteData) => {
+   this.subscribePatio = this.route.data.subscribe((resolvedRouteData) => {
      this.viaturasPatio = resolvedRouteData.data.content;
      console.log(this.viaturasPatio)
     },
@@ -96,7 +98,7 @@ export class EntradaSaidaPage implements OnInit {
   }
 
   getPatioLoading() {
-    this.viaturaService.getPatio(this.paginator)
+    this.subscribePatio = this.viaturaService.getPatio(this.paginator)
       .subscribe(response => {
         if (this.viaturasPatio != null) {
           console.log('entrando no if')
@@ -111,7 +113,8 @@ export class EntradaSaidaPage implements OnInit {
   }
 
   getPatioClick() {
-    this.viaturaService.getPatio(this.paginator)
+    this.paginator = 0;
+    this.subscribePatio = this.viaturaService.getPatio(this.paginator)
       .subscribe(response => {
           this.viaturasPatio = response['content'];
         console.log(this.viaturasPatio);
@@ -120,7 +123,7 @@ export class EntradaSaidaPage implements OnInit {
   }
 
   getViaturasPatioUpmLocalLoading() {
-    this.viaturaService.getViaturasPatioUpmLocal(this.paginatorUpmLocal)
+    this.subscribeUpmLocal = this.viaturaService.getViaturasPatioUpmLocal(this.paginatorUpmLocal)
       .subscribe(response => {
         this.viaturasLocal = this.viaturasLocal.concat(response);
         console.log(this.viaturasLocal);
@@ -129,8 +132,10 @@ export class EntradaSaidaPage implements OnInit {
   }
 
   getViaturasPatioUpmLocal() {
-    this.viaturaService.getViaturasPatioUpmLocal(this.paginatorUpmLocal)
+    this.paginatorUpmLocal = 0;
+    this.subscribeUpmLocal = this.viaturaService.getViaturasPatioUpmLocal(this.paginatorUpmLocal)
       .subscribe(response => {
+        this.viaturasLocal = null;
         this.viaturasLocal = response;
         console.log(response);
     },
@@ -275,4 +280,9 @@ export class EntradaSaidaPage implements OnInit {
     return this.loading.present();
   }
 
+  ionViewWillLeave() {
+    if (!this.subscribeUser.closed) { this.subscribeUser.unsubscribe(); }
+    if (!this.subscribePatio.closed) { this.subscribePatio.unsubscribe(); }
+    if (!this.subscribeUpmLocal.closed) { this.subscribeUpmLocal.unsubscribe(); }
+  }
 }
