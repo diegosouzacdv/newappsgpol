@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
-import { Subject, Observable, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators';
+import { debounceTime,  switchMap, catchError } from 'rxjs/operators';
 import { ViaturaService } from 'src/app/services/domain/viatura.service';
 import { AlertController, NavController } from '@ionic/angular';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
+import { Subject } from 'rxjs/internal/Subject';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-pesquisa-viatura',

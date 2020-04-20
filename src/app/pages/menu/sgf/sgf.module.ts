@@ -14,7 +14,6 @@ import { SgfPage } from './sgf.page';
     FormsModule,
     IonicModule,
     SgfPageRoutingModule
-  ],
-  declarations: [SgfPage]
+  ]
 })
 export class SgfPageModule {}

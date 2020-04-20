@@ -14,7 +14,6 @@ import { SaudePage } from './saude.page';
     FormsModule,
     IonicModule,
     SaudePageRoutingModule
-  ],
-  declarations: [SaudePage]
+  ]
 })
 export class SaudePageModule {}

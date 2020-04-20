@@ -6,15 +6,14 @@ import { IonicModule } from '@ionic/angular';
 
 import { PessoalPageRoutingModule } from './pessoal-routing.module';
 
-import { PessoalPage } from './pessoal.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PessoalPageRoutingModule
-  ],
-  declarations: [PessoalPage]
+    PessoalPageRoutingModule,
+  ]
 })
 export class PessoalPageModule {}
+
