@@ -12,6 +12,7 @@ import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { PolicialService } from '../services/domain/policial.service';
 import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-media/ngx';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-m
 })
 export class HomePage implements OnInit {
 
-  public pages: Pages;
+  public pages: Pages[];
   public versao;
   public nome;
   public versaoBD;
@@ -28,6 +29,8 @@ export class HomePage implements OnInit {
   loading;
   public nomeUsuario = '';
   private subscribeUser: Subscription;
+  private subscribePages: Subscription;
+  
   public urlAtualizacao = this.storage.getAtualizacao();
   public classes = {
     pessoal: false,
@@ -38,6 +41,7 @@ export class HomePage implements OnInit {
 
   constructor(public pagesServices: PagesService,
     public policialService: PolicialService,
+    private route: ActivatedRoute,
     public authService: AuthService,
     public alertCtrl: AlertController,
     private appVersion: AppVersion,
@@ -54,13 +58,15 @@ export class HomePage implements OnInit {
     this.getVersao();
     this.permissaoAdjunto();
     this.resolverUser();
+    this.getPages();
 
-    this.pagesServices.getListingDataSource()
-      .subscribe(response => {
-        this.pages = response;
-        console.log(this.pages)
-      })
+  }
 
+  getPages() {
+    this.subscribePages = this.route.data.subscribe((resolvedRouteData) => {
+      this.pages = resolvedRouteData.pages;
+      console.log(this.pages)
+    })
   }
 
   // public streaming() {
@@ -238,11 +244,11 @@ export class HomePage implements OnInit {
 
   public changePage(pagina: string) {
     this.mudarClasse(pagina);
-    this.pages.page.forEach((element) => {
-      if (element.nome === pagina) {
-        element.ativo = true;
+    this.pages.forEach((element) => {
+      if (element['nome'] === pagina) {
+        element['ativo'] = true;
       } else {
-        element.ativo = false;
+        element['ativo'] = false;
       }
     });
   }

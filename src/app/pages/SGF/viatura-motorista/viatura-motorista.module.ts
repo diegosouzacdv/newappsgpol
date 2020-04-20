@@ -14,11 +14,11 @@ import { PesquisaViaturaPageModule } from '../pesquisa-viatura/pesquisa-viatura.
   imports: [
     CommonModule,
     FormsModule,
+    PesquisaViaturaPageModule,
     DadosBasicoPolicialModule,
     IonicModule,
     ShellModule,
     ViaturaMotoristaPageRoutingModule,
-    PesquisaViaturaPageModule
   ],
   declarations: [ViaturaMotoristaPage]
 })

@@ -53,19 +53,19 @@ export class Tab1Page {
     this.resolverUser();
     this.pagesServices.getListingDataSource()
       .subscribe(response => {
-        this.pages = response;
-        console.log(this.pages)
+        console.log(response)
+        //this.pages = response;
       })
   }
 
   public changePage(pagina: string) {
-    this.pages.page.forEach((element) => {
-      if(element.nome === pagina) {
-        element.ativo = true;
-      } else {
-        element.ativo = false;
-      }
-    });
+    // this.pages.forEach((element) => {
+    //   if(element.nome === pagina) {
+    //     element.ativo = true;
+    //   } else {
+    //     element.ativo = false;
+    //   }
+    // });
   }
 
   downloadatualiza() {

@@ -1,9 +1,9 @@
-{
-  "page":[
+[
     {
       "nome": "pessoal",
       "ativo": false
-    },
+    }
+    ,
     {
       "nome": "sgf",
       "ativo": false
@@ -13,4 +13,4 @@
       "ativo": false
     }
 ]
-}
+

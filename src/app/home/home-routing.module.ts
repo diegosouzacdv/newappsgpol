@@ -2,11 +2,15 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
+import { ResolverHome } from '../resolvers/ResolverHome';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomePage
+    component: HomePage,
+    resolve: {
+      pages: ResolverHome
+    }
   }
 ];
 

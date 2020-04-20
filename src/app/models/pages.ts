@@ -1,6 +1,4 @@
 export class Pages {
-    page?: [{
-        nome? : string,
+        nome? : string;
         ativo? : boolean;
-    }];
 }
