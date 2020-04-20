@@ -27,6 +27,9 @@ export class PerfilPage implements OnInit {
     this.getPolicial();
   }
 
+ 
+
+
   getPolicial() {
     let localUser = this.storage.getLocalUser();
     if (localUser && localUser.id) {

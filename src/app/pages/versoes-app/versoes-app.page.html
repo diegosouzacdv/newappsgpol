@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar mode="ios" color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Versões
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="cardAll">
+    <div class="dados-policial">
+      <app-dados-basico-policial></app-dados-basico-policial>
+    </div>
+  </ion-card>
+  <ion-card mode="md">
+      <ion-list-header color="primary"  mode="md">
+        <div class="ion-text-center">
+          <ion-label>Atualizações e Correções</ion-label>
+        </div>
+      </ion-list-header>
+      <ion-card-content>
+        <ion-item *ngFor="let versao of versoes">
+          <ion-label class="ion-text-wrap">
+            <p><strong>{{versao.versao}}</strong></p>
+            <p [innerHtml]="versao.observacao"></p>
+          </ion-label>
+          
+        </ion-item>
+      </ion-card-content>
+  </ion-card>
+</ion-content>

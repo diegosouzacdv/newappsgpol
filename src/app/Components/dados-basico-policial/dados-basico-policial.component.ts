@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { PolicialService } from 'src/app/services/domain/policial.service';
 import { Subscription } from 'rxjs';
 import { PolicialDTO } from 'src/app/models/policial.dto';
@@ -12,7 +12,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class DadosBasicoPolicialComponent implements OnInit {
 
   private subscribeUser: Subscription;
-  public policial: PolicialDTO;
+  @Output() public policial: PolicialDTO;
   public fotouser: any;
 
   constructor(

@@ -44,6 +44,10 @@ const routes: Routes = [
   {
     path: 'entrada-saida',
     loadChildren: () => import('./pages/sgf/entrada-saida/entrada-saida.module').then( m => m.EntradaSaidaPageModule)
+  },
+  {
+    path: 'versoes',
+    loadChildren: () => import('./pages/versoes-app/versoes-app.module').then( m => m.VersoesAppPageModule)
   }
 ];
 @NgModule({
