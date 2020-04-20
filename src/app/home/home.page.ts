@@ -220,7 +220,9 @@ export class HomePage implements OnInit {
 
   async download() {
     this.loading = await this.loadingController.create({
-      message: 'Por favor, aguarde... <b>Fazendo Download.</b>'
+      message: 'Por favor, aguarde... <b>Fazendo Download.</b>',
+      mode: 'ios',
+      spinner: 'lines' 
     });
     return this.loading.present();
   }
