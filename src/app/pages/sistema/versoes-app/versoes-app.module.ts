@@ -8,6 +8,7 @@ import { VersoesAppPageRoutingModule } from './versoes-app-routing.module';
 
 import { VersoesAppPage } from './versoes-app.page';
 import { DadosBasicoPolicialModule } from 'src/app/Components/dados-basico-policial/dados-basico-policial.module';
+import { InserirVersaoPageModule } from '../inserir-versao/inserir-versao.module';
 
 @NgModule({
   imports: [
@@ -15,8 +16,10 @@ import { DadosBasicoPolicialModule } from 'src/app/Components/dados-basico-polic
     FormsModule,
     DadosBasicoPolicialModule,
     IonicModule,
-    VersoesAppPageRoutingModule
+    VersoesAppPageRoutingModule,
+    InserirVersaoPageModule
   ],
-  declarations: [VersoesAppPage]
+  declarations: [VersoesAppPage],
+  exports:[VersoesAppPage],
 })
 export class VersoesAppPageModule {}

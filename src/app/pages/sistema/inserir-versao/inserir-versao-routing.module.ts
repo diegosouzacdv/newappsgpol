@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { VersoesAppPage } from './versoes-app.page';
+import { InserirVersaoPage } from './inserir-versao.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: VersoesAppPage
+    component: InserirVersaoPage
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  entryComponents: [
+    InserirVersaoPage
+  ],
 })
-export class VersoesAppPageRoutingModule {}
+export class InserirVersaoPageRoutingModule {}

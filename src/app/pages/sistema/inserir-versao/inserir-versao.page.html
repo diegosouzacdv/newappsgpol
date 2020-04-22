@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar mode="ios" color="primary">
+    <ion-buttons slot="start" (click)="close()">
+      FECHAR
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card mode="md">
+    <ion-card-header>
+      <ion-card-title>Nova Versão</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="loginForm">
+        <ion-item>
+          <ion-label position="floating">Versão</ion-label>
+          <ion-input clearInput type="text" placeholder="número da versão" formControlName="versao"></ion-input>
+        </ion-item>
+        <ion-item>
+          <div class="ion-padding-horizontal">
+            <ion-text color="danger" *ngIf="!loginForm.get('versao').valid && loginForm.get('versao').touched">
+              <p class="error">Versão é obrigatória</p>
+            </ion-text>
+          </div>
+
+          <ion-label position="floating">URL</ion-label>
+          <ion-input clearInput type="text" placeholder="URL download" formControlName="url"></ion-input>
+        </ion-item>
+        <div class="ion-padding-horizontal">
+          <ion-text color="danger" *ngIf="!loginForm.get('url').valid && loginForm.get('url').touched">
+            <p class="error">URL é obrigatória</p>
+          </ion-text>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Descrição</ion-label>
+          <ion-textarea clearInput type="text" placeholder="mudanças feitas" formControlName="observacao"></ion-textarea>
+        </ion-item>
+        <div class="ion-padding-horizontal">
+          <ion-text color="danger" *ngIf="!loginForm.get('observacao').valid && loginForm.get('observacao').touched">
+            <p class="error">observacao é obrigatória</p>
+          </ion-text>
+        </div>
+
+      </form>
+    </ion-card-content>
+    <div>
+      <ion-button (click)="salvar()" expand="block" fill="clear" shape="round" [disabled]="loginForm.invalid">
+        Salvar
+      </ion-button>
+    </div>
+  </ion-card>
+
+</ion-content>

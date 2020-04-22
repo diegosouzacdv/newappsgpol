@@ -10,6 +10,9 @@
 </ion-header>
 
 <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
   <ion-card class="cardAll">
     <div class="dados-policial">
       <app-dados-basico-policial></app-dados-basico-policial>
@@ -31,4 +34,15 @@
         </ion-item>
       </ion-card-content>
   </ion-card>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadVersoes($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="carregando...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="criandoVersao()">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

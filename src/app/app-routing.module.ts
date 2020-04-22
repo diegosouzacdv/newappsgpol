@@ -47,7 +47,7 @@ const routes: Routes = [
   },
   {
     path: 'versoes',
-    loadChildren: () => import('./pages/versoes-app/versoes-app.module').then( m => m.VersoesAppPageModule)
+    loadChildren: () => import('./pages/sistema/versoes-app/versoes-app.module').then( m => m.VersoesAppPageModule)
   }
 ];
 @NgModule({

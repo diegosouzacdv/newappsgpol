@@ -35,7 +35,8 @@ export class HomePage implements OnInit {
   public classes = {
     pessoal: false,
     sgf: false,
-    saude: false
+    saude: false,
+    administrador: false
   }
 
 
@@ -261,18 +262,28 @@ export class HomePage implements OnInit {
       this.classes.pessoal = !this.classes.pessoal;
       this.classes.sgf = false;
       this.classes.saude = false;
+      this.classes.administrador = false;
     }
 
     if (pagina == 'sgf') {
       this.classes.sgf = !this.classes.sgf;
       this.classes.pessoal = false;
       this.classes.saude = false;
+      this.classes.administrador = false;
     }
 
     if (pagina == 'saude') {
       this.classes.saude = !this.classes.saude;
       this.classes.pessoal = false;
       this.classes.sgf = false;
+      this.classes.administrador = false;
+    }
+
+    if (pagina == 'administrador') {
+      this.classes.administrador = !this.classes.administrador;
+      this.classes.pessoal = false;
+      this.classes.sgf = false;
+      this.classes.saude = false;
     }
   }
 

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SaudePageRoutingModule } from './saude-routing.module';
+import { AdministradorPageRoutingModule } from './administrador-routing.module';
 
 
 @NgModule({
@@ -12,7 +12,7 @@ import { SaudePageRoutingModule } from './saude-routing.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    SaudePageRoutingModule
-  ]
+    AdministradorPageRoutingModule
+  ],
 })
-export class SaudePageModule {}
+export class AdministradorPageModule {}

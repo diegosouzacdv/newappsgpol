@@ -12,8 +12,13 @@ export class VersaoAppService {
     constructor(public http: HttpClient) {
     }
 
-    buscarVersoes(): Observable<Versao[]> {
+    buscarVersoes(page: number): Observable<Versao[]> {
         return this.http.get<Versao[]>(
-            `${API_CONFIG.baseUrl}/versao/all`);
+            `${API_CONFIG.baseUrl}/versao/all?size=10&page=${page}`);
+    }
+
+    salvarVersoes(versao: Versao): Observable<Versao> {
+        return this.http.post<Versao>(
+            `${API_CONFIG.baseUrl}/versao`, versao);
     }
 }

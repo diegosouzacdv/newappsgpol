@@ -63,9 +63,22 @@
         </div>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-col size="4">
+        <div [ngClass]= "{'cards': !classes.administrador, 'card-click': classes.administrador}" (click)="changePage('administrador')">
+          <div [ngClass]= "{'conteudo': !classes.administrador, 'conteudo-click': classes.administrador}" class="ion-text-center">
+            <div [ngClass]= "{'icon': !classes.administrador, 'icon-click': classes.administrador}" class="ion-text-center">
+              <ion-icon name="lock-closed"></ion-icon><br>
+            </div>
+              <ion-label>Administrador</ion-label>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
     <app-pessoal *ngIf="pages[0]?.ativo"></app-pessoal>
     <app-sgf *ngIf="pages[1]?.ativo"></app-sgf>
     <app-saude *ngIf="pages[2]?.ativo"></app-saude>
+    <app-administrador *ngIf="pages[3]?.ativo"></app-administrador>
     <!-- <ion-button (click)="streaming()" expand="block" fill="clear" shape="round">
       Streaming
     </ion-button> -->

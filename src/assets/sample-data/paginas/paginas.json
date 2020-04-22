@@ -11,6 +11,10 @@
     {
       "nome": "saude",
       "ativo": false
+    },
+    {
+      "nome": "administrador",
+      "ativo": false
     }
 ]
 
