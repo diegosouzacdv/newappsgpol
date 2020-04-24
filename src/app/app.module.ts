@@ -17,6 +17,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { StreamingMedia } from '@ionic-native/streaming-media/ngx';
 import { HomePipe } from './pipes/home.pipe';
 
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx'
+import { SQLite } from '@ionic-native/sqlite/ngx'
+
 @NgModule({
   declarations: [AppComponent, HomePipe],
   entryComponents: [],
@@ -28,6 +31,8 @@ import { HomePipe } from './pipes/home.pipe';
     Geolocation,
     StreamingMedia,
     File,
+    SQLite,
+    SQLitePorter,
     FileOpener,
     FileTransfer,
     AuthInterceptorProvider,

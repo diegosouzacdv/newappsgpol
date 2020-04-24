@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS versions(id integer primary key AUTOINCREMENT NOT NULL, versao TEXT, url TEXT, observacao TEXT, lida TEXT);
+INSERT or IGNORE INTO versions VALUES (1, '1.0.0', '', 'Criado página de vistoria viatura e página do adjunto para liberação da vistoria;', '1');
+INSERT or IGNORE INTO versions VALUES (2, '1.1.0', '', 'Controle de Entrada e saida da viatura no batalhão;', '2');
+INSERT or IGNORE INTO versions VALUES (3, '1.2.0', '', 'Visualizando última entrada e saida da viatura; no metodo getPatioUpmLocal traz todos os registros de controle de entrada e saida da viatura, filtrar a consulta repository buscando pelo ano;', '1');
+INSERT or IGNORE INTO versions VALUES (4, '1.2.1', '', 'Arrumando paginação quando clicava no menu que mostra o pátio e as viaturas da upm local na página de entrada e saída de viaturas; Ajustando design e barra de status; ', '1');

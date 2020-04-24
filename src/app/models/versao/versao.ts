@@ -3,4 +3,5 @@ export interface Versao {
     versao?: string;
     url?: string;
     observacao?: string;
+    lida?: boolean;
 }

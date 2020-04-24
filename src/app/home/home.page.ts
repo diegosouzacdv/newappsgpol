@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, ɵConsole } from '@angular/co
 import { Pages } from '../models/pages';
 import { PagesService } from '../services/page.service';
 import { AuthService } from '../services/auth.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { AppComponent } from '../app.component';
@@ -13,6 +13,8 @@ import { File } from '@ionic-native/file/ngx';
 import { PolicialService } from '../services/domain/policial.service';
 import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-media/ngx';
 import { ActivatedRoute } from '@angular/router';
+import { DatabaseService } from '../services/database.service';
+import { Versao } from '../models/versao/versao';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +32,7 @@ export class HomePage implements OnInit {
   public nomeUsuario = '';
   private subscribeUser: Subscription;
   private subscribePages: Subscription;
-  
+
   public urlAtualizacao = this.storage.getAtualizacao();
   public classes = {
     pessoal: false,
@@ -49,9 +51,11 @@ export class HomePage implements OnInit {
       roels: false
     }
   ];
+  public versions: Versao[] = [];
 
 
-  constructor(public pagesServices: PagesService,
+  constructor(
+    public pagesServices: PagesService,
     public policialService: PolicialService,
     private route: ActivatedRoute,
     public authService: AuthService,
@@ -63,42 +67,52 @@ export class HomePage implements OnInit {
     private file: File,
     private fileOpener: FileOpener,
     private loadingController: LoadingController,
-    private streamingMedia: StreamingMedia,) { }
+    private db: DatabaseService,
+
+  ) { }
 
   ngOnInit() {
     this.getVersao();
     this.permissoesAcesso();
     this.resolverUser();
     this.getPages();
+    this.getDatabase();
+  }
 
+  getDatabase() {
+    this.db.getDatabaseState().subscribe(ready => {
+      if (ready) {
+        this.db.getVersion(2)
+          .then(response => {
+            console.log(response)
+          })
+      }
+    })
   }
 
   getPages() {
     this.subscribePages = this.route.data.subscribe((resolvedRouteData) => {
       this.pages = resolvedRouteData.pages;
-      console.log(this.pages)
     })
   }
 
   public resolverUser() {
     this.subscribeUser = this.policialService.usuarioLogado()
-    .subscribe((response) => {
-      console.log(response)
-      this.nomeUsuario = response.nomeGuerra.substring(0,1);
-      this.nomeUsuario = this.nomeUsuario + this.nomeUsuario;
-    });
+      .subscribe((response) => {
+        console.log(response)
+        this.nomeUsuario = response.nomeGuerra.substring(0, 1);
+        this.nomeUsuario = this.nomeUsuario + this.nomeUsuario;
+      });
   }
 
   public permissoesAcesso() {
     let permissao = this.storage.getLocalUser()
-    console.log(permissao)
     if (permissao.authorities) {
       permissao.authorities.forEach(response => {
         if (response == 'ROLE_SGF_ADJUNTO') {
           this.appPages.forEach((element, i) => {
             if (element.title === 'Adjunto') {
               this.appPages[i].roels = true;
-              console.log(this.appPages[i].roels)
             }
           });
         }
@@ -106,14 +120,12 @@ export class HomePage implements OnInit {
           this.appPages.forEach((element, i) => {
             if (element.title === 'Administrador') {
               this.appPages[i].roels = true;
-              console.log(this.appPages[i].roels)
             }
           });
         }
       })
     }
 
-    console.log(this.appPages)
   }
 
   downloadatualiza() {
@@ -131,7 +143,6 @@ export class HomePage implements OnInit {
   getVersao() {
     this.versaoSubscription = this.storage.getVersao()
       .subscribe(response => {
-        console.log(response)
         this.versaoBD = response;
         this.versionApp();
       });
@@ -142,7 +153,6 @@ export class HomePage implements OnInit {
     let versaoBD;
     this.appVersion.getVersionNumber()
       .then(response => {
-        console.log(response)
         version = this.transformarNum(response);
         versaoBD = this.transformarNum(this.versaoBD.versao);
         if (version < versaoBD) {
@@ -162,9 +172,7 @@ export class HomePage implements OnInit {
     this.file.removeFile(iosORandroid, "app-debug.apk")
       .then(sucess => {
         this.storage.setAtualizacao(null);
-        console.log(sucess)
       }, error => {
-        console.log(error)
       })
   }
 
@@ -193,7 +201,6 @@ export class HomePage implements OnInit {
   transformarNum(versao): number {
     // tslint:disable-next-line: radix
     const space = parseInt(versao.split('.').join(''));
-    console.log(space);
     return space;
   }
 
@@ -230,7 +237,7 @@ export class HomePage implements OnInit {
     this.loading = await this.loadingController.create({
       message: 'Por favor, aguarde... <b>Fazendo Download.</b>',
       mode: 'ios',
-      spinner: 'lines' 
+      spinner: 'lines'
     });
     return this.loading.present();
   }
