@@ -39,6 +39,17 @@ export class HomePage implements OnInit {
     administrador: false
   }
 
+  public appPages = [
+    {
+      title: 'Adjunto',
+      roels: false
+    },
+    {
+      title: 'Administrador',
+      roels: false
+    }
+  ];
+
 
   constructor(public pagesServices: PagesService,
     public policialService: PolicialService,
@@ -50,14 +61,13 @@ export class HomePage implements OnInit {
     private platform: Platform,
     private fileTransfer: FileTransfer,
     private file: File,
-    public app: AppComponent,
     private fileOpener: FileOpener,
     private loadingController: LoadingController,
-    private streamingMedia: StreamingMedia) { }
+    private streamingMedia: StreamingMedia,) { }
 
   ngOnInit() {
     this.getVersao();
-    this.permissaoAdjunto();
+    this.permissoesAcesso();
     this.resolverUser();
     this.getPages();
 
@@ -70,19 +80,6 @@ export class HomePage implements OnInit {
     })
   }
 
-  // public streaming() {
-  //   console.log('streaming')
-  //   let options: StreamingVideoOptions = {
-  //     successCallback: () => { console.log('Video played') },
-  //     errorCallback: (e) => { console.log('Error streaming', e)},
-  //     orientation: 'portrait',
-  //     shouldAutoClose: true,
-  //     controls: true
-  //   };
-
-  //   this.streamingMedia.playVideo('https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4', options);
-  // }
-
   public resolverUser() {
     this.subscribeUser = this.policialService.usuarioLogado()
     .subscribe((response) => {
@@ -92,21 +89,31 @@ export class HomePage implements OnInit {
     });
   }
 
-  public permissaoAdjunto() {
+  public permissoesAcesso() {
     let permissao = this.storage.getLocalUser()
     console.log(permissao)
     if (permissao.authorities) {
-      permissao.authorities.forEach(respose => {
-        if (respose == 'ROLE_SGF_ADJUNTO') {
-          this.app.appPages.forEach((element, i) => {
+      permissao.authorities.forEach(response => {
+        if (response == 'ROLE_SGF_ADJUNTO') {
+          this.appPages.forEach((element, i) => {
             if (element.title === 'Adjunto') {
-              this.app.appPages[i].roels = true;
+              this.appPages[i].roels = true;
+              console.log(this.appPages[i].roels)
             }
           });
-
+        }
+        if (response == 'ROLE_APP_ADMIN') {
+          this.appPages.forEach((element, i) => {
+            if (element.title === 'Administrador') {
+              this.appPages[i].roels = true;
+              console.log(this.appPages[i].roels)
+            }
+          });
         }
       })
     }
+
+    console.log(this.appPages)
   }
 
   downloadatualiza() {

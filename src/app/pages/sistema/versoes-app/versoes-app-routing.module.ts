@@ -8,6 +8,9 @@ const routes: Routes = [
   {
     path: '',
     component: VersoesAppPage,
+    data: {
+      allowedRoles: ['ROLE_APP_ADMIN']
+    },
     resolve: {
       data: ResolverVersoes
     }

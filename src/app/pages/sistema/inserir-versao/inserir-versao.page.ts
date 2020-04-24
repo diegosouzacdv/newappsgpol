@@ -3,6 +3,7 @@ import { ModalController, ToastController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Versao } from 'src/app/models/versao/versao';
 import { VersaoAppService } from 'src/app/services/domain/versao-app.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-inserir-versao',
@@ -12,6 +13,7 @@ import { VersaoAppService } from 'src/app/services/domain/versao-app.service';
 export class InserirVersaoPage implements OnInit {
 
   loginForm: FormGroup;
+  private versoesSbubscribe: Subscription;
 
   constructor(public modalController: ModalController,
               private formBuild: FormBuilder,
@@ -32,9 +34,8 @@ export class InserirVersaoPage implements OnInit {
   }
 
   salvar() {
-    let versao = this.loginForm.value
-    console.log(versao)
-    this.versaoAppService.salvarVersoes(versao)
+    let versao = this.loginForm.value;
+    this.versoesSbubscribe = this.versaoAppService.salvarVersoes(versao)
     .subscribe(response => {
       this.presentToast();
     })
@@ -46,6 +47,10 @@ export class InserirVersaoPage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+
+  ionViewWillLeave() {
+    if (!this.versoesSbubscribe.closed) { this.versoesSbubscribe.unsubscribe(); }
   }
 
 

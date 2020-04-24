@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -9,10 +9,12 @@ import { NavController } from '@ionic/angular';
 export class SgfPage implements OnInit {
 
   color = 'secondary';
+  @Input() appPages;
 
   constructor(public navCtrl: NavController) { }
 
   ngOnInit() {
+    console.log(this.appPages)
   }
 
   public routeMotorista() {

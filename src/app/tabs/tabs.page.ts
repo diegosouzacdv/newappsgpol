@@ -37,23 +37,6 @@ export class TabsPage {
 
   ngOnInit() {
     this.getVersao();
-    this.permissaoAdjunto();
-  }
-
-  public permissaoAdjunto() {
-    let permissao = this.storage.getLocalUser()
-    console.log(permissao)
-
-    permissao.authorities.forEach(respose => {
-     if (respose == 'ROLE_SGF_ADJUNTO') {
-      this.app.appPages.forEach((element, i) => {
-        if(element.title === 'Adjunto') {
-          this.app.appPages[i].roels = true;
-        }
-       });
-       
-     }
-    })
   }
 
   getVersao() {

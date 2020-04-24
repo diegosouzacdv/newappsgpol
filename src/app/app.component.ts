@@ -18,33 +18,6 @@ import { Router, RouterEvent } from '@angular/router';
 })
 export class AppComponent {
 
-  public appPages = [
-    {
-      title: 'Início',
-      url: '/tabs/tab1',
-      icon: 'home',
-      roels: true
-    },
-    {
-      title: 'Viatura',
-      url: '/tabs/tab2',
-      icon: 'car',
-      roels: true
-    },
-    {
-      title: 'Efetivo',
-      url: '/tabs/tab3',
-      icon: 'people',
-      roels: true
-    },
-    {
-      title: 'Adjunto',
-      url: `/adjunto/`,
-      icon: 'refresh-circle',
-      roels: false
-    }
-  ];
-
   public policial: PolicialDTO;
   private subscribeUser: Subscription;
   public selectedPath = '';
