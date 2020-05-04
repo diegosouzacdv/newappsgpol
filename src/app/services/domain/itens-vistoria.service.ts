@@ -6,6 +6,7 @@ import { VistoriaVistoriaDTO } from 'src/app/models/vistoria-viatura.dto';
 import { ItensVistoria } from 'src/app/models/itens-vistoria';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ImageUtilService } from './image-util.service';
+import { ViaturaTemVistoriaDTO } from 'src/app/models/viatura-tem-vistoria.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -26,6 +27,10 @@ export class ItensVistoriaService {
 
     buscarVistoria(idViatura: string): Observable<any> {
         return this.http.get<any>(`${API_CONFIG.baseUrl}/viatura/vistoria/${idViatura}`);
+    }
+
+    isViaturaVistoria(idViatura: string): Observable<ViaturaTemVistoriaDTO> {
+        return this.http.get<ViaturaTemVistoriaDTO>(`${API_CONFIG.baseUrl}/viatura/vistoria/viaturaTemVistoria/${idViatura}`);
     }
 
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { HttpClient } from '@angular/common/http';
@@ -13,23 +13,28 @@ export class DatabaseService {
 
   private database: SQLiteObject;
   private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public retorn = new ReplaySubject(1);
 
   versions = new BehaviorSubject([]);
+  versao = new BehaviorSubject([]);
 
   constructor(private plt: Platform, private sqlitePorter: SQLitePorter, private sqlite: SQLite, private http: HttpClient) {
-      this.getDB();
+  this.getDB();
    }
+  
 
   public getDB() {
-    return this.sqlite.create({
+    const db = this.sqlite.create({
       name: 'versions.db',
       location: 'default'
     })
-    .then((db: SQLiteObject) => {
-      this.database = db;
-      this.seedDatabase();
-    });
-    
+    if (db != undefined) {
+      db.then((db: SQLiteObject) => {
+        this.database = db;
+        this.seedDatabase();
+      });
+    }
+    return db;
   }
 
   seedDatabase() {
@@ -52,19 +57,23 @@ export class DatabaseService {
     return this.versions.asObservable();
   }
 
+   verso (versao: number): Observable<Versao[]> {
+     console.log(versao)
+     this.loadVersionNumber(versao);
+    return this.versao.asObservable();
+  }
+
   loadVersions() {
-    let lida = 0;
-    return this.database.executeSql(`SELECT * FROM versions WHERE lida = ${lida}`, []).then(data => {
+    return this.database.executeSql(`SELECT * FROM versions WHERE lida = 1`, []).then(data => {
       let versoes: Versao[] = [];
- 
+      console.log(data)
       if (data.rows.length > 0) {
         for (var i = 0; i < data.rows.length; i++) {
  
           versoes.push({ 
             id: data.rows.item(i).id,
             versao: data.rows.item(i).versao, 
-            url: data.rows.item(i).url, 
-            observacao: data.rows.item(i).observacao, 
+            mensagemUsuario: data.rows.item(i).mensagemUsuario, 
             lida: data.rows.item(i).lida,
            });
         }
@@ -73,23 +82,32 @@ export class DatabaseService {
     });
   }
 
-  addVersions(versao: Versao) {
-    let data = [versao.id, versao.versao, versao.url, versao.observacao, versao.lida];
-    return this.database.executeSql('INSERT INTO versions (versao, url, observacao, lida) VALUES (?, ?, ?, ?)', data).then(data => {
-      this.loadVersions();
+  loadVersionNumber(versao) {
+    let versoes: Versao[] = [];
+    this.database.executeSql(`SELECT * FROM versions WHERE versao LIKE ${versao.toString()}`, []).then(data => {
+      console.log(data)
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+ 
+          versoes.push({ 
+            id: data.rows.item(i).id,
+            versao: data.rows.item(i).versao, 
+            mensagemUsuario: data.rows.item(i).mensagemUsuario, 
+            lida: data.rows.item(i).lida,
+           });
+        }
+      }
+     
     });
+      
+      return versoes.map(response => this.retorn.next(response));
+    
   }
 
-  getVersion(id: number): Promise<Versao> {
-    return this.database.executeSql('SELECT * FROM versions WHERE id = ?', [id]).then(data => {
-      console.log(data)
-      return {
-        id: data.rows.item(0).id,
-        versao: data.rows.item(0).versao, 
-        url: data.rows.item(0).url,
-        observacao: data.rows.item(0).observacao,
-        lida: data.rows.item(0).lida,
-      }
+  addVersions(versao: Versao) {
+    let data = [versao.id, versao.versao, versao.mensagemUsuario, versao.lida];
+    return this.database.executeSql('INSERT INTO versions (versao,  mensagemUsuario, lida) VALUES (?, ?, ?, ?)', data).then(data => {
+      this.loadVersions();
     });
   }
 
@@ -100,8 +118,8 @@ export class DatabaseService {
   }
 
   updateVersion(versao: Versao) {
-    let data = [versao.versao, versao.url, versao.observacao, versao.lida];
-    return this.database.executeSql(`UPDATE versions SET versao = ?, url = ?, observacao = ?, lida = ? WHERE id = ${versao.id}`, data).then(data => {
+    let data = [versao.versao, versao.mensagemUsuario, versao.lida];
+    return this.database.executeSql(`UPDATE versions SET versao = ?, observacao = ?, lida = ? WHERE id = ${versao.id}`, data).then(data => {
       this.loadVersions();
     })
   }

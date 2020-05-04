@@ -82,10 +82,9 @@ export class HomePage implements OnInit {
   getDatabase() {
     this.db.getDatabaseState().subscribe(ready => {
       if (ready) {
-        this.db.getVersion(2)
-          .then(response => {
-            console.log(response)
-          })
+        this.db.getVersions().subscribe(response => {
+          this.versions = response;
+        })
       }
     })
   }
@@ -99,7 +98,6 @@ export class HomePage implements OnInit {
   public resolverUser() {
     this.subscribeUser = this.policialService.usuarioLogado()
       .subscribe((response) => {
-        console.log(response)
         this.nomeUsuario = response.nomeGuerra.substring(0, 1);
         this.nomeUsuario = this.nomeUsuario + this.nomeUsuario;
       });
@@ -125,7 +123,14 @@ export class HomePage implements OnInit {
         }
       })
     }
+  }
 
+  updateVersion(versao: Versao) {
+    versao.lida = 0;
+    this.db.updateVersion(versao)
+      .then(response => {
+        this.getDatabase();
+      })
   }
 
   downloadatualiza() {
@@ -164,8 +169,23 @@ export class HomePage implements OnInit {
             this.excluirApk(this.file.documentsDirectory);
           }
           this.storage.setAtualizacao(null);
+
+          this.salvarSqliteAlerta(version);
         }
       });
+  }
+
+  public salvarSqliteAlerta(versao) {
+    this.db.retorn.subscribe((response: Versao[]) => {
+        console.log(response)
+        if (response.length > 0) {
+          console.log(`Tem essa versão ${versao} no banco`)
+        } else {
+          console.log(`Não tem essa versão ${versao} no banco`)
+        }
+      })
+    
+
   }
 
   public excluirApk(iosORandroid) {
@@ -271,7 +291,6 @@ export class HomePage implements OnInit {
   }
 
   public mudarClasse(pagina: string) {
-    console.log(pagina)
     if (pagina == 'pessoal') {
       this.classes.pessoal = !this.classes.pessoal;
       this.classes.sgf = false;

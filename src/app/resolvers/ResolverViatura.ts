@@ -23,13 +23,13 @@ export class ResolverViaturaId implements Resolve<any> {
 
 
 @Injectable()
-export class ResolverListViaturaVistoria implements Resolve<any> {
+export class ResolverListViaturaEmUso implements Resolve<any> {
 
   constructor(
     public viaturaService: ViaturaService) { }
 
   resolve(route: ActivatedRouteSnapshot) {
-      const dataSource: Observable<ViaturaDTO[]> = this.viaturaService.getViaturaVistoria();
+      const dataSource: Observable<ViaturaDTO[]> = this.viaturaService.getViaturaEmUso();
       return dataSource;
             
   }

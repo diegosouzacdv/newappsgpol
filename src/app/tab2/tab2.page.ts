@@ -55,16 +55,8 @@ export class Tab2Page {
 
   ionViewWillEnter() {
     this.getPolicial();
-    this.getViaturaVistoria();
     this.showViaturaUnidade = false;
 
-  }
-  getViaturaVistoria() {
-    this.subscribeViaturaVistoria = this.viaturaService.getViaturaVistoria()
-      .subscribe(response => {
-        this.temVistoriaViatura = response;
-        console.log(response)
-      })
   }
 
   getPolicial() {

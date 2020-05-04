@@ -10,6 +10,8 @@ import { StorageService } from 'src/app/services/storage.service';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { AuthService } from 'src/app/services/auth.service';
+import { ViaturaTemVistoriaDTO } from 'src/app/models/viatura-tem-vistoria.dto';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-viatura-motorista',
@@ -23,7 +25,7 @@ export class ViaturaMotoristaPage {
   public policial: PolicialDTO;
   public quantPagina: number = 3;
   loading: any;
-  showWarning = false;
+  semViaturasUnidade = false;
   showViaturaUnidade = false;
   private subscribeUser: Subscription;
   private subscribeViaUni: Subscription;
@@ -31,9 +33,9 @@ export class ViaturaMotoristaPage {
   private subscribeVistoria: Subscription;
   private subscribePesquisa: Subscription;
   private subscribeViaturaVistoria: Subscription;
-  adjunto = false;
   situacaoViatura;
-  public temVistoriaViatura: ViaturaDTO[];
+  public temViaturaEmUso: ViaturaDTO[];
+  private temVistoria = 'false';
   public busca: string;
 
   constructor(
@@ -52,9 +54,13 @@ export class ViaturaMotoristaPage {
   ngOnInit() {
   }
 
+  vistoriar(viatura: ViaturaDTO) {
+    this.router.navigate(['/vistoria', viatura.id, this.temVistoria, 'false'])
+  }
+
   ionViewWillEnter() {
     this.getPolicial();
-    this.getViaturaVistoria();
+    this.getViaturaEmUso();
     this.showViaturaUnidade = false;
   }
 
@@ -62,10 +68,10 @@ export class ViaturaMotoristaPage {
     this.busca = event;
   }
 
-  getViaturaVistoria() {
+  getViaturaEmUso() {
     this.subscribeViaturaVistoria = this.route.data.subscribe((resolvedRouteData) => {
-      this.temVistoriaViatura = resolvedRouteData.isVistoria;
-      console.log(this.temVistoriaViatura)
+      this.temViaturaEmUso = resolvedRouteData.isViaturaEmUso;
+      console.log(this.temViaturaEmUso)
     })
   }
 
@@ -76,6 +82,7 @@ export class ViaturaMotoristaPage {
       this.subscribeUser = this.policialService.usuarioLogado()
         .subscribe(response => {
           this.policial = response;
+          console.log(this.policial.matricula)
         },
           error => { });
     }
@@ -89,8 +96,20 @@ export class ViaturaMotoristaPage {
           .subscribe(response => {
             this.loading.dismiss();
             this.viaturasUnidade = response;
+
+            this.viaturasUnidade.forEach(viatura => {
+              this.itensVistoriaService.isViaturaVistoria(viatura.id)
+                .subscribe(response => {
+                  console.log(response.motoristaMatricula)
+                  viatura.viaturaTemVistoria = response;
+                  if(viatura.viaturaTemVistoria.idVistoria !== null) {
+                    this.temVistoria = 'true';
+                  }
+                })
+            })
+
             if (this.viaturasUnidade.length === 0) {
-              this.showWarning = !this.showWarning
+              this.semViaturasUnidade = !this.semViaturasUnidade
             } else {
               this.showViaturaUnidade = true;
             }

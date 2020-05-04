@@ -80,4 +80,17 @@
     <app-saude *ngIf="pages[2]?.ativo"></app-saude>
     <app-administrador *ngIf="pages[3]?.ativo"></app-administrador>
   </div>
+
+  <ion-toolbar class="alerta" mode="ios" color="secondary" *ngIf="versions.length > 0">
+      <ion-card-header>
+        <ion-card-subtitle class="titulo-card">Nova Versão {{versions[0]?.versao}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        {{versions[0]?.mensagemUsuario}}
+      </ion-card-content>
+            <ion-item color="secondary" lines="none">
+              <ion-label class="text-alerta">não mostrar novamente</ion-label>
+              <ion-checkbox mode="md" slot="start" (ionChange)="updateVersion(versions[0])"></ion-checkbox>
+            </ion-item>
+  </ion-toolbar>
 </ion-content>

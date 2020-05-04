@@ -1,3 +1,5 @@
+import { ViaturaTemVistoriaDTO } from './viatura-tem-vistoria.dto';
+
 export interface ViaturaDTO {
     id: string;
     odometro?:string;
@@ -22,5 +24,6 @@ export interface ViaturaDTO {
     lotacaoSubordinacao: string;
     marcaSigla: string;
     motorista?:string;
+    viaturaTemVistoria?: ViaturaTemVistoriaDTO;
 }
 

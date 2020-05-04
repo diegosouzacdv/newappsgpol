@@ -16,8 +16,8 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ViaturaFichaPage implements OnInit {
 
   viatura: ViaturaDTO;
-  temVistoria: boolean = false;
-  adjunto = 'false'
+  // temVistoria: boolean = false;
+  // adjunto = 'false'
   situacaoViatura;
   private subscribeViaturaFicha: Subscription;
   private subscribeItensVistoria: Subscription;
@@ -37,55 +37,55 @@ export class ViaturaFichaPage implements OnInit {
     this.situacaoViatura = SituacaoViatura;
 
     this.subscribeViaturaFicha = this.route.data.subscribe((resolvedRouteData) => {
-      this.isVistoria(resolvedRouteData.isVistoria)
+      //this.isVistoria(resolvedRouteData.isVistoria)
       if (resolvedRouteData.viatura) {
         this.viatura = resolvedRouteData.viatura;
-        this.getViaturaVistoria(resolvedRouteData.viaturaVistoria);
+        //this.getViaturaVistoria(resolvedRouteData.viaturaVistoria);
       } else {
-        if (this.adjunto !== 'true') {
-          this.router.navigate(['/viatura-motorista'])
-        } else {
-          this.router.navigate(['/adjunto'])
-        }
+        // if (this.adjunto !== 'true') {
+        //   this.router.navigate(['/viatura-motorista'])
+        // } else {
+        //   this.router.navigate(['/adjunto'])
+        // }
       }
     })
-    this.adjunto = this.route.snapshot.paramMap.get('adjunto');
-    console.log(this.route.snapshot.paramMap.get('adjunto'))
+    //this.adjunto = this.route.snapshot.paramMap.get('adjunto');
+    //console.log(this.route.snapshot.paramMap.get('adjunto'))
   }
 
-  getViaturaVistoria(response) {
-    this.temVistoriaViatura = response;
-    console.log(this.temVistoriaViatura)
-    if (this.temVistoriaViatura != null) {
-      this.temVistoriaViatura.forEach(element => {
-        if (element.placa == this.viatura.placa) {
-          this.temVistoriaViatura = null;
-          this.temVistoriaViatura = element;
-        }
-      });
-    }
-  }
+  // getViaturaVistoria(response) {
+  //   this.temVistoriaViatura = response;
+  //   console.log(this.temVistoriaViatura)
+  //   if (this.temVistoriaViatura != null) {
+  //     this.temVistoriaViatura.forEach(element => {
+  //       if (element.placa == this.viatura.placa) {
+  //         this.temVistoriaViatura = null;
+  //         this.temVistoriaViatura = element;
+  //       }
+  //     });
+  //   }
+  // }
 
-  async naoPodeAbrirVistoria() {
-    const alert = await this.alertController.create({
-      subHeader: 'Já existe Vistoria',
-      message: 'finalize vistoria anterior para prosseguir',
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
+  // async naoPodeAbrirVistoria() {
+  //   const alert = await this.alertController.create({
+  //     subHeader: 'Já existe Vistoria',
+  //     message: 'finalize vistoria anterior para prosseguir',
+  //     buttons: ['OK']
+  //   });
+  //   await alert.present();
+  // }
 
-  vistoriar(viatura: ViaturaDTO) {
-    this.router.navigate(['/vistoria', viatura.id, this.temVistoria, this.adjunto])
-  }
+  // vistoriar(viatura: ViaturaDTO) {
+  //   this.router.navigate(['/vistoria', viatura.id, this.temVistoria, this.adjunto])
+  // }
 
-  public isVistoria(response) {
-    console.log(response)
-    if (response != null && response.id !== 0) {
-      this.temVistoria = true;
-    }
-    console.log(this.temVistoria)
-  }
+  // public isVistoria(response) {
+  //   console.log(response)
+  //   if (response != null && response.id !== 0) {
+  //     this.temVistoria = true;
+  //   }
+  //   console.log(this.temVistoria)
+  // }
 
   ngOnInit() {
   }
