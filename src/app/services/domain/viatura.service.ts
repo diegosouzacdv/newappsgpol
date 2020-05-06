@@ -42,10 +42,9 @@ export class ViaturaService {
             `${API_CONFIG.baseUrl}/viaturas/${id}`);
     }
 
-    listarViaturasUnidade(unidade_id: string): Observable<ViaturaDTO[]> {
-        console.log(unidade_id)
+    listarViaturasUnidade(unidade_id: string, page: number,): Observable<ViaturaDTO[]> {
         return this.http.get<ViaturaDTO[]>(
-            `${API_CONFIG.baseUrl}/viaturas?lotacaoCodigo=${unidade_id}`);
+            `${API_CONFIG.baseUrl}/viaturas?lotacaoCodigo=${unidade_id}&size=20&page=${page}`);
     }
 
     getViaturaEmUso() {

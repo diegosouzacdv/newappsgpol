@@ -17,6 +17,7 @@ export class PesquisaViaturaPage implements OnInit {
   @Output() responseImovel = new EventEmitter();
   @Output() responseBusca = new EventEmitter();
   @Input() quantPagina = 1;
+  
 
   @Input() public viaturas: ViaturaDTO[];
   public pesquisa: Subject<string> = new Subject<string>();
@@ -52,7 +53,7 @@ export class PesquisaViaturaPage implements OnInit {
     this.via.subscribe((viaturas: ViaturaDTO[]) => {
       // tslint:disable-next-line: no-string-literal
       console.log(viaturas)
-      this.viaturas = viaturas;
+      this.viaturas = viaturas['content'];
       this.responseImovel.emit(this.viaturas);
       this.responseBusca.emit(this.busca)
       if (viaturas.length == 0) {

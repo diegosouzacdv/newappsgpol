@@ -224,3 +224,13 @@ hr {
 hr {
   background: var(--page-background);
 }
+
+.ion-color-cinza {
+  --ion-color-base: var(--ion-color-cinza);
+  --ion-color-base-rgb: var(--ion-color-cinza-rgb);
+  --ion-color-contrast: var(--ion-color-cinza-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-cinza-contrast-rgb);
+  --ion-color-shade: var(--ion-color-cinza-shade);
+  --ion-color-tint: var(--ion-color-cinza-tint);
+}
+

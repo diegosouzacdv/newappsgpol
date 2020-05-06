@@ -49,22 +49,12 @@ export class ViaturaVistoriaPage implements OnInit {
 
       this.situacaoViatura = SituacaoViatura;
 
-      this.resolverVistoria()
-      this.resolverViatura();
       this.idViatura = this.activatedRoute.snapshot.paramMap.get('id');
-
-      console.log(this.activatedRoute.snapshot.paramMap.get('temVistoria'))
-
-      if (this.activatedRoute.snapshot.paramMap.get('temVistoria') === 'true') {
-        this.temVistoria = true;
-      } else {
-        this.temVistoria = false;
-      }
-      if (!this.temVistoria) {
-        this.inserirInicioVistoria(this.idViatura);
-      }
-      this.getVistoria();
       this.adjunto = this.activatedRoute.snapshot.paramMap.get('adjunto');
+      
+      this.resolverViatura();
+      this.ResolveTemViaturaVistoria();
+      
     }
 
   ngOnInit() {
@@ -76,26 +66,14 @@ export class ViaturaVistoriaPage implements OnInit {
     }
   }
 
-  async enviarVistoria(){
-    this.vistoria.dataVistoria = null;
-    this.vistoria.vistoriaViaturaItensVistoria = null;
-    await this.presentLoading();
-    try {
-      console.log(this.vistoria)
-    this.subscribeItensVistoria = this.itensVistoriaService.updateVistoria(this.vistoria)
-      .subscribe(response => {
-        this.loading.dismiss();
-        this.success();
-      }, (errors => {
-        this.loading.dismiss();
-      }));
-    } finally {
-    }
-  }
-
-  public resolverVistoria() {
-    this.subscribeBuscarVistoria  = this.route.data.subscribe((resolvedRouteData) => {
-      this.vistoria = resolvedRouteData.vistoria;
+  public ResolveTemViaturaVistoria() {
+    this.route.data.subscribe((resolvedRouteData) => {
+      console.log(resolvedRouteData.temVistoria)
+      if (resolvedRouteData.temVistoria.idVistoria === null) {
+        this.inserirInicioVistoria(this.idViatura);
+      } else {
+        this.getVistoria();
+      }
     })
   }
 
@@ -135,6 +113,23 @@ export class ViaturaVistoriaPage implements OnInit {
           }
         });
       });
+  }
+
+  async enviarVistoria(){
+    this.vistoria.dataVistoria = null;
+    this.vistoria.vistoriaViaturaItensVistoria = null;
+    await this.presentLoading();
+    try {
+      console.log(this.vistoria)
+    this.subscribeItensVistoria = this.itensVistoriaService.updateVistoria(this.vistoria)
+      .subscribe(response => {
+        this.loading.dismiss();
+        this.success();
+      }, (errors => {
+        this.loading.dismiss();
+      }));
+    } finally {
+    }
   }
 
   async inserirInicioVistoria(idViatura) {

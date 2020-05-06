@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ViaturaVistoriaPage } from './viatura-vistoria.page';
 import { ResolverViaturaId } from 'src/app/resolvers/ResolverViatura';
-import { ResolverVistoria } from 'src/app/resolvers/ResolverVistoria';
+import { ResolverVistoria, ResolverViaturaTemVistoria } from 'src/app/resolvers/ResolverVistoria';
 
 const routes: Routes = [
   {
@@ -11,7 +11,8 @@ const routes: Routes = [
     component: ViaturaVistoriaPage,
     resolve: {
       viatura: ResolverViaturaId,
-      vistoria: ResolverVistoria
+      vistoria: ResolverVistoria,
+      temVistoria: ResolverViaturaTemVistoria
     }
   }
 ];

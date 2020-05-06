@@ -23,5 +23,18 @@
   }
 
   .vist {
-    font-size: 13px;
+    font-size: 14px;
+  }
+
+  .aviso {
+    font-size: 10px;
+  }
+
+  .detalhes {
+    font-size: 11px;
+    outline: none;
+  }
+
+  .detalhes:active {
+    transform: scale(1.5);
   }

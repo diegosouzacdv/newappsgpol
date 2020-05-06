@@ -11,7 +11,6 @@ import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.ser
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { AuthService } from 'src/app/services/auth.service';
 import { ViaturaTemVistoriaDTO } from 'src/app/models/viatura-tem-vistoria.dto';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-viatura-motorista',
@@ -23,20 +22,21 @@ export class ViaturaMotoristaPage {
   public viaturas: ViaturaDTO[];
   viatura: ViaturaDTO;
   public policial: PolicialDTO;
-  public quantPagina: number = 3;
   loading: any;
   semViaturasUnidade = false;
   showViaturaUnidade = false;
   private subscribeUser: Subscription;
   private subscribeViaUni: Subscription;
-  private subscribeViaId: Subscription;
+  private subscribeTemVistoria: Subscription;
   private subscribeVistoria: Subscription;
   private subscribePesquisa: Subscription;
   private subscribeViaturaVistoria: Subscription;
   situacaoViatura;
-  public temViaturaEmUso: ViaturaDTO[];
+  public temViaturaEmUso: ViaturaTemVistoriaDTO[];
   private temVistoria = 'false';
   public busca: string;
+  private page: number = 0;
+  public quantPagina: number = 3;
 
   constructor(
     public navCtrl: NavController,
@@ -47,21 +47,23 @@ export class ViaturaMotoristaPage {
     private loadingController: LoadingController,
     public alertController: AlertController,
     private route: ActivatedRoute,
-    public itensVistoriaService: ItensVistoriaService, 
+    public itensVistoriaService: ItensVistoriaService,
     public authService: AuthService) {
     this.situacaoViatura = SituacaoViatura;
   }
   ngOnInit() {
   }
 
-  vistoriar(viatura: ViaturaDTO) {
-    this.router.navigate(['/vistoria', viatura.id, this.temVistoria, 'false'])
+  vistoriar(idViatuira: number) {
+    this.router.navigate(['/vistoria', idViatuira, this.temVistoria, 'false'])
   }
 
   ionViewWillEnter() {
     this.getPolicial();
     this.getViaturaEmUso();
     this.showViaturaUnidade = false;
+    this.page = 0;
+    this.viaturasUnidade = null;
   }
 
   buscaPesquisa(event) {
@@ -72,6 +74,7 @@ export class ViaturaMotoristaPage {
     this.subscribeViaturaVistoria = this.route.data.subscribe((resolvedRouteData) => {
       this.temViaturaEmUso = resolvedRouteData.isViaturaEmUso;
       console.log(this.temViaturaEmUso)
+      this.temVistoria = 'true';
     })
   }
 
@@ -92,17 +95,17 @@ export class ViaturaMotoristaPage {
     await this.presentLoading();
     try {
       if (this.policial.lotacaoCodigo !== null || this.policial.lotacaoCodigo !== undefined) {
-        this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
+        this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
           .subscribe(response => {
             this.loading.dismiss();
-            this.viaturasUnidade = response;
-
+            console.log(response)
+            this.viaturasUnidade = response['content'];
+            console.log(this.viaturasUnidade)
             this.viaturasUnidade.forEach(viatura => {
-              this.itensVistoriaService.isViaturaVistoria(viatura.id)
+             this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
                 .subscribe(response => {
-                  console.log(response.motoristaMatricula)
                   viatura.viaturaTemVistoria = response;
-                  if(viatura.viaturaTemVistoria.idVistoria !== null) {
+                  if (viatura.viaturaTemVistoria.idVistoria !== null) {
                     this.temVistoria = 'true';
                   }
                 })
@@ -120,10 +123,47 @@ export class ViaturaMotoristaPage {
     } finally { }
   }
 
+  async listarViaturasUnidadeLoading() {
+        this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
+          .subscribe(response => {
+            this.viaturasUnidade = this.viaturasUnidade.concat(response['content']);
+            console.log(this.viaturasUnidade)
+
+            this.viaturasUnidade.forEach(viatura => {
+             this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
+                .subscribe(response => {
+                  viatura.viaturaTemVistoria = response;
+                  if (viatura.viaturaTemVistoria.idVistoria !== null) {
+                    this.temVistoria = 'true';
+                  }
+                })
+            })
+
+            if (this.viaturasUnidade.length === 0) {
+              this.semViaturasUnidade = !this.semViaturasUnidade
+            } else {
+              this.showViaturaUnidade = true;
+            }
+          }); 
+  }
+
+  
+
+  isViaturaVistoria(viaturas: ViaturaDTO[]) {
+    this.viaturas = viaturas;
+    this.viaturas.forEach(viatura => {
+      this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
+        .subscribe(response => {
+          viatura.viaturaTemVistoria = response;
+        })
+    })
+  }
+
+
   ionViewWillLeave() {
     if (!this.subscribeUser.closed) { this.subscribeUser.unsubscribe(); }
     if (!this.subscribeViaUni.closed) { this.subscribeViaUni.unsubscribe(); }
-    if (!this.subscribeViaId.closed) { this.subscribeViaId.unsubscribe(); }
+    if (!this.subscribeTemVistoria.closed) { this.subscribeTemVistoria.unsubscribe(); }
     if (!this.subscribeVistoria.closed) { this.subscribeVistoria.unsubscribe(); }
     if (!this.subscribePesquisa.closed) { this.subscribePesquisa.unsubscribe(); }
     if (!this.subscribeViaturaVistoria.closed) { this.subscribeViaturaVistoria.unsubscribe(); }
@@ -146,6 +186,18 @@ export class ViaturaMotoristaPage {
   }
   logout() {
     this.authService.logout();
+  }
+
+  loadViaturasUnidade(event) {
+    setTimeout(() => {
+      console.log('Done');
+      this.page++;
+      this.listarViaturasUnidadeLoading();
+      event.target.complete();
+      if (this.viaturasUnidade.length < 0) {
+        event.target.disabled = true;
+      }
+    }, 500);
   }
 
 }
