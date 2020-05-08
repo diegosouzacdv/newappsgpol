@@ -26,6 +26,7 @@ export class AdjuntoPage {
   temVistoria = false;
   situacaoViatura;
   semViaturas = false;
+  private page: number = 0;
 
   constructor(
     private storage: StorageService,
@@ -45,19 +46,32 @@ export class AdjuntoPage {
 
   ionViewWillEnter() {
     this.listarViaturasUnidade();
+    this.page = 0;
   }
 
   listarViaturasUnidade() {
-      this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
+      this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
         .subscribe(response => {
           console.log(response)
-          this.viaturasUnidade = response;
+          this.viaturasUnidade = response['content'];
           if (this.viaturasUnidade.length == 0 ) {
             console.log('entrando aq sem viaturas')
             this.semViaturas = true;
           }
         });
   }
+
+  listarViaturasUnidadeLoading() {
+    this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
+      .subscribe(response => {
+        console.log(response)
+        this.viaturasUnidade.concat(response['content']);
+        if (this.viaturasUnidade.length == 0 ) {
+          console.log('entrando aq sem viaturas')
+          this.semViaturas = true;
+        }
+      });
+}
 
   getPolicial() {
     this.subscribeUser = this.route.data.subscribe((resolvedRouteData) => {
@@ -105,6 +119,18 @@ export class AdjuntoPage {
       this.listarViaturasUnidade();
       event.target.complete();
     }, 2000);
+  }
+
+  loadViaturasUnidade(event) {
+    setTimeout(() => {
+      console.log('Done');
+      this.page++;
+      this.listarViaturasUnidadeLoading();
+      event.target.complete();
+      if (this.viaturasUnidade.length < 0) {
+        event.target.disabled = true;
+      }
+    }, 500);
   }
 
   

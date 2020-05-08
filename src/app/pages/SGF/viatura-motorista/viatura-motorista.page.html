@@ -76,7 +76,7 @@
             {{viatura?.status}}
           </ion-chip>
           <ion-chip *ngIf="viatura?.status === situacaoViatura.CAUTELADA" slot="end"
-            [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'light'">{{viatura?.status}}
+            [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'light' : 'light'">{{viatura?.status}}
           </ion-chip>
           <ion-chip *ngIf="viatura?.status === situacaoViatura.BAIXADA" slot="end" color="danger">
             <strong>{{viatura?.status}}</strong>
@@ -139,7 +139,7 @@
             {{viatura?.status}}
           </ion-chip>
           <ion-chip *ngIf="viatura?.status === situacaoViatura.CAUTELADA" slot="end"
-            [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'light'">{{viatura?.status}}
+            [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'light' : 'light'">{{viatura?.status}}
           </ion-chip>
           <ion-chip *ngIf="viatura?.status === situacaoViatura.BAIXADA" slot="end" color="danger">
             <strong>{{viatura?.status}}</strong>
@@ -209,7 +209,7 @@
                   [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'light'" slot="end">{{viatura?.status}}
                 </ion-chip>
                 <ion-chip *ngIf="viatura?.status === situacaoViatura.CAUTELADA" slot="end"
-                  [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'light'" slot="end">{{viatura?.status}}
+                  [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'light' : 'light'" slot="end">{{viatura?.status}}
                 </ion-chip>
                 <ion-chip *ngIf="viatura?.status === situacaoViatura.BAIXADA" slot="end" color="danger" slot="end">
                   {{viatura?.status}}

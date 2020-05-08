@@ -140,6 +140,7 @@ export class ViaturaVistoriaPage implements OnInit {
         .subscribe(response => {
           console.log(response)
           this.getVistoria();
+          this.viatura.status = 'EM VISTORIA';
           this.loading.dismiss();
         }, (errors => {
           this.loading.dismiss();

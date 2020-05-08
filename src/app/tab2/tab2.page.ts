@@ -93,25 +93,25 @@ export class Tab2Page {
     }
   }
 
-  async listarViaturasUnidade() {
-    await this.presentLoading();
-    try {
-      if (this.policial.lotacaoCodigo !== null || this.policial.lotacaoCodigo !== undefined) {
-        this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
-          .subscribe(response => {
-            this.loading.dismiss();
-            this.viaturasUnidade = response['content'];
-            if (this.viaturasUnidade.length === 0) {
-              this.showWarning = !this.showWarning
-            } else {
-              this.showViaturaUnidade = true;
-            }
-          }, (errors => {
-            this.loading.dismiss();
-          }));
-      }
-    } finally {}
-    }
+  // async listarViaturasUnidade() {
+  //   await this.presentLoading();
+  //   try {
+  //     if (this.policial.lotacaoCodigo !== null || this.policial.lotacaoCodigo !== undefined) {
+  //       this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo)
+  //         .subscribe(response => {
+  //           this.loading.dismiss();
+  //           this.viaturasUnidade = response['content'];
+  //           if (this.viaturasUnidade.length === 0) {
+  //             this.showWarning = !this.showWarning
+  //           } else {
+  //             this.showViaturaUnidade = true;
+  //           }
+  //         }, (errors => {
+  //           this.loading.dismiss();
+  //         }));
+  //     }
+  //   } finally {}
+  //   }
 
   // buscarViatura(viatura: ViaturaDTO, placa: String) {
   //   this.subscribeViaId = this.viaturaService.buscarViatura(placa)
@@ -166,7 +166,7 @@ export class Tab2Page {
   doRefresh(event) {
     console.log('Begin async operation');
     setTimeout(() => {
-      this.listarViaturasUnidade();
+     // this.listarViaturasUnidade();
       this.viaturas = null;
       event.target.complete();
     }, 2000);

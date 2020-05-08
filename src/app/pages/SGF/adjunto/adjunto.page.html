@@ -107,7 +107,13 @@
       </div>
     </ion-card-content>
   </ion-card>
-
+  
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadViaturasUnidade($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="carregando...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
   <ion-card mode="ios" class="card-children" *ngIf="semViaturas">
     <div class="ion-padding">
       <h1>Sem viaturas em {{policial?.lotacao}}</h1>

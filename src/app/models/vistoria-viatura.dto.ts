@@ -3,6 +3,7 @@ import { ItensVistoria } from './itens-vistoria';
 export interface VistoriaVistoriaDTO {
     id?: number,
     odometro?: number,
+    odometroFinal?: number,
     dataVistoria?: string,
     dataLiberacao?: string,
     nivelCombustivel?: string,
