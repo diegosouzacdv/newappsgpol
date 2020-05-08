@@ -47,25 +47,34 @@ export class PesquisaViaturaPage implements OnInit {
           if (termo != '') { return this.viaturaService.pesquisarViatura(this.quantPagina, this.page, this.busca) }
         }),
         catchError((erro) => {
+          console.log(erro)
           return of<ViaturaDTO>();
         })
       );
-    this.via.subscribe((viaturas: ViaturaDTO[]) => {
-      // tslint:disable-next-line: no-string-literal
-      console.log(viaturas)
-      this.viaturas = viaturas['content'];
-      this.responseImovel.emit(this.viaturas);
-      this.responseBusca.emit(this.busca)
-      if (viaturas.length == 0) {
-        this.semViatura(this.busca);
-      } else {
-        this.showCard = true;
-      }
-    });
+
+        this.via.subscribe((viaturas: ViaturaDTO[]) => {
+          // tslint:disable-next-line: no-string-literal
+          console.log(viaturas)
+          this.viaturas = viaturas['content'];
+          this.responseImovel.emit(this.viaturas);
+          this.responseBusca.emit(this.busca)
+
+          if (viaturas['content'].length == 0) {
+            this.semViatura(this.busca);
+          } else {
+            this.showCard = true;
+          }
+        });
+      
   }
 
   public async getPesquisa(nome: string) {
-    this.pesquisa.next(nome);
+    if (nome != '') {
+      this.pesquisa.next(nome);
+    } else {
+      this.viaturas = null;
+      this.responseImovel.emit(this.viaturas);
+    }
   }
 
   limparPlaca() {

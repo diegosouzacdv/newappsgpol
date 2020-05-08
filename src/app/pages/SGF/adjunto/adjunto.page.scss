@@ -24,3 +24,12 @@ ion-icon {
     padding: 0px;
   }
 
+  .detalhes {
+    font-size: 11px;
+    outline: none;
+  }
+  
+  .detalhes:active {
+    transform: scale(1.2);
+  }
+

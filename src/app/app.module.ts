@@ -7,7 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { FileTransfer} from '@ionic-native/file-transfer/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';

@@ -5,7 +5,6 @@ import { PolicialDTO } from 'src/app/models/policial.dto';
 import { Subscription } from 'rxjs';
 import { NavController, LoadingController, AlertController } from '@ionic/angular';
 import { ViaturaService } from 'src/app/services/domain/viatura.service';
-import { PolicialService } from 'src/app/services/domain/policial.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
@@ -25,7 +24,6 @@ export class ViaturaMotoristaPage {
   loading: any;
   semViaturasUnidade = false;
   showViaturaUnidade = false;
-  private subscribeUser: Subscription;
   private subscribeViaUni: Subscription;
   private subscribeTemVistoria: Subscription;
   private subscribeVistoria: Subscription;
@@ -33,7 +31,6 @@ export class ViaturaMotoristaPage {
   private subscribeViaturaVistoria: Subscription;
   situacaoViatura;
   public temViaturaEmUso: ViaturaTemVistoriaDTO[];
-  private temVistoria = 'false';
   public busca: string;
   private page: number = 0;
   public quantPagina: number = 3;
@@ -42,7 +39,6 @@ export class ViaturaMotoristaPage {
     public navCtrl: NavController,
     public viaturaService: ViaturaService,
     public router: Router,
-    public policialService: PolicialService,
     public storage: StorageService,
     private loadingController: LoadingController,
     public alertController: AlertController,
@@ -55,11 +51,10 @@ export class ViaturaMotoristaPage {
   }
 
   vistoriar(idViatuira: number) {
-    this.router.navigate(['/vistoria', idViatuira, this.temVistoria, 'false'])
+    this.router.navigate(['/vistoria', idViatuira, 'false'])
   }
 
   ionViewWillEnter() {
-    this.getPolicial();
     this.getViaturaEmUso();
     this.showViaturaUnidade = false;
     this.page = 0;
@@ -74,21 +69,7 @@ export class ViaturaMotoristaPage {
     this.subscribeViaturaVistoria = this.route.data.subscribe((resolvedRouteData) => {
       this.temViaturaEmUso = resolvedRouteData.isViaturaEmUso;
       console.log(this.temViaturaEmUso)
-      this.temVistoria = 'true';
     })
-  }
-
-
-  getPolicial() {
-    let localUser = this.storage.getLocalUser();
-    if (localUser && localUser.id) {
-      this.subscribeUser = this.policialService.usuarioLogado()
-        .subscribe(response => {
-          this.policial = response;
-          console.log(this.policial.matricula)
-        },
-          error => { });
-    }
   }
 
   async listarViaturasUnidade() {
@@ -98,15 +79,12 @@ export class ViaturaMotoristaPage {
         this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
           .subscribe(response => {
             this.loading.dismiss();
-            console.log(response)
             this.viaturasUnidade = response['content'];
-            console.log(this.viaturasUnidade)
             this.viaturasUnidade.forEach(viatura => {
              this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
                 .subscribe(response => {
                   viatura.viaturaTemVistoria = response;
                   if (viatura.viaturaTemVistoria.idVistoria !== null) {
-                    this.temVistoria = 'true';
                   }
                 })
             })
@@ -134,7 +112,6 @@ export class ViaturaMotoristaPage {
                 .subscribe(response => {
                   viatura.viaturaTemVistoria = response;
                   if (viatura.viaturaTemVistoria.idVistoria !== null) {
-                    this.temVistoria = 'true';
                   }
                 })
             })
@@ -151,17 +128,18 @@ export class ViaturaMotoristaPage {
 
   isViaturaVistoria(viaturas: ViaturaDTO[]) {
     this.viaturas = viaturas;
-    this.viaturas.forEach(viatura => {
-      this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
-        .subscribe(response => {
-          viatura.viaturaTemVistoria = response;
-        })
-    })
+    if(this.viaturas != null) {
+      this.viaturas.forEach(viatura => {
+        this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
+          .subscribe(response => {
+            viatura.viaturaTemVistoria = response;
+          })
+      })
+    }
   }
 
 
   ionViewWillLeave() {
-    if (!this.subscribeUser.closed) { this.subscribeUser.unsubscribe(); }
     if (!this.subscribeViaUni.closed) { this.subscribeViaUni.unsubscribe(); }
     if (!this.subscribeTemVistoria.closed) { this.subscribeTemVistoria.unsubscribe(); }
     if (!this.subscribeVistoria.closed) { this.subscribeVistoria.unsubscribe(); }

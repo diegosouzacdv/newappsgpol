@@ -9,6 +9,7 @@ import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { AuthService } from 'src/app/services/auth.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-adjunto',
@@ -18,17 +19,22 @@ import { AuthService } from 'src/app/services/auth.service';
 export class AdjuntoPage {
 
   private subscribeUser: Subscription;
+  public viaturas: ViaturaDTO[];
   private subscribeViaUni: Subscription;
   private subscribeVistoria: Subscription;
+  private subscribeTemVistoria: Subscription;
   public policial: PolicialDTO;
   viaturasUnidade: ViaturaDTO[] = [];
   adjunto = true;
-  temVistoria = false;
   situacaoViatura;
   semViaturas = false;
   private page: number = 0;
+  public quantPagina: number = 3;
+  public busca: string;
+  public isAdmin = false;
 
   constructor(
+    public alertController: AlertController,
     private storage: StorageService,
     public router: Router,
     public policialService: PolicialService,
@@ -36,81 +42,77 @@ export class AdjuntoPage {
     private itensVistoriaService: ItensVistoriaService,
     private route: ActivatedRoute,
     public authService: AuthService) {
-      this.situacaoViatura = SituacaoViatura;
-      console.log(this.viaturasUnidade)
-     }
+    this.situacaoViatura = SituacaoViatura;
+    this.storage.getLocalUser().authorities.forEach(element => {
+      if (element === 'ROLE_APP_ADMIN') {
+        this.isAdmin = true;
+      }
+    })
+  }
 
   ngOnInit() {
-   this.getPolicial();
+
+  }
+
+  buscaPesquisa(event) {
+    this.busca = event;
   }
 
   ionViewWillEnter() {
-    this.listarViaturasUnidade();
+    setTimeout( () => {
+      this.listarViaturasUnidade();
+    }, 300)
     this.page = 0;
   }
 
   listarViaturasUnidade() {
-      this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
-        .subscribe(response => {
-          console.log(response)
-          this.viaturasUnidade = response['content'];
-          if (this.viaturasUnidade.length == 0 ) {
-            console.log('entrando aq sem viaturas')
-            this.semViaturas = true;
-          }
-        });
+    this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
+      .subscribe(response => {
+        this.viaturasUnidade = response['content'];
+        this.viaturasUnidade.forEach(viatura => {
+          this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
+            .subscribe(response => {
+              viatura.viaturaTemVistoria = response;
+            })
+        })
+
+        console.log(this.viaturasUnidade)
+
+        if (this.viaturasUnidade.length == 0) {
+          console.log('entrando aq sem viaturas')
+          this.semViaturas = true;
+        }
+      });
   }
 
   listarViaturasUnidadeLoading() {
     this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
       .subscribe(response => {
         console.log(response)
-        this.viaturasUnidade.concat(response['content']);
-        if (this.viaturasUnidade.length == 0 ) {
+        this.viaturasUnidade = this.viaturasUnidade.concat(response['content']);
+
+        console.log(this.viaturasUnidade)
+        if (this.viaturasUnidade.length == 0) {
           console.log('entrando aq sem viaturas')
           this.semViaturas = true;
         }
       });
-}
-
-  getPolicial() {
-    this.subscribeUser = this.route.data.subscribe((resolvedRouteData) => {
-      this.policial = resolvedRouteData.policial;
-    })
   }
 
-  fichaViatura(viatura: ViaturaDTO) {
-    let navExtras: NavigationExtras = {
-      state: {
-        viatura: viatura
-      }
-    };
-    this.router.navigate([`/viatura-ficha/${viatura.id}/${this.adjunto}`], navExtras);
-  }
-
-  public async isVistoria(viatura) {
-    console.log(viatura)
-    try{
-      this.subscribeVistoria = this.itensVistoriaService.buscarVistoria(viatura.id)
-        .subscribe(response => {
-          console.log(response)
-          if (response != null) {
-            this.temVistoria = true;
-            const navExtras: NavigationExtras = {
-              state: {
-                viatura
-              }
-            };
-            this.router.navigate(['/vistoria', viatura.id, this.temVistoria, this.adjunto], navExtras);
-          }
-        });
-    } finally {}
+  public async isVistoria(viatura: ViaturaDTO) {
+    if (viatura.viaturaTemVistoria != null && viatura.viaturaTemVistoria.motoristaMatricula === this.policial.matricula) {
+      this.naoPermitido(viatura)
+    } else if(viatura.viaturaTemVistoria != null) {
+      this.router.navigate(['/vistoria', viatura.id, this.adjunto]);
     }
+  }
 
   ionViewWillLeave() {
     if (!this.subscribeUser.closed) { this.subscribeUser.unsubscribe(); }
     if (!this.subscribeViaUni.closed) { this.subscribeViaUni.unsubscribe(); }
     if (!this.subscribeVistoria.closed) { this.subscribeVistoria.unsubscribe(); }
+    if (!this.subscribeTemVistoria.closed) { this.subscribeTemVistoria.unsubscribe(); }
+
   }
 
   doRefresh(event) {
@@ -123,8 +125,8 @@ export class AdjuntoPage {
 
   loadViaturasUnidade(event) {
     setTimeout(() => {
-      console.log('Done');
       this.page++;
+      console.log(this.page);
       this.listarViaturasUnidadeLoading();
       event.target.complete();
       if (this.viaturasUnidade.length < 0) {
@@ -133,7 +135,33 @@ export class AdjuntoPage {
     }, 500);
   }
 
-  
+  isViaturaVistoria(viaturas: ViaturaDTO[]) {
+    this.viaturas = viaturas;
+    if (this.viaturas != null) {
+      this.viaturas.forEach(viatura => {
+        this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
+          .subscribe(response => {
+            viatura.viaturaTemVistoria = response;
+          })
+      })
+    }
+  }
+
+  async naoPermitido(viatura: ViaturaDTO) {
+    const alert = await this.alertController.create({
+      subHeader: 'Não permitido',
+      message: this.texto(viatura),
+      buttons: ['OK'],
+      mode: 'ios'
+    });
+    await alert.present();
+  }
+
+  texto(viatura: ViaturaDTO) {
+    return `<strong>${this.policial.posto} ${this.policial.nomeGuerra}</strong> é motorista da viatura <strong>${viatura.marca} ${viatura.modelo} prefixo: ${viatura.prefixo}</strong> e não pode proceder como ADJUNTO`
+  }
+
+
   logout() {
     this.authService.logout();
   }

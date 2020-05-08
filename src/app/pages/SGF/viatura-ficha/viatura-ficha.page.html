@@ -60,30 +60,6 @@
     <ion-item>
       <p><strong><i>Renavam:&nbsp;</i> </strong>{{viatura?.renavam}}</p>
     </ion-item>
-
-
-    <!-- <div>
-      <ion-toolbar *ngIf="adjunto === 'false'">
-        <ion-button size="small" *ngIf="(temVistoriaViatura == null || temVistoriaViatura?.length == 0) && viatura?.status != situacaoViatura.BAIXADA" [disabled]="viatura?.status === situacaoViatura.BAIXADA"
-          [color]="viatura?.status === situacaoViatura.BAIXADA ? 'danger' : 'success'" slot="end"
-          (click)="vistoriar(viatura)">
-          <ion-icon slot="end" name="checkbox-outline"></ion-icon>
-          Vistoriar
-        </ion-button>
-        <ion-button size="small" *ngIf="temVistoriaViatura?.placa === viatura?.placa"
-          [disabled]="viatura?.status === situacaoViatura.BAIXADA"
-          [color]="viatura?.status === situacaoViatura.BAIXADA ? 'danger' : 'warning'" slot="end"
-          (click)="vistoriar(viatura)">
-          <ion-icon slot="end" name="checkbox-outline"></ion-icon>
-          Visualizar Vistoria
-        </ion-button>
-        <ion-button size="small" *ngIf="viatura?.status === situacaoViatura.BAIXADA"
-          [disabled]="viatura?.status === situacaoViatura.BAIXADA" color="danger" slot="end"
-          (click)="naoPodeAbrirVistoria()">
-          <ion-icon slot="end" name="checkbox-outline"></ion-icon>
-          Vistoriar
-        </ion-button>
-      </ion-toolbar>
-    </div> -->
+    
   </ion-card>
 </ion-content>

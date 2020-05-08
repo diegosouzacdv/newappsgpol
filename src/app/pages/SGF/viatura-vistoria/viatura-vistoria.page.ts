@@ -20,7 +20,6 @@ export class ViaturaVistoriaPage implements OnInit {
   viatura: ViaturaDTO;
   vistoria: VistoriaVistoriaDTO;
   idViatura: string;
-  temVistoria: boolean;
   teste = 'oleo';
   localizacao: any;
   adjunto = 'false';

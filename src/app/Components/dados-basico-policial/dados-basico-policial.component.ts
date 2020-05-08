@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { PolicialService } from 'src/app/services/domain/policial.service';
 import { Subscription } from 'rxjs';
 import { PolicialDTO } from 'src/app/models/policial.dto';
@@ -13,6 +13,7 @@ export class DadosBasicoPolicialComponent implements OnInit {
 
   private subscribeUser: Subscription;
   @Output() public policial: PolicialDTO;
+  @Output() public policialEmitter = new EventEmitter();
   public fotouser: any;
 
   constructor(
@@ -30,6 +31,7 @@ export class DadosBasicoPolicialComponent implements OnInit {
     this.subscribeUser = this.policialService.usuarioLogado()
     .subscribe((response) => {
       this.policial = response;
+      this.policialEmitter.emit(this.policial);
     });
   }
 

@@ -22,7 +22,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/SGF/viatura-ficha/viatura-ficha.module').then( m => m.ViaturaFichaPageModule)
   },
   {
-    path: 'vistoria/:id/:temVistoria/:adjunto',
+    path: 'vistoria/:id/:adjunto',
     loadChildren: () => import('./pages/SGF/viatura-vistoria/viatura-vistoria.module').then( m => m.ViaturaVistoriaPageModule)
   },
   {

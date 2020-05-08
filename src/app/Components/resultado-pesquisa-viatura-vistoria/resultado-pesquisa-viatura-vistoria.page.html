@@ -1,0 +1,85 @@
+<div *ngFor="let viatura of viaturas">
+  <ion-card mode="ios" color="light" class="card-children">
+    <div class="ion-text-center">
+      <ion-avatar class="logo-viatura">
+        <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
+      </ion-avatar>
+    </div>
+    <div class="ion-padding-start ion-padding-end">
+      <ion-text [color]="!viaturaService.tem_numeros(busca) ? 'danger' : ''">
+        <p><strong>Prefixo: </strong>{{viatura?.prefixo}}</p>
+      </ion-text>
+      <p><strong>Viatura: </strong>{{viatura?.modelo}}</p>
+      <ion-text [color]="viaturaService.tem_numeros(busca) ? 'danger' : ''">
+        <p><strong>Placa: </strong>{{viatura?.placa}}</p>
+      </ion-text>
+      <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
+      <p class="detalhes ion-text-end" (click)="fichaViatura(viatura.id)" routerDirection="forward">
+        {{'+ detalhes da viatura'}}</p>
+    </div>
+    <ion-item-sliding>
+      <ion-item lines="none" color="secondary">
+
+        <!-- a mensagem 'arraste para esquerda para vistoriar' somente irá aparecer se o status da viatura for diferente de BAIXADA -->
+        <ion-icon color="light" class="aviso" name="arrow-back" slot="start"
+          *ngIf="viatura?.status !== situacaoViatura.BAIXADA && !adjunto"></ion-icon>
+        <ion-label class="ion-text-wrap" color="light" slot="start"
+          *ngIf="viatura?.status !== situacaoViatura.BAIXADA && !adjunto" >
+          <p class="aviso" >{{'arraste para esquerda para vistoriar' | titlecase}}</p>
+        </ion-label>
+
+        <ion-icon color="light" class="aviso" name="arrow-back" slot="start"
+          *ngIf="viatura?.status !== situacaoViatura.BAIXADA && viatura?.status !== situacaoViatura.DISPONIVEL"></ion-icon>
+        <ion-label class="ion-text-wrap" color="light" slot="start"
+          *ngIf="(viatura?.status !== situacaoViatura.BAIXADA && viatura?.status !== situacaoViatura.DISPONIVEL) && adjunto" >
+          <p class="aviso" >{{'arraste para esquerda para abrir vistoriar' | titlecase}}</p>
+        </ion-label>
+
+        <ion-icon color="light" class="aviso" name="alert-circle-outline" slot="start"
+          *ngIf="viatura?.status === situacaoViatura.BAIXADA"></ion-icon>
+        <ion-label class="ion-text-wrap" color="light" slot="start"
+          *ngIf="viatura?.status === situacaoViatura.BAIXADA">
+          <p class="aviso">{{'viatura baixada' | titlecase}}</p>
+        </ion-label>
+
+        <ion-chip *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA"
+          [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'light'" slot="end">
+          {{viatura?.status}}
+        </ion-chip>
+        <ion-chip *ngIf="viatura?.status === situacaoViatura.CAUTELADA" slot="end"
+          [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'light' : 'light'">{{viatura?.status}}
+        </ion-chip>
+        <ion-chip *ngIf="viatura?.status === situacaoViatura.BAIXADA" slot="end" color="danger">
+          <strong>{{viatura?.status}}</strong>
+        </ion-chip>
+      </ion-item>
+
+
+      <ion-item-options side="end" *ngIf="viatura?.status !== situacaoViatura.BAIXADA && !adjunto">
+        <ion-item-option
+          *ngIf="(viatura?.viaturaTemVistoria?.motoristaMatricula === policial?.matricula) || viatura?.viaturaTemVistoria?.idVistoria == null"
+          [color]="viatura?.viaturaTemVistoria?.motoristaMatricula === policial?.matricula ? 'primary' : 'success'"
+          (click)="vistoriar(viatura.id)">
+          <ion-label *ngIf="viatura?.viaturaTemVistoria?.motoristaMatricula === policial?.matricula">Visualizar
+            Vistoria</ion-label>
+          <ion-label *ngIf="viatura?.viaturaTemVistoria?.idVistoria == null">Vistoriar</ion-label>
+        </ion-item-option>
+        <ion-item-option color="danger"
+          *ngIf="viatura?.viaturaTemVistoria?.idVistoria != null && (viatura?.viaturaTemVistoria?.motoristaMatricula !== policial?.matricula)">
+          <ion-label>Viatura em Uso</ion-label>
+        </ion-item-option>
+      </ion-item-options>
+
+      <ion-item-options side="end" *ngIf="viatura?.status !== situacaoViatura.BAIXADA && adjunto">
+        <ion-item-option
+          *ngIf="viatura?.viaturaTemVistoria?.idVistoria !== null"
+          [color]="viatura?.viaturaTemVistoria?.motoristaMatricula === policial?.matricula ? 'primary' : 'success'"
+          (click)="vistoriar(viatura.id)">
+          <ion-label *ngIf="viatura?.viaturaTemVistoria?.motoristaMatricula === policial?.matricula">Visualizar
+            Vistoria
+          </ion-label>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-card>
+</div>
