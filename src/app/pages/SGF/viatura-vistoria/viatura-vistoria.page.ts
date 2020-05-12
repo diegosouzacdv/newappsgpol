@@ -44,23 +44,23 @@ export class ViaturaVistoriaPage implements OnInit {
     private policialService: PolicialService,
     private route: ActivatedRoute,
     public alertCtrl: AlertController,
-    public authService: AuthService) { 
+    public authService: AuthService) {
 
-      this.situacaoViatura = SituacaoViatura;
+    this.situacaoViatura = SituacaoViatura;
 
-      this.idViatura = this.activatedRoute.snapshot.paramMap.get('id');
-      this.adjunto = this.activatedRoute.snapshot.paramMap.get('adjunto');
-      
-      this.resolverViatura();
-      this.ResolveTemViaturaVistoria();
-      
-    }
+    this.idViatura = this.activatedRoute.snapshot.paramMap.get('id');
+    this.adjunto = this.activatedRoute.snapshot.paramMap.get('adjunto');
+
+    this.resolverViatura();
+    this.ResolveTemViaturaVistoria();
+
+  }
 
   ngOnInit() {
     this.vistoria = {
       odometro: 0,
       nivelCombustivel: '',
-      observacaoMotorista:'',
+      observacaoMotorista: '',
       vistoriaViaturaItensVistoria: []
     }
   }
@@ -77,7 +77,7 @@ export class ViaturaVistoriaPage implements OnInit {
   }
 
   public resolverViatura() {
-    this.subscribeBuscarVistoria  = this.route.data.subscribe((resolvedRouteData) => {
+    this.subscribeBuscarVistoria = this.route.data.subscribe((resolvedRouteData) => {
       this.viatura = resolvedRouteData.viatura;
       console.log(this.viatura)
     })
@@ -88,20 +88,20 @@ export class ViaturaVistoriaPage implements OnInit {
       .subscribe(response => {
         console.log(response)
         this.vistoria = response;
-        });
+      });
   }
 
   public abrirSlidesFotos(nome: string) {
     if (this.fotosSlides == '') {
       this.fotosSlides = nome;
-    } else if (this.fotosSlides == nome){
-        this.fotosSlides = '';
+    } else if (this.fotosSlides == nome) {
+      this.fotosSlides = '';
     } else {
       this.fotosSlides = nome;
     }
   }
 
-  recebeItem(item: ItensVistoria ) {
+  recebeItem(item: ItensVistoria) {
     console.log(item)
     this.subscribeInserirItemVistoria = this.itensVistoriaService.inserirItem(item.id)
       .subscribe(response => {
@@ -114,20 +114,27 @@ export class ViaturaVistoriaPage implements OnInit {
       });
   }
 
-  async enviarVistoria(){
+  async enviarVistoria() {
     this.vistoria.dataVistoria = null;
     this.vistoria.vistoriaViaturaItensVistoria = null;
-    await this.presentLoading();
-    try {
-      console.log(this.vistoria)
-    this.subscribeItensVistoria = this.itensVistoriaService.updateVistoria(this.vistoria)
-      .subscribe(response => {
-        this.loading.dismiss();
-        this.success();
-      }, (errors => {
-        this.loading.dismiss();
-      }));
-    } finally {
+    if (this.vistoria.odometroFinal != null && (this.vistoria.odometroFinal < this.vistoria.odometro)) {
+      let alert = {
+        header: 'Odômetro Final',
+        body: 'Odômetro Final é menor que Odômetro Inicial'
+      }
+      this.alertOdometro(alert);
+    } else {
+      await this.presentLoading();
+      try {
+        console.log(this.vistoria)
+        this.subscribeItensVistoria = this.itensVistoriaService.updateVistoria(this.vistoria)
+          .subscribe(response => {
+            this.loading.dismiss();
+            this.success();
+          }, (errors => {
+            this.loading.dismiss();
+          }));
+      } finally {}
     }
   }
 
@@ -178,17 +185,31 @@ export class ViaturaVistoriaPage implements OnInit {
   }
 
   public async salvarAdjunto(vistoria: VistoriaVistoriaDTO) {
-    await this.presentLoading();
-    try {
-    this.subscribeSalvarAdjunto = this.itensVistoriaService.salvarVisaoAdjunto(vistoria)
-      .subscribe(response => {
-        console.log(response);
-        this.loading.dismiss();
-        this.success();
-      }, (errors => {
-        this.loading.dismiss();
-      }));
-    } finally {
+    if (vistoria.odometroFinal != null && (vistoria.odometroFinal < vistoria.odometro)) {
+      let alert = {
+        header: 'Odômetro Final',
+        body: 'Odômetro Final é menor que Odômetro Inicial'
+      }
+      this.alertOdometro(alert);
+    } else if (this.viatura.status === 'CAUTELADA' && vistoria.odometroFinal === null && this.adjunto) {
+      let alert = {
+        header: 'Odômetro Final',
+        body: 'Não é possivel receber a viatura com o odômetro final zerado!'
+      }
+      this.alertOdometro(alert);
+    } else {
+      await this.presentLoading();
+      try {
+        this.subscribeSalvarAdjunto = this.itensVistoriaService.salvarVisaoAdjunto(vistoria)
+          .subscribe(response => {
+            console.log(response);
+            this.loading.dismiss();
+            this.success();
+          }, (errors => {
+            this.loading.dismiss();
+          }));
+      } finally {
+      }
     }
   }
 
@@ -202,45 +223,57 @@ export class ViaturaVistoriaPage implements OnInit {
 
   public success() {
     const alert = this.alertCtrl.create({
-        header: 'Sucesso',
-        message: 'Salvo com sucesso!',
-        backdropDismiss: true,
-        buttons: [
-            {text: 'Ok'}
-        ]
-    // tslint:disable-next-line: no-shadowed-variable
+      header: 'Sucesso',
+      message: 'Salvo com sucesso!',
+      backdropDismiss: true,
+      buttons: [
+        { text: 'Ok' }
+      ]
+      // tslint:disable-next-line: no-shadowed-variable
     }).then(alert => {
       alert.present();
       this.router.navigate(['/home']);
     });
-    }
+  }
 
-    public excluido() {
-      const alert = this.alertCtrl.create({
-          header: 'Excluido',
-          message: 'Vistoria foi excluida!',
-          backdropDismiss: true,
-          buttons: [
-              {text: 'Ok'}
-          ]
+  public alertOdometro(alerta) {
+    const alert = this.alertCtrl.create({
+      header: alerta.header,
+      message: alerta.body,
+      backdropDismiss: true,
+      buttons: [
+        { text: 'Ok' }
+      ]
       // tslint:disable-next-line: no-shadowed-variable
-      }).then(alert => {
-        alert.present()
-          this.router.navigate(['/home']);
-      });
-      }
+    }).then(alert => { alert.present(); });
+  }
 
-      ionViewWillLeave() {
-        if (!this.subscribeVistoria.closed) { this.subscribeVistoria.unsubscribe(); }
-        if (!this.subscribeInvalidarVistoria.closed) { this.subscribeInvalidarVistoria.unsubscribe(); }
-        if (!this.subscribeItensVistoria.closed) { this.subscribeItensVistoria.unsubscribe(); }
-        if (!this.subscribeBuscarVistoria.closed) { this.subscribeBuscarVistoria.unsubscribe(); }
-        if (!this.subscribeReceberViaturaRouter.closed) { this.subscribeReceberViaturaRouter.unsubscribe(); }
-        if (!this.subscribeInserirItemVistoria.closed) { this.subscribeInserirItemVistoria.unsubscribe(); }
-        if (!this.subscribeInvalidarVistoriavar.closed) { this.subscribeInvalidarVistoriavar.unsubscribe(); }
-      }
+  public excluido() {
+    const alert = this.alertCtrl.create({
+      header: 'Excluido',
+      message: 'Vistoria foi excluida!',
+      backdropDismiss: true,
+      buttons: [
+        { text: 'Ok' }
+      ]
+      // tslint:disable-next-line: no-shadowed-variable
+    }).then(alert => {
+      alert.present()
+      this.router.navigate(['/home']);
+    });
+  }
 
-      logout() {
-        this.authService.logout();
-      }
+  ionViewWillLeave() {
+    if (!this.subscribeVistoria.closed) { this.subscribeVistoria.unsubscribe(); }
+    if (!this.subscribeInvalidarVistoria.closed) { this.subscribeInvalidarVistoria.unsubscribe(); }
+    if (!this.subscribeItensVistoria.closed) { this.subscribeItensVistoria.unsubscribe(); }
+    if (!this.subscribeBuscarVistoria.closed) { this.subscribeBuscarVistoria.unsubscribe(); }
+    if (!this.subscribeReceberViaturaRouter.closed) { this.subscribeReceberViaturaRouter.unsubscribe(); }
+    if (!this.subscribeInserirItemVistoria.closed) { this.subscribeInserirItemVistoria.unsubscribe(); }
+    if (!this.subscribeInvalidarVistoriavar.closed) { this.subscribeInvalidarVistoriavar.unsubscribe(); }
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 }

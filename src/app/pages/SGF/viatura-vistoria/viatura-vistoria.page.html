@@ -73,11 +73,15 @@
         <ion-input type="number" placeholder="Km" [value]="vistoria?.odometro" name="odometro" text-right
           [(ngModel)]="vistoria.odometro" clearInput="true" [disabled]="adjunto === 'true' || viatura?.status === situacaoViatura.CAUTELADA"></ion-input>
       </ion-item>
+      <p class="ion-padding-start" *ngIf="viatura?.status === situacaoViatura.CAUTELADA">
+        Atenção insira odômetro final antes de entregar a viatura ao adjunto:
+      </p>
       <ion-item *ngIf="viatura?.status === situacaoViatura.CAUTELADA">
         <ion-label class="ion-text-wrap" position="floating" color="primary">Odômetro Final KM</ion-label>
         <ion-input type="number" placeholder="Km" [value]="vistoria?.odometroFinal" name="odometroFinal" text-right
-          [(ngModel)]="vistoria.odometroFinal" clearInput="true" [disabled]="adjunto === 'true'"></ion-input>
+          [(ngModel)]="vistoria.odometroFinal" clearInput="true"></ion-input>
       </ion-item>
+      
       <ion-item>
         <ion-label position="fixed" class="ion-text-wrap" color="primary"> Combustível </ion-label>
         <ion-range [disabled]="adjunto === 'true'" mode="ios" min="0" max="100" step="10" pin="true" snaps="true"
