@@ -84,10 +84,10 @@ export class PesquisaViaturaPage implements OnInit {
   }
 
   
-  async semViatura(placa: string) {
+  async semViatura(busca: string) {
     const alert = await this.alertController.create({
       subHeader: 'Viatura não encontrada',
-      message: 'O SGF não possui viatura com a placa <strong>' + placa.toUpperCase() + '</strong>!',
+      message: 'O SGF não possui viatura com a placa ou prefixo <strong>' + busca.toUpperCase() + '</strong>!',
       buttons: ['OK'],
       mode: 'ios'
     });
