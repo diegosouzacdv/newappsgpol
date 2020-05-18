@@ -80,6 +80,7 @@ export class ViaturaMotoristaPage {
           .subscribe(response => {
             this.loading.dismiss();
             this.viaturasUnidade = response['content'];
+            console.log(this.viaturasUnidade)
             this.viaturasUnidade.forEach(viatura => {
              this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
                 .subscribe(response => {

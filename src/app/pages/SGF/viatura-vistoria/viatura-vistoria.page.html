@@ -73,7 +73,7 @@
         <ion-input type="number" placeholder="Km" [value]="vistoria?.odometro" name="odometro" text-right
           [(ngModel)]="vistoria.odometro" clearInput="true" [disabled]="adjunto === 'true' || viatura?.status === situacaoViatura.CAUTELADA"></ion-input>
       </ion-item>
-      <p class="ion-padding-start" *ngIf="viatura?.status === situacaoViatura.CAUTELADA">
+      <p class="ion-padding-start" *ngIf="viatura?.status === situacaoViatura.CAUTELADA && adjunto === 'false'">
         Atenção insira odômetro final antes de entregar a viatura ao adjunto:
       </p>
       <ion-item *ngIf="viatura?.status === situacaoViatura.CAUTELADA">

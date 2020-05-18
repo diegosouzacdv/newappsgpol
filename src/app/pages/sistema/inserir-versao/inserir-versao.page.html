@@ -38,6 +38,7 @@
           <ion-label position="floating">Descrição</ion-label>
           <ion-textarea clearInput type="text" placeholder="mudanças feitas" formControlName="observacao"></ion-textarea>
         </ion-item>
+        <p>* pode ser usado tag's HTML para formatar texto</p>
         <div class="ion-padding-horizontal">
           <ion-text color="danger" *ngIf="!loginForm.get('observacao').valid && loginForm.get('observacao').touched">
             <p class="error">observacao é obrigatória</p>

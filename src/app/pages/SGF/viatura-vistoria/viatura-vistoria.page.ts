@@ -191,7 +191,7 @@ export class ViaturaVistoriaPage implements OnInit {
         body: 'Odômetro Final é menor que Odômetro Inicial'
       }
       this.alertOdometro(alert);
-    } else if (this.viatura.status === 'CAUTELADA' && vistoria.odometroFinal === null && this.adjunto) {
+    } else if (this.viatura.status === 'CAUTELADA' && (vistoria.odometroFinal === null || isNaN(vistoria.odometroFinal)) && this.adjunto) {
       let alert = {
         header: 'Odômetro Final',
         body: 'Não é possivel receber a viatura com o odômetro final zerado!'

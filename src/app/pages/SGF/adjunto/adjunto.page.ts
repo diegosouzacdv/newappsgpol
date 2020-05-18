@@ -100,9 +100,10 @@ export class AdjuntoPage {
   }
 
   public async isVistoria(viatura: ViaturaDTO) {
-    if (viatura.viaturaTemVistoria != null && viatura.viaturaTemVistoria.motoristaMatricula === this.policial.matricula) {
-      this.naoPermitido(viatura)
-    } else if(viatura.viaturaTemVistoria != null) {
+    // if (viatura.viaturaTemVistoria != null && viatura.viaturaTemVistoria.motoristaMatricula === this.policial.matricula) {
+    //   this.naoPermitido(viatura)
+    // } else 
+    if(viatura.viaturaTemVistoria != null) {
       this.router.navigate(['/vistoria', viatura.id, this.adjunto]);
     }
   }
