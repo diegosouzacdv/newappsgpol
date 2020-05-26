@@ -15,7 +15,14 @@ export class PolicialService {
         public storage: StorageService) {
     }
 
-    usuarioLogado(): Observable<PolicialDTO> {
+    testefiltro(data): Observable<any> {
+        data = JSON.stringify(data)
+       let body = {data };
+        return this.http.put<any>(
+            `${API_CONFIG.baseUrl}/controle/patio/page/teste`, body);
+    }
+
+        usuarioLogado(): Observable<PolicialDTO> {
         return this.http.get<PolicialDTO>(
             `${API_CONFIG.baseUrl}/usuario/curto`);
     }

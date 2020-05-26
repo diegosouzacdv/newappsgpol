@@ -40,7 +40,6 @@ export class AdjuntoPage {
     public policialService: PolicialService,
     public viaturaService: ViaturaService,
     private itensVistoriaService: ItensVistoriaService,
-    private route: ActivatedRoute,
     public authService: AuthService) {
     this.situacaoViatura = SituacaoViatura;
     this.storage.getLocalUser().authorities.forEach(element => {
@@ -100,9 +99,9 @@ export class AdjuntoPage {
   }
 
   public async isVistoria(viatura: ViaturaDTO) {
-    // if (viatura.viaturaTemVistoria != null && viatura.viaturaTemVistoria.motoristaMatricula === this.policial.matricula) {
-    //   this.naoPermitido(viatura)
-    // } else 
+    if (viatura.viaturaTemVistoria != null && viatura.viaturaTemVistoria.motoristaMatricula === this.policial.matricula) {
+      this.naoPermitido(viatura)
+    } else 
     if(viatura.viaturaTemVistoria != null) {
       this.router.navigate(['/vistoria', viatura.id, this.adjunto]);
     }

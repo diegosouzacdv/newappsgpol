@@ -10,6 +10,7 @@ import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.ser
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { AuthService } from 'src/app/services/auth.service';
 import { ViaturaTemVistoriaDTO } from 'src/app/models/viatura-tem-vistoria.dto';
+import { API_CONFIG } from 'src/app/config/api.config';
 
 @Component({
   selector: 'app-viatura-motorista',

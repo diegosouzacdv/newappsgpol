@@ -52,6 +52,13 @@ export class EntradaSaidaPage implements OnInit {
     this.getPolicial();
     this.page = 'patio'
     this.getPatio();
+
+    // let date = new Date();
+    // console.log(date.toUTCString())
+    // this.policialService.testefiltro(date.toUTCString())
+    //   .subscribe(response => {
+    //     console.log(response)
+    //   })
   }
 
   getPolicial() {
