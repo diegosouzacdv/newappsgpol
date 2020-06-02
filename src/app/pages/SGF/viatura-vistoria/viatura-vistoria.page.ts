@@ -129,10 +129,13 @@ export class ViaturaVistoriaPage implements OnInit {
         console.log(this.vistoria)
         this.subscribeItensVistoria = this.itensVistoriaService.updateVistoria(this.vistoria)
           .subscribe(response => {
+            console.log(response)
             this.loading.dismiss();
+            
             this.success();
           }, (errors => {
             this.loading.dismiss();
+            this.router.navigate(['/viatura-motorista']);
           }));
       } finally {}
     }
@@ -232,7 +235,11 @@ export class ViaturaVistoriaPage implements OnInit {
       // tslint:disable-next-line: no-shadowed-variable
     }).then(alert => {
       alert.present();
-      this.router.navigate(['/home']);
+      if (this.adjunto === 'true') {
+        this.router.navigate(['/adjunto']);
+      } else {
+        this.router.navigate(['/viatura-motorista']);
+      }
     });
   }
 
@@ -259,7 +266,11 @@ export class ViaturaVistoriaPage implements OnInit {
       // tslint:disable-next-line: no-shadowed-variable
     }).then(alert => {
       alert.present()
-      this.router.navigate(['/home']);
+      if (this.adjunto === 'true') {
+        this.router.navigate(['/adjunto']);
+      } else {
+        this.router.navigate(['/viatura-motorista']);
+      }
     });
   }
 

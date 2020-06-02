@@ -3,6 +3,7 @@ import { ViaturaTemVistoriaDTO } from './viatura-tem-vistoria.dto';
 export interface ViaturaDTO {
     id: string;
     odometro?:string;
+    odometroProximaRevisao?:string;
     placa: string;
     prefixo: string;
     marca: string;
@@ -16,6 +17,8 @@ export interface ViaturaDTO {
     anoFabricacao: string;
     anoModelo: string;
     dataInclusao: string;
+    dataProximaRevisao: string;
+    dataFormatadaProximaRevisao: number;
     tipoCombustivel: string;
     tipoViatura: string;
     lotacao: string;

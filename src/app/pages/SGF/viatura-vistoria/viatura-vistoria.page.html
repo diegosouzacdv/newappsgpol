@@ -114,6 +114,10 @@
         <ion-textarea [(ngModel)]="vistoria.observacaoValidadoFinal"></ion-textarea>
       </ion-item>
 
+      <p class="ion-padding-start" *ngIf="viatura?.status === situacaoViatura.EM_VISTORIA && adjunto === 'false'">
+        Atenção aguarde a liberação da viatura pelo Adjunto
+      </p>
+
       <ion-item class="">
         <ion-button size="small" *ngIf="adjunto === 'true'" slot="end" color="danger"
           (click)="invalidarVistoria(vistoria)">

@@ -34,6 +34,9 @@ export class EntradaSaidaPage implements OnInit {
   private subscribePatio: Subscription;
   private subscribeUpmLocal: Subscription;
   tipoEntradaSaida;
+  pageable;
+  pageableViaturasPatio;
+
 
   constructor(
     public authService: AuthService,
@@ -99,7 +102,8 @@ export class EntradaSaidaPage implements OnInit {
   getPatio() {
    this.subscribePatio = this.route.data.subscribe((resolvedRouteData) => {
      this.viaturasPatio = resolvedRouteData.data.content;
-     console.log(this.viaturasPatio)
+     this.pageable = resolvedRouteData.data;
+     console.log(this.pageable)
     },
     (error) => {});
   }
@@ -110,6 +114,7 @@ export class EntradaSaidaPage implements OnInit {
         if (this.viaturasPatio != null) {
           console.log('entrando no if')
           this.viaturasPatio = this.viaturasPatio.concat(response['content']);
+          this.pageable = response;
         } else {
           console.log('entrando no else')
           this.viaturasPatio = response['content'];
@@ -260,7 +265,8 @@ export class EntradaSaidaPage implements OnInit {
       this.getPatioLoading();
       console.log(this.paginator)
       event.target.complete();
-      if (this.viaturasPatio.length < 0) {
+      if (this.pageable.last === true) {
+        console.log('final')
         event.target.disabled = true;
       }
     }, 500);

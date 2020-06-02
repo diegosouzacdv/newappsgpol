@@ -11,10 +11,10 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { PolicialService } from '../services/domain/policial.service';
-import { StreamingMedia, StreamingVideoOptions } from '@ionic-native/streaming-media/ngx';
 import { ActivatedRoute } from '@angular/router';
 import { DatabaseService } from '../services/database.service';
 import { Versao } from '../models/versao/versao';
+import { DadosResumoPolicial } from '../models/dados-resumo-policial';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +32,7 @@ export class HomePage implements OnInit {
   public nomeUsuario = '';
   private subscribeUser: Subscription;
   private subscribePages: Subscription;
+  public dadosResumoPolicial: DadosResumoPolicial;
 
   public urlAtualizacao = this.storage.getAtualizacao();
   public classes = {
@@ -92,6 +93,7 @@ export class HomePage implements OnInit {
   getPages() {
     this.subscribePages = this.route.data.subscribe((resolvedRouteData) => {
       this.pages = resolvedRouteData.pages;
+      this.dadosResumoPolicial = resolvedRouteData.user;
     })
   }
 
@@ -270,7 +272,6 @@ export class HomePage implements OnInit {
       buttons: [
         { text: 'Ok' }
       ]
-      // tslint:disable-next-line: no-shadowed-variable
     }).then(alert => alert.present());
   }
 

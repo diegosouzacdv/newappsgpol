@@ -6,11 +6,11 @@
       </ion-avatar>
     </div>
     <div class="ion-padding-start ion-padding-end">
-      <ion-text [color]="!viaturaService.tem_numeros(busca) ? 'danger' : ''">
+      <ion-text [color]="!viaturaService.tem_numeros(busca) ? 'primary' : ''">
         <p><strong>Prefixo: </strong>{{viatura?.prefixo}}</p>
       </ion-text>
       <p><strong>Viatura: </strong>{{viatura?.modelo}}</p>
-      <ion-text [color]="viaturaService.tem_numeros(busca) ? 'danger' : ''">
+      <ion-text [color]="viaturaService.tem_numeros(busca) ? 'primary' : ''">
         <p><strong>Placa: </strong>{{viatura?.placa}}</p>
       </ion-text>
       <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
@@ -18,36 +18,36 @@
         {{'+ detalhes da viatura'}}</p>
     </div>
     <ion-item-sliding>
-      <ion-item lines="none" color="secondary">
+      <ion-item lines="none" color="medium">
 
         <!-- a mensagem 'arraste para esquerda para vistoriar' somente irá aparecer se o status da viatura for diferente de BAIXADA -->
-        <ion-icon color="light" class="aviso" name="arrow-back" slot="start"
-          *ngIf="viatura?.status !== situacaoViatura.BAIXADA && !adjunto"></ion-icon>
-        <ion-label class="ion-text-wrap" color="light" slot="start"
-          *ngIf="viatura?.status !== situacaoViatura.BAIXADA && !adjunto" >
+        <ion-icon color="primary" class="aviso" name="arrow-back" slot="start"
+          *ngIf="viatura?.status !== situacaoViatura.BAIXADA && !adjunto && viatura?.status !== situacaoViatura.PARA_REVISAO"></ion-icon>
+        <ion-label class="ion-text-wrap" color="primary" slot="start"
+          *ngIf="viatura?.status !== situacaoViatura.BAIXADA && !adjunto && viatura?.status !== situacaoViatura.PARA_REVISAO" >
           <p class="aviso" >{{'arraste para esquerda para vistoriar' | titlecase}}</p>
         </ion-label>
 
-        <ion-icon color="light" class="aviso" name="arrow-back" slot="start"
-          *ngIf="viatura?.status !== situacaoViatura.BAIXADA && viatura?.status !== situacaoViatura.DISPONIVEL"></ion-icon>
-        <ion-label class="ion-text-wrap" color="light" slot="start"
+        <ion-icon color="primary" class="aviso" name="arrow-back" slot="start"
+          *ngIf="(viatura?.status !== situacaoViatura.BAIXADA && viatura?.status !== situacaoViatura.DISPONIVEL) && adjunto"></ion-icon>
+        <ion-label class="ion-text-wrap" color="primary" slot="start"
           *ngIf="(viatura?.status !== situacaoViatura.BAIXADA && viatura?.status !== situacaoViatura.DISPONIVEL) && adjunto" >
           <p class="aviso" >{{'arraste para esquerda para abrir vistoriar' | titlecase}}</p>
         </ion-label>
 
-        <ion-icon color="light" class="aviso" name="alert-circle-outline" slot="start"
+        <ion-icon color="primary" class="aviso" name="alert-circle-outline" slot="start"
           *ngIf="viatura?.status === situacaoViatura.BAIXADA"></ion-icon>
-        <ion-label class="ion-text-wrap" color="light" slot="start"
+        <ion-label class="ion-text-wrap" color="primary" slot="start"
           *ngIf="viatura?.status === situacaoViatura.BAIXADA">
           <p class="aviso">{{'viatura baixada' | titlecase}}</p>
         </ion-label>
 
         <ion-chip *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA"
-          [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'light'" slot="end">
+          [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'" slot="end">
           {{viatura?.status}}
         </ion-chip>
         <ion-chip *ngIf="viatura?.status === situacaoViatura.CAUTELADA" slot="end"
-          [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'light' : 'light'">{{viatura?.status}}
+          [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'warning'">{{viatura?.status}}
         </ion-chip>
         <ion-chip *ngIf="viatura?.status === situacaoViatura.BAIXADA" slot="end" color="danger">
           <strong>{{viatura?.status}}</strong>
@@ -55,7 +55,7 @@
       </ion-item>
 
 
-      <ion-item-options side="end" *ngIf="viatura?.status !== situacaoViatura.BAIXADA && !adjunto">
+      <ion-item-options side="end" *ngIf="viatura?.status !== situacaoViatura.BAIXADA && !adjunto && viatura?.status !== situacaoViatura.PARA_REVISAO" >
         <ion-item-option
           *ngIf="(viatura?.viaturaTemVistoria?.motoristaMatricula === policial?.matricula) || viatura?.viaturaTemVistoria?.idVistoria == null"
           [color]="viatura?.viaturaTemVistoria?.motoristaMatricula === policial?.matricula ? 'primary' : 'success'"

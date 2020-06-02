@@ -1,5 +1,5 @@
 ion-icon {
-    font-size: 40px;
+    font-size: 25px;
 }
 
 
@@ -17,6 +17,8 @@ ion-icon {
 
   .card-for {
     border-bottom: solid 1px rgba(105, 105, 105, 0.325);
+    padding: 0px;
+    margin: 0px;
   }
 
   .card-children {
@@ -27,9 +29,16 @@ ion-icon {
   .detalhes {
     font-size: 11px;
     outline: none;
+    color: rgb(104, 104, 104);
   }
   
   .detalhes:active {
     transform: scale(1.2);
   }
+
+  ion-item {
+    --highlight-height: 200px;
+  }
+
+ 
 

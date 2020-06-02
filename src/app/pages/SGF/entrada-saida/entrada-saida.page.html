@@ -67,6 +67,7 @@
     </ion-segment-button>
   </ion-segment>
   <ion-list >
+    <h6 class="ion-text-center ion-padding-start ion-padding-end" style="color: #86888f;">{{'Atenção! Controle de Entrada e Saída de Viatura feita pela Guarda!'}}</h6>
     <div *ngIf="page === 'patio'; else upmtemplate">
       <div *ngIf="viaturasPatio.length !== 0; else semViaturaPatio">
         <ion-item *ngFor="let viatura of viaturasPatio">

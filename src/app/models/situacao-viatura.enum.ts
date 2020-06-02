@@ -4,6 +4,7 @@ export enum SituacaoViatura {
     BAIXADA = 'BAIXADA',
     EM_VISTORIA = 'EM VISTORIA',
     FORA = 'FORA',
-    EM_MOVIMENTAÇÃO = 'EM MOVIMENTAÇÃO'
+    EM_MOVIMENTAÇÃO = 'EM MOVIMENTAÇÃO',
+    PARA_REVISAO = 'PARA REVISÃO'
 
 }

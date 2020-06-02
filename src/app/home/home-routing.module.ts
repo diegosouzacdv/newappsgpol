@@ -3,13 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
 import { ResolverHome } from '../resolvers/ResolverHome';
+import { ResolverUserDadosResumo } from '../resolvers/ResolverUser';
 
 const routes: Routes = [
   {
     path: '',
     component: HomePage,
     resolve: {
-      pages: ResolverHome
+      pages: ResolverHome,
+      user: ResolverUserDadosResumo
     }
   }
 ];

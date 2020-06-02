@@ -9,7 +9,7 @@ import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { AuthService } from 'src/app/services/auth.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-adjunto',
@@ -32,6 +32,8 @@ export class AdjuntoPage {
   public quantPagina: number = 3;
   public busca: string;
   public isAdmin = false;
+  loading: any;
+  pageable;
 
   constructor(
     public alertController: AlertController,
@@ -39,6 +41,7 @@ export class AdjuntoPage {
     public router: Router,
     public policialService: PolicialService,
     public viaturaService: ViaturaService,
+    private loadingController: LoadingController,
     private itensVistoriaService: ItensVistoriaService,
     public authService: AuthService) {
     this.situacaoViatura = SituacaoViatura;
@@ -67,16 +70,12 @@ export class AdjuntoPage {
   listarViaturasUnidade() {
     this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
       .subscribe(response => {
+        this.pageable = response;
+        console.log(this.pageable)
         this.viaturasUnidade = response['content'];
-        this.viaturasUnidade.forEach(viatura => {
-          this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
-            .subscribe(response => {
-              viatura.viaturaTemVistoria = response;
-            })
-        })
-
         console.log(this.viaturasUnidade)
-
+        
+        this.isTemVistoria();
         if (this.viaturasUnidade.length == 0) {
           console.log('entrando aq sem viaturas')
           this.semViaturas = true;
@@ -84,27 +83,39 @@ export class AdjuntoPage {
       });
   }
 
+ 
+
   listarViaturasUnidadeLoading() {
     this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
       .subscribe(response => {
-        console.log(response)
+        this.pageable = response;
+        console.log(this.pageable)
         this.viaturasUnidade = this.viaturasUnidade.concat(response['content']);
-
-        console.log(this.viaturasUnidade)
+        this.isTemVistoria();
         if (this.viaturasUnidade.length == 0) {
-          console.log('entrando aq sem viaturas')
           this.semViaturas = true;
         }
       });
   }
 
   public async isVistoria(viatura: ViaturaDTO) {
+    await this.presentLoading();
+    try {
     if (viatura.viaturaTemVistoria != null && viatura.viaturaTemVistoria.motoristaMatricula === this.policial.matricula) {
       this.naoPermitido(viatura)
+      this.loading.dismiss();
     } else 
     if(viatura.viaturaTemVistoria != null) {
       this.router.navigate(['/vistoria', viatura.id, this.adjunto]);
     }
+  } finally{
+    //this.router.navigate(['/vistoria', viatura.id, this.adjunto]);
+  }
+
+  }
+
+  ionViewDidLeave() {
+    this.loading.dismiss();
   }
 
   ionViewWillLeave() {
@@ -113,6 +124,14 @@ export class AdjuntoPage {
     if (!this.subscribeVistoria.closed) { this.subscribeVistoria.unsubscribe(); }
     if (!this.subscribeTemVistoria.closed) { this.subscribeTemVistoria.unsubscribe(); }
 
+  }
+
+  public async presentLoading() {
+    this.loading = await this.loadingController.create({
+      message: 'Por favor, aguarde...',
+      mode: 'ios'
+    });
+    return this.loading.present();
   }
 
   doRefresh(event) {
@@ -129,7 +148,8 @@ export class AdjuntoPage {
       console.log(this.page);
       this.listarViaturasUnidadeLoading();
       event.target.complete();
-      if (this.viaturasUnidade.length < 0) {
+      if (this.pageable.last === true) {
+        console.log('final')
         event.target.disabled = true;
       }
     }, 500);
@@ -145,6 +165,16 @@ export class AdjuntoPage {
           })
       })
     }
+  }
+
+   isTemVistoria() {
+    this.viaturasUnidade.forEach(viatura => {
+      this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
+        .subscribe(response => {
+          console.log(response)
+          viatura.viaturaTemVistoria = response;
+        })
+    })
   }
 
   async naoPermitido(viatura: ViaturaDTO) {

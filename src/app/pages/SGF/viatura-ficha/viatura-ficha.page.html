@@ -28,6 +28,9 @@
 
   <ion-card class="card-children">
     <ion-item>
+      <p><strong><i>Prefixo:&nbsp;</i></strong> {{viatura?.prefixo}}</p>
+    </ion-item>
+    <ion-item>
       <p><strong><i>Placa:&nbsp;</i></strong> {{viatura?.placa}}</p>
     </ion-item>
     <ion-item>
@@ -59,6 +62,14 @@
 
     <ion-item>
       <p><strong><i>Renavam:&nbsp;</i> </strong>{{viatura?.renavam}}</p>
+    </ion-item>
+
+    <ion-item>
+      <p><strong><i>Odômetro Atual:&nbsp;</i> </strong>{{viatura?.odometro}}km</p>
+    </ion-item>
+
+    <ion-item>
+      <p><strong><i>Odômetro de próxima Revisão:&nbsp;</i> </strong>{{viatura?.odometroProximaRevisao}}km</p>
     </ion-item>
     
   </ion-card>

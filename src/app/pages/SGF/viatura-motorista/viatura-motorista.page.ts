@@ -11,6 +11,7 @@ import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { AuthService } from 'src/app/services/auth.service';
 import { ViaturaTemVistoriaDTO } from 'src/app/models/viatura-tem-vistoria.dto';
 import { API_CONFIG } from 'src/app/config/api.config';
+import { UtilsService } from 'src/app/services/domain/utils.service';
 
 @Component({
   selector: 'app-viatura-motorista',
@@ -35,6 +36,10 @@ export class ViaturaMotoristaPage {
   public busca: string;
   private page: number = 0;
   public quantPagina: number = 3;
+  public data: Date = new Date();
+  public dataHojeNumero: number;
+  public proximaRevisao: boolean;
+  pageable;
 
   constructor(
     public navCtrl: NavController,
@@ -45,21 +50,32 @@ export class ViaturaMotoristaPage {
     public alertController: AlertController,
     private route: ActivatedRoute,
     public itensVistoriaService: ItensVistoriaService,
-    public authService: AuthService) {
+    public authService: AuthService,
+    public utilsService: UtilsService) {
     this.situacaoViatura = SituacaoViatura;
   }
   ngOnInit() {
   }
 
-  vistoriar(idViatuira: number) {
-    this.router.navigate(['/vistoria', idViatuira, 'false'])
+  async vistoriar(viatura?: ViaturaDTO, idviatura?: number) {
+    await this.presentLoading();
+    let id = viatura !== null ? viatura.id : idviatura;
+    this.router.navigate(['/vistoria', id,  'false'])
+
   }
 
   ionViewWillEnter() {
+    let data: Date = new Date();
+    this.dataHojeNumero = this.transNumData(this.utilsService.dataAtualFormatada(data));
+    this.listarViaturasUnidade();
     this.getViaturaEmUso();
     this.showViaturaUnidade = false;
     this.page = 0;
     this.viaturasUnidade = null;
+  }
+
+  ionViewDidLeave() {
+    this.loading.dismiss();
   }
 
   buscaPesquisa(event) {
@@ -74,22 +90,27 @@ export class ViaturaMotoristaPage {
   }
 
   async listarViaturasUnidade() {
-    await this.presentLoading();
     try {
       if (this.policial.lotacaoCodigo !== null || this.policial.lotacaoCodigo !== undefined) {
         this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
           .subscribe(response => {
-            this.loading.dismiss();
             this.viaturasUnidade = response['content'];
-            console.log(this.viaturasUnidade)
-            this.viaturasUnidade.forEach(viatura => {
-             this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
-                .subscribe(response => {
-                  viatura.viaturaTemVistoria = response;
-                  if (viatura.viaturaTemVistoria.idVistoria !== null) {
-                  }
-                })
-            })
+            this.pageable = response;
+            
+            if (this.viaturasUnidade != null && this.viaturasUnidade.length > 0) {
+              this.viaturasUnidade.forEach(viatura => {
+               this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
+                  .subscribe(response => {
+                    viatura.viaturaTemVistoria = response;
+  
+                    if (viatura.dataProximaRevisao != null) {
+                      viatura.dataFormatadaProximaRevisao = this.transNumData(viatura.dataProximaRevisao);
+                      console.log(viatura.dataFormatadaProximaRevisao)
+                    } 
+                    viatura = this.viaturaService.verificarOdometroDataRevisao(viatura, this.dataHojeNumero)
+                  })
+              })
+            }
 
             if (this.viaturasUnidade.length === 0) {
               this.semViaturasUnidade = !this.semViaturasUnidade
@@ -97,7 +118,6 @@ export class ViaturaMotoristaPage {
               this.showViaturaUnidade = true;
             }
           }, (errors => {
-            this.loading.dismiss();
           }));
       }
     } finally { }
@@ -108,13 +128,17 @@ export class ViaturaMotoristaPage {
           .subscribe(response => {
             this.viaturasUnidade = this.viaturasUnidade.concat(response['content']);
             console.log(this.viaturasUnidade)
-
+            this.pageable = response;
             this.viaturasUnidade.forEach(viatura => {
              this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
                 .subscribe(response => {
                   viatura.viaturaTemVistoria = response;
-                  if (viatura.viaturaTemVistoria.idVistoria !== null) {
+                  if (viatura.dataProximaRevisao != null) {
+                    viatura.dataFormatadaProximaRevisao = this.transNumData(viatura.dataProximaRevisao);
+                    console.log(viatura.dataFormatadaProximaRevisao)
                   }
+
+                  viatura = this.viaturaService.verificarOdometroDataRevisao(viatura, this.dataHojeNumero)
                 })
             })
 
@@ -135,9 +159,20 @@ export class ViaturaMotoristaPage {
         this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
           .subscribe(response => {
             viatura.viaturaTemVistoria = response;
+
+            if (viatura.dataProximaRevisao != null) {
+              viatura.dataFormatadaProximaRevisao = this.transNumData(viatura.dataProximaRevisao);
+              console.log(viatura.dataFormatadaProximaRevisao)
+            }
+
+            viatura = this.viaturaService.verificarOdometroDataRevisao(viatura, this.dataHojeNumero)
           })
       })
     }
+  }
+
+  public transNumData(data: string): number {
+    return this.utilsService.transformarNum(data);
   }
 
 
@@ -174,7 +209,8 @@ export class ViaturaMotoristaPage {
       this.page++;
       this.listarViaturasUnidadeLoading();
       event.target.complete();
-      if (this.viaturasUnidade.length < 0) {
+      if (this.pageable.last === true) {
+        console.log('final')
         event.target.disabled = true;
       }
     }, 500);

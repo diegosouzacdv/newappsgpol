@@ -101,6 +101,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             header: 'Campo Obrigatório',
             message: this.listErrors(errorObj.errors),
             backdropDismiss: false,
+            mode: 'ios',
             buttons: [
                 { text: 'Ok' }
             ]
@@ -117,9 +118,10 @@ export class ErrorInterceptor implements HttpInterceptor {
             msg = error.message
         }
         const alert = this.alertCtrl.create({
-            header: 'Error',
+            header: 'Atenção',
             message: msg,
             backdropDismiss: false,
+            mode: 'ios',
             buttons: [
                 { text: 'Ok' }
             ]
@@ -132,6 +134,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             header: 'Error ' + errorObj.status + ': ' + errorObj.error,
             message: errorObj.message,
             backdropDismiss: false,
+            mode: 'ios',
             buttons: [
                 { text: 'Ok' }
             ]

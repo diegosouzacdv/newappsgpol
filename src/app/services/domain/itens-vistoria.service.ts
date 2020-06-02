@@ -41,7 +41,6 @@ export class ItensVistoriaService {
     }
 
     updateVistoria(body: VistoriaVistoriaDTO): Observable<VistoriaVistoriaDTO> {
-        console.log(body)
         body.dataLiberacao  = null;
         body.dataVistoria  =  null;
         this.geolocation.getCurrentPosition().then((resp) => {

@@ -29,8 +29,45 @@
       </div>
     </div>
   </ion-col> -->
-
-  <ion-toolbar mode="ios" color="secondary">
-    <p class="ion-text-center"><strong>Modulo em implementação...</strong></p>
-  </ion-toolbar>
+    <ion-card mode="ios" color="light" class="card-children">
+      <ion-card-header>
+        <ion-card-subtitle>{{dadosResumoPolicial?.posto}} {{dadosResumoPolicial?.nomeGuerra}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row>
+          <ion-col size="12">
+            <p><strong>Matrícula -</strong> {{dadosResumoPolicial?.matricula}}</p>
+            <p><strong>Lotação - </strong>{{dadosResumoPolicial?.lotacao}}</p>
+          </ion-col>
+          <ion-col size="12">
+            <p><strong>Situação do policial -</strong> {{dadosResumoPolicial?.situacaoFuncional}}</p>
+            <p><strong>Porte de Arma -</strong> {{dadosResumoPolicial?.porteSuspenso === true ? 'Ativo' : 'Suspenso'}}</p>
+            <p><strong>Data de Admissão -</strong> {{dadosResumoPolicial?.dataAdmissao | date:'dd/MM/yyyy' }}</p>
+            <p><strong>CNH - </strong>{{dadosResumoPolicial?.cnh?.categoria}} <strong>Validade - </strong>{{dadosResumoPolicial?.cnh?.dataValidade | date:'dd/MM/yyyy'}}</p>
+          </ion-col>
+          <hr>
+          <ion-col size="12">
+            <ion-card-subtitle>Contatos: </ion-card-subtitle>
+            <ion-item>
+              <ion-label class="ion-text-wrap">
+                <ion-icon slot="start" name="mail-outline"></ion-icon>
+               <strong> Email:</strong> <p [innerHtml]="dadosResumoPolicial?.listEmail"></p>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label class="ion-text-wrap">
+                <ion-icon name="call-outline"></ion-icon>
+                <strong> Telefones:</strong>  <p [innerHtml]="dadosResumoPolicial?.listTelefone"></p>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label class="ion-text-wrap">
+                <ion-icon name="call-outline"></ion-icon>
+                <strong> Endereço:</strong> <p>{{dadosResumoPolicial?.enderecoAtual}}</p>
+              </ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
 </ion-row>

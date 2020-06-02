@@ -6,7 +6,9 @@ import { PolicialService } from '../services/domain/policial.service';
 import { PolicialDTO } from '../models/policial.dto';
 import { AuthService } from '../services/auth.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ResolverUser implements Resolve<any> {
 
   constructor(
@@ -20,6 +22,29 @@ export class ResolverUser implements Resolve<any> {
             const user = this.storage.getLocalUser();
             if (user) {
               return this.policialService.usuarioLogado();
+            } else {
+              this.authService.logout();
+            }
+  }
+}
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ResolverUserDadosResumo implements Resolve<any> {
+
+  constructor(
+    public storage: StorageService,
+    public policialService: PolicialService,
+    public authService: AuthService) { }
+
+  resolve(route: ActivatedRouteSnapshot,
+          state: RouterStateSnapshot): Observable<PolicialDTO |Promise<PolicialDTO>| any > {
+
+            const user = this.storage.getLocalUser();
+            if (user) {
+              return this.policialService.dadosResumoPolicial();
             } else {
               this.authService.logout();
             }

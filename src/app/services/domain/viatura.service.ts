@@ -7,13 +7,19 @@ import { API_CONFIG } from 'src/app/config/api.config';
 import { EntradaSaida } from 'src/app/models/entrada-saida';
 import { map, retry } from 'rxjs/operators';
 import { EntradaSaidaDTO } from 'src/app/models/entrada-saida-DTO';
+import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ViaturaService {
 
+    public dataHojeNumero: number;
+    public situacaoViatura;
+
     constructor(public http: HttpClient, public storage: StorageService) {
+        
+    this.situacaoViatura = SituacaoViatura;
     }
 
     pesquisarViatura(quant: number, page: number = 0, busca: string): Observable<ViaturaDTO[]> {
@@ -40,6 +46,13 @@ export class ViaturaService {
         console.log(id);
         return this.http.get<ViaturaDTO>(
             `${API_CONFIG.baseUrl}/viaturas/${id}`);
+    }
+
+    mudarStatusViaturaProximaRevisao(idViatura: number) {
+        console.log(idViatura)
+        const body = {}
+        return this.http.put<any>(
+            `${API_CONFIG.baseUrl}/viaturas/proxima/revisao/${idViatura}`, body);
     }
 
     listarViaturasUnidade(unidade_id: string, page: number): Observable<ViaturaDTO[]> {
@@ -81,6 +94,18 @@ export class ViaturaService {
         return this.http.get<EntradaSaidaDTO[]>(
             `${API_CONFIG.baseUrl}/controle/upmlocal?size=10&page=${page}`)
             .pipe(map((response: EntradaSaidaDTO[]) => response), retry(2));
+    }
+
+    verificarOdometroDataRevisao(viatura: ViaturaDTO, dataHojeNumero: number):ViaturaDTO {
+        if (viatura.viaturaTemVistoria.idViatura == null && 
+            (viatura.dataProximaRevisao !=null && viatura.odometroProximaRevisao != null) && viatura.status != this.situacaoViatura.BAIXADA) {
+
+            if (viatura.dataFormatadaProximaRevisao <= dataHojeNumero || viatura.odometroProximaRevisao <= viatura.odometro) {
+                console.log(viatura.id + " estorado")
+                viatura.status = this.situacaoViatura.PARA_REVISAO;
+                return viatura;
+            } 
+        }
     }
 
 }
