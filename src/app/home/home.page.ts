@@ -1,11 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild, ɵConsole } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ɵConsole, AfterViewInit } from '@angular/core';
 import { Pages } from '../models/pages';
 import { PagesService } from '../services/page.service';
 import { AuthService } from '../services/auth.service';
-import { Subscription, Observable } from 'rxjs';
-import { AlertController, LoadingController, Platform } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { AlertController, LoadingController, Platform, AnimationController, Animation } from '@ionic/angular';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { AppComponent } from '../app.component';
 import { StorageService } from '../services/storage.service';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
@@ -21,7 +20,10 @@ import { DadosResumoPolicial } from '../models/dados-resumo-policial';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit {
+
+  @ViewChild('square', {static: false}) square: ElementRef;
+  anim: Animation;
 
   public pages: Pages[];
   public versao;
@@ -33,7 +35,6 @@ export class HomePage implements OnInit {
   private subscribeUser: Subscription;
   private subscribePages: Subscription;
   public dadosResumoPolicial: DadosResumoPolicial;
-
   public urlAtualizacao = this.storage.getAtualizacao();
   public classes = {
     pessoal: false,
@@ -41,7 +42,6 @@ export class HomePage implements OnInit {
     saude: false,
     administrador: false
   }
-
   public appPages = [
     {
       title: 'Adjunto',
@@ -53,6 +53,7 @@ export class HomePage implements OnInit {
     }
   ];
   public versions: Versao[] = [];
+  
 
 
   constructor(
@@ -69,7 +70,7 @@ export class HomePage implements OnInit {
     private fileOpener: FileOpener,
     private loadingController: LoadingController,
     private db: DatabaseService,
-
+    private animationCTRL: AnimationController
   ) { }
 
   ngOnInit() {
@@ -78,6 +79,16 @@ export class HomePage implements OnInit {
     this.resolverUser();
     this.getPages();
     this.getDatabase();
+  }
+
+  ngAfterViewInit() {
+    this.anim = this.animationCTRL.create('myanim');
+    this.anim
+    .addElement(this.square.nativeElement)
+    .duration(400)
+    .easing('ease-out')
+    .fromTo('transform', 'translateX(300px)','translateX(0px)')
+    .fromTo('opacity', 0.2, 1)
   }
 
   getDatabase() {
@@ -297,6 +308,7 @@ export class HomePage implements OnInit {
       this.classes.sgf = false;
       this.classes.saude = false;
       this.classes.administrador = false;
+      this.anim.play();
     }
 
     if (pagina == 'sgf') {
@@ -304,6 +316,7 @@ export class HomePage implements OnInit {
       this.classes.pessoal = false;
       this.classes.saude = false;
       this.classes.administrador = false;
+      this.anim.play();
     }
 
     if (pagina == 'saude') {
@@ -311,6 +324,7 @@ export class HomePage implements OnInit {
       this.classes.pessoal = false;
       this.classes.sgf = false;
       this.classes.administrador = false;
+      this.anim.play();
     }
 
     if (pagina == 'administrador') {
@@ -318,6 +332,7 @@ export class HomePage implements OnInit {
       this.classes.pessoal = false;
       this.classes.sgf = false;
       this.classes.saude = false;
+      this.anim.play();
     }
   }
 

@@ -53,6 +53,7 @@ export class ViaturaMotoristaPage {
     public authService: AuthService,
     public utilsService: UtilsService) {
     this.situacaoViatura = SituacaoViatura;
+    console.log(this.viaturasUnidade);
   }
   ngOnInit() {
   }
@@ -67,7 +68,9 @@ export class ViaturaMotoristaPage {
   ionViewWillEnter() {
     let data: Date = new Date();
     this.dataHojeNumero = this.transNumData(this.utilsService.dataAtualFormatada(data));
-    this.listarViaturasUnidade();
+    setTimeout( () => {
+      this.listarViaturasUnidade();
+    }, 300)
     this.getViaturaEmUso();
     this.showViaturaUnidade = false;
     this.page = 0;

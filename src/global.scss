@@ -110,7 +110,7 @@ hr {
   margin: 0px 0px 0px 0px;
   background-color: var(--ion-color-primary);
   color: var(--ion-color-light);
-  border-radius: 0px 0px 0px 0px;
+  border-radius: 0px 0px 10px 10px;
 }
 
 .card-update {
@@ -240,7 +240,7 @@ hr {
 }
 
 .loading-card {
-  height: 300px;
+  height: 150px;
   display: flex;
   flex-direction: row;
   justify-content: center;

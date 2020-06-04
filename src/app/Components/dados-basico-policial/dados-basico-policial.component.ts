@@ -38,9 +38,13 @@ export class DadosBasicoPolicialComponent implements OnInit {
   public getImageIfExists() {
     this.policialService.buscarFoto()
       .subscribe(response => {
-        this.blobToDataURL(response).then(dataUrl => {
+        console.log(response)
+        this.blobToDataURL(response)
+          .then(dataUrl => {
+          console.log(dataUrl)
           let str: string = dataUrl as string;
           this.fotouser = this.sanitizer.bypassSecurityTrustUrl(str);
+          console.log(this.fotouser)
         })
       },
       error => {

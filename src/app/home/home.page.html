@@ -75,10 +75,12 @@
         </div>
       </ion-col>
     </ion-row>
-    <app-pessoal [dadosResumoPolicial]="dadosResumoPolicial" *ngIf="pages[0]?.ativo"></app-pessoal>
-    <app-sgf [appPages]="appPages[0]" *ngIf="pages[1]?.ativo"></app-sgf>
-    <app-saude *ngIf="pages[2]?.ativo"></app-saude>
-    <app-administrador *ngIf="pages[3]?.ativo"></app-administrador>
+    <div #square>
+      <app-pessoal [dadosResumoPolicial]="dadosResumoPolicial" *ngIf="pages[0]?.ativo"></app-pessoal>
+      <app-sgf [appPages]="appPages[0]" *ngIf="pages[1]?.ativo"></app-sgf>
+      <app-saude *ngIf="pages[2]?.ativo"></app-saude>
+      <app-administrador *ngIf="pages[3]?.ativo"></app-administrador>
+    </div>
   </div>
 
   <ion-toolbar class="alerta" mode="ios" color="secondary" *ngIf="versions.length > 0">
