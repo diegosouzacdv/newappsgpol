@@ -3,7 +3,6 @@
      <img [src]="fotouser || '../../../assets/imgs/noimage.gif'"> 
   </ion-avatar>
 
-  
   <label>{{policial?.posto}} {{policial?.nomeGuerra}}</label>
   <p>{{policial?.lotacao}}</p>
   <ion-skeleton-text animated="true" style="width: 100%; background: rgba(255, 255, 255, 0.24); border-radius: 2px;" *ngIf="!policial?.lotacao"></ion-skeleton-text>

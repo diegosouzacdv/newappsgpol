@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PolicialDTO } from 'src/app/models/policial.dto';
 import { Subscription } from 'rxjs';
-import { NavController, LoadingController, AlertController } from '@ionic/angular';
+import { NavController, LoadingController, AlertController, AnimationController, Animation } from '@ionic/angular';
 import { ViaturaService } from 'src/app/services/domain/viatura.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
@@ -18,7 +18,8 @@ import { UtilsService } from 'src/app/services/domain/utils.service';
   templateUrl: './viatura-motorista.page.html',
   styleUrls: ['./viatura-motorista.page.scss'],
 })
-export class ViaturaMotoristaPage {
+export class ViaturaMotoristaPage implements  AfterViewInit{
+
   viaturasUnidade: ViaturaDTO[] = [];
   public viaturas: ViaturaDTO[];
   viatura: ViaturaDTO;
@@ -41,6 +42,11 @@ export class ViaturaMotoristaPage {
   public proximaRevisao: boolean;
   pageable;
 
+  @ViewChild('square', {static: false}) square: ElementRef;
+  @ViewChild('squareViaturaUso', {static: false}) squareViaturaUso: ElementRef;
+  animPesquisa: Animation;
+  animViaturaEmUso: Animation;
+
   constructor(
     public navCtrl: NavController,
     public viaturaService: ViaturaService,
@@ -51,10 +57,18 @@ export class ViaturaMotoristaPage {
     private route: ActivatedRoute,
     public itensVistoriaService: ItensVistoriaService,
     public authService: AuthService,
-    public utilsService: UtilsService) {
+    public utilsService: UtilsService,
+    private animationCTRL: AnimationController) {
     this.situacaoViatura = SituacaoViatura;
     console.log(this.viaturasUnidade);
   }
+
+  ngAfterViewInit() {
+    this.animacaoPesquisa();
+    this.animacaoViaturaUso();
+  }
+
+
   ngOnInit() {
   }
 
@@ -87,8 +101,8 @@ export class ViaturaMotoristaPage {
 
   getViaturaEmUso() {
     this.subscribeViaturaVistoria = this.route.data.subscribe((resolvedRouteData) => {
+      this.animViaturaEmUso.play();
       this.temViaturaEmUso = resolvedRouteData.isViaturaEmUso;
-      console.log(this.temViaturaEmUso)
     })
   }
 
@@ -111,6 +125,7 @@ export class ViaturaMotoristaPage {
                       console.log(viatura.dataFormatadaProximaRevisao)
                     } 
                     viatura = this.viaturaService.verificarOdometroDataRevisao(viatura, this.dataHojeNumero)
+                    
                   })
               })
             }
@@ -169,6 +184,7 @@ export class ViaturaMotoristaPage {
             }
 
             viatura = this.viaturaService.verificarOdometroDataRevisao(viatura, this.dataHojeNumero)
+            this.animPesquisa.play();
           })
       })
     }
@@ -217,6 +233,33 @@ export class ViaturaMotoristaPage {
         event.target.disabled = true;
       }
     }, 500);
+  }
+
+  
+  animacaoPesquisa() {
+    this.animPesquisa = this.animationCTRL.create('pesquisaViatura');
+    this.animPesquisa
+    .addElement(this.square.nativeElement)
+    .duration(600)
+    .easing('ease-out')
+    .keyframes([
+      { offset: 0, transform: 'scale(1)', opacity: '1' },
+      { offset: 0.5, transform: 'scale(1.01)', opacity: '0.3' },
+      { offset: 1, transform: 'scale(1)', opacity: '1' }
+    ])
+  }
+
+  animacaoViaturaUso() {
+    this.animViaturaEmUso = this.animationCTRL.create('viaturaUso');
+    this.animViaturaEmUso
+    .addElement(this.squareViaturaUso.nativeElement)
+    .duration(1000)
+    .easing('ease-out')
+    .keyframes([
+      { offset: 0, transform: 'scale(1)', opacity: '1' },
+      { offset: 0.5, transform: 'scale(1.01)', opacity: '0.3' },
+      { offset: 1, transform: 'scale(1)', opacity: '1' }
+    ])
   }
 
 }

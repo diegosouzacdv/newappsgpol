@@ -83,7 +83,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             translucent: true
         });
         toast.present();
-        //this.authService.logout();
+        this.authService.logout();
     }
 
     public async handle401() {

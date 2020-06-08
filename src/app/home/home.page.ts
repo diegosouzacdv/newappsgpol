@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, ɵConsole, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Pages } from '../models/pages';
 import { PagesService } from '../services/page.service';
 import { AuthService } from '../services/auth.service';

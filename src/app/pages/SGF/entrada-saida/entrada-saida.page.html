@@ -19,43 +19,45 @@
 
   <app-pesquisa-viatura [viaturas]="viaturas" (responseImovel)="viaturasPesquisa($event)" (responseBusca)="buscaPesquisa($event)"></app-pesquisa-viatura>
 
-  <div *ngFor="let viatura of viaturas">
-    <ion-card mode="ios" color="light" class="card-children">
-      <div class="ion-text-end ion-no-padding">
-        <ion-icon color="danger" class="fechar" name="close-circle-outline" style="zoom:2.0;" (click)="viaturas = null">
-        </ion-icon>
-      </div>
-      <div class="ion-padding-start ion-padding-end">
-        <ion-item>
-          <ion-avatar class="logo-viatura" slot="start">
-            <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
-          </ion-avatar>
-          <ion-button slot="end" color="success" (click)="presentAlertConfirmeEntrada(viatura)">
-            Entrar
-          </ion-button>
-        </ion-item>
-        <ion-row>
-          <ion-col size="6">
-            <ion-text [color]="!viaturaService.tem_numeros(busca) ? 'primary' : ''">
-              <p><strong>Prefixo: </strong>{{viatura?.prefixo}}</p>
-            </ion-text>
-          </ion-col>
-          <ion-col size="6" class="ion-text-end">
-            <p><strong>Viatura: </strong>{{viatura?.modelo}}</p>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6">
-            <ion-text [color]="viaturaService.tem_numeros(busca) ? 'primary' : ''">
-              <p><strong>Placa: </strong>{{viatura?.placa}}</p>
-            </ion-text>
-          </ion-col>
-          <ion-col size="6" class="ion-text-end">
-            <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
-          </ion-col>
-        </ion-row>
-      </div>
-    </ion-card>
+  <div #square>
+    <div  *ngFor="let viatura of viaturas">
+      <ion-card mode="ios" color="light" class="card-children">
+        <div class="ion-text-end ion-no-padding">
+          <ion-icon color="danger" class="fechar" name="close-circle-outline" style="zoom:2.0;" (click)="viaturas = null">
+          </ion-icon>
+        </div>
+        <div class="ion-padding-start ion-padding-end">
+          <ion-item>
+            <ion-avatar class="logo-viatura" slot="start">
+              <img src="https://sgpol.pm.df.gov.br/img/sgf/{{viatura?.marcaSigla}}.png">
+            </ion-avatar>
+            <ion-button slot="end" color="success" (click)="presentAlertConfirmeEntrada(viatura)">
+              Entrar
+            </ion-button>
+          </ion-item>
+          <ion-row>
+            <ion-col size="6">
+              <ion-text [color]="!viaturaService.tem_numeros(busca) ? 'primary' : ''">
+                <p><strong>Prefixo: </strong>{{viatura?.prefixo}}</p>
+              </ion-text>
+            </ion-col>
+            <ion-col size="6" class="ion-text-end">
+              <p><strong>Viatura: </strong>{{viatura?.modelo}}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-text [color]="viaturaService.tem_numeros(busca) ? 'primary' : ''">
+                <p><strong>Placa: </strong>{{viatura?.placa}}</p>
+              </ion-text>
+            </ion-col>
+            <ion-col size="6" class="ion-text-end">
+              <p><strong>Unidade: </strong>{{viatura?.lotacao}}</p>
+            </ion-col>
+          </ion-row>
+        </div>
+      </ion-card>
+    </div>
   </div>
 
   <ion-segment scrollable value="patio" mode="ios" color="dark" (ionChange)="segmentChanged($event)">

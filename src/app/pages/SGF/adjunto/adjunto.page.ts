@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { StorageService } from 'src/app/services/storage.service';
 import { PolicialService } from 'src/app/services/domain/policial.service';
 import { Subscription } from 'rxjs';
@@ -9,14 +9,14 @@ import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { AuthService } from 'src/app/services/auth.service';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController, Animation, AnimationController } from '@ionic/angular';
 
 @Component({
   selector: 'app-adjunto',
   templateUrl: './adjunto.page.html',
   styleUrls: ['./adjunto.page.scss'],
 })
-export class AdjuntoPage {
+export class AdjuntoPage implements AfterViewInit{
 
   private subscribeUser: Subscription;
   public viaturas: ViaturaDTO[];
@@ -34,6 +34,8 @@ export class AdjuntoPage {
   public isAdmin = false;
   loading: any;
   pageable;
+  @ViewChild('square', {static: false}) square: ElementRef;
+  anim: Animation;
 
   constructor(
     public alertController: AlertController,
@@ -43,7 +45,8 @@ export class AdjuntoPage {
     public viaturaService: ViaturaService,
     private loadingController: LoadingController,
     private itensVistoriaService: ItensVistoriaService,
-    public authService: AuthService) {
+    public authService: AuthService,
+    private animationCTRL: AnimationController) {
     this.situacaoViatura = SituacaoViatura;
     this.storage.getLocalUser().authorities.forEach(element => {
       if (element === 'ROLE_APP_ADMIN') {
@@ -56,7 +59,21 @@ export class AdjuntoPage {
 
   }
 
+  ngAfterViewInit() {
+    this.anim = this.animationCTRL.create('myanim');
+    this.anim
+    .addElement(this.square.nativeElement)
+    .duration(600)
+    .easing('ease-out')
+    .keyframes([
+      { offset: 0, transform: 'scale(1)', opacity: '1' },
+      { offset: 0.5, transform: 'scale(1.01)', opacity: '0.3' },
+      { offset: 1, transform: 'scale(1)', opacity: '1' }
+    ])
+  }
+
   buscaPesquisa(event) {
+    this.anim.play();
     this.busca = event;
   }
 
@@ -69,11 +86,9 @@ export class AdjuntoPage {
 
   listarViaturasUnidade() {
     this.subscribeViaUni = this.viaturaService.listarViaturasUnidade(this.policial.lotacaoCodigo, this.page)
-      .subscribe(response => {
+    .subscribe(response => {
         this.pageable = response;
-        console.log(this.pageable)
         this.viaturasUnidade = response['content'];
-        console.log(this.viaturasUnidade)
         
         this.isTemVistoria();
         if (this.viaturasUnidade.length == 0) {
@@ -171,7 +186,6 @@ export class AdjuntoPage {
     this.viaturasUnidade.forEach(viatura => {
       this.subscribeTemVistoria = this.itensVistoriaService.isViaturaVistoria(viatura.id)
         .subscribe(response => {
-          console.log(response)
           viatura.viaturaTemVistoria = response;
         })
     })

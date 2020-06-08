@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
 import { ViaturaService } from 'src/app/services/domain/viatura.service';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController, Animation, AnimationController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { EntradaSaida } from 'src/app/models/entrada-saida';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
@@ -17,7 +17,7 @@ import { EntradaSaidaDTO } from 'src/app/models/entrada-saida-DTO';
   templateUrl: './entrada-saida.page.html',
   styleUrls: ['./entrada-saida.page.scss'],
 })
-export class EntradaSaidaPage implements OnInit {
+export class EntradaSaidaPage implements OnInit, AfterViewInit {
 
   
   public viaturas: ViaturaDTO[];
@@ -36,6 +36,8 @@ export class EntradaSaidaPage implements OnInit {
   tipoEntradaSaida;
   pageable;
   pageableViaturasPatio;
+  @ViewChild('square', {static: false}) square: ElementRef;
+  anim: Animation;
 
 
   constructor(
@@ -46,7 +48,8 @@ export class EntradaSaidaPage implements OnInit {
     public toastController: ToastController,
     private route: ActivatedRoute,
     public storage: StorageService,
-    public policialService: PolicialService) {
+    public policialService: PolicialService,
+    private animationCTRL: AnimationController) {
     this.situacaoViatura = SituacaoViatura;
     this.tipoEntradaSaida = TipoEntradaSaida;
      }
@@ -55,14 +58,27 @@ export class EntradaSaidaPage implements OnInit {
     this.getPolicial();
     this.page = 'patio'
     this.getPatio();
-
-    // let date = new Date();
-    // console.log(date.toUTCString())
-    // this.policialService.testefiltro(date.toUTCString())
-    //   .subscribe(response => {
-    //     console.log(response)
-    //   })
   }
+
+  ngAfterViewInit() {
+    setTimeout( () => {
+      this.animacaoPesquisa();
+    }, 300)
+  }
+
+  animacaoPesquisa() {
+    this.anim = this.animationCTRL.create('myanim');
+    this.anim
+    .addElement(this.square.nativeElement)
+    .duration(400)
+    .easing('ease-out')
+    .keyframes([
+      { offset: 0, transform: 'scale(1)', opacity: '1' },
+      { offset: 0.5, transform: 'scale(1.01)', opacity: '0.3' },
+      { offset: 1, transform: 'scale(1)', opacity: '1' }
+    ])
+  }
+
 
   getPolicial() {
     let localUser = this.storage.getLocalUser();
@@ -91,8 +107,9 @@ export class EntradaSaidaPage implements OnInit {
   }
 
   viaturasPesquisa(event) {
+    console.log('entrando aq')
+    this.anim.play();
     this.viaturas = event;
-    console.log(this.viaturas)
   }
 
   buscaPesquisa(event) {
