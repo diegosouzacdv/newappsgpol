@@ -1,4 +1,4 @@
-import { Component, OnInit, ɵConsole } from '@angular/core';
+import { Component, OnInit, ɵConsole, ViewChild, ElementRef } from '@angular/core';
 import { ViaturaDTO } from 'src/app/models/viatura.dto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItensVistoriaService } from 'src/app/services/domain/itens-vistoria.service';
@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { VistoriaVistoriaDTO } from 'src/app/models/vistoria-viatura.dto';
 import { ItensVistoria } from 'src/app/models/itens-vistoria';
 import { PolicialService } from 'src/app/services/domain/policial.service';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController, AnimationController, Animation } from '@ionic/angular';
 import { SituacaoViatura } from 'src/app/models/situacao-viatura.enum';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -36,6 +36,9 @@ export class ViaturaVistoriaPage implements OnInit {
   subscribeInserirItemVistoria: Subscription;
   subscribeInvalidarVistoriavar: Subscription;
 
+  @ViewChild('square', {static: false}) square: ElementRef;
+  anim: Animation;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -44,7 +47,8 @@ export class ViaturaVistoriaPage implements OnInit {
     private policialService: PolicialService,
     private route: ActivatedRoute,
     public alertCtrl: AlertController,
-    public authService: AuthService) {
+    public authService: AuthService,
+    private animationCTRL: AnimationController) {
 
     this.situacaoViatura = SituacaoViatura;
 
@@ -63,6 +67,22 @@ export class ViaturaVistoriaPage implements OnInit {
       observacaoMotorista: '',
       vistoriaViaturaItensVistoria: []
     }
+  }
+
+  ngAfterViewInit() {
+    
+    this.anim = this.animationCTRL.create('myanim');
+    this.anim
+    .addElement(this.square.nativeElement)
+    .duration(400)
+    .easing('ease-in')
+    .fromTo('opacity', 0, 1);
+
+  }
+  
+  mostrarItensMethod() {
+    this.anim.play();
+    this.mostrarItens = !this.mostrarItens
   }
 
   public ResolveTemViaturaVistoria() {
@@ -161,6 +181,7 @@ export class ViaturaVistoriaPage implements OnInit {
     const alert = await this.alertCtrl.create({
       header: 'Alerta',
       message: 'Deseja excluir a vistoria?',
+      mode: 'ios',
       buttons: [
         {
           text: 'Cancelar',
@@ -226,8 +247,9 @@ export class ViaturaVistoriaPage implements OnInit {
 
   public success() {
     const alert = this.alertCtrl.create({
-      header: 'Sucesso',
-      message: 'Salvo com sucesso!',
+      header: 'Salvo com sucesso!',
+     // message: 'Salvo com sucesso!',
+      mode: 'ios',
       backdropDismiss: true,
       buttons: [
         { text: 'Ok' }
@@ -259,6 +281,7 @@ export class ViaturaVistoriaPage implements OnInit {
     const alert = this.alertCtrl.create({
       header: 'Excluido',
       message: 'Vistoria foi excluida!',
+      mode: 'ios',
       backdropDismiss: true,
       buttons: [
         { text: 'Ok' }

@@ -19,11 +19,14 @@ import { HomePipe } from './pipes/home.pipe';
 
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx'
 import { SQLite } from '@ionic-native/sqlite/ngx'
+import { enterAnimation } from './config/nav-animation';
 
 @NgModule({
   declarations: [AppComponent, HomePipe],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, IonicModule.forRoot({
+    navAnimation: enterAnimation
+  }), AppRoutingModule, HttpClientModule],
   providers: [
     StatusBar,
     AppVersion,

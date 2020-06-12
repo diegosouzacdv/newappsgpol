@@ -21,7 +21,7 @@ import { UtilsService } from 'src/app/services/domain/utils.service';
 export class ViaturaMotoristaPage implements  AfterViewInit{
 
   viaturasUnidade: ViaturaDTO[] = [];
-  public viaturas: ViaturaDTO[];
+  public viaturas: ViaturaDTO[] = [];
   viatura: ViaturaDTO;
   public policial: PolicialDTO;
   loading: any;
@@ -64,7 +64,6 @@ export class ViaturaMotoristaPage implements  AfterViewInit{
   }
 
   ngAfterViewInit() {
-    this.animacaoPesquisa();
     this.animacaoViaturaUso();
   }
 
@@ -73,10 +72,37 @@ export class ViaturaMotoristaPage implements  AfterViewInit{
   }
 
   async vistoriar(viatura?: ViaturaDTO, idviatura?: number) {
+    console.log(viatura)
+    if (viatura !== null && viatura.status === this.situacaoViatura.DISPONIVEL) {
+      const alert = await this.alertController.create({
+        header: 'Alerta',
+        message: `Confirma início da vistoria da viatura de prefixo: ${viatura.prefixo}?`,
+        mode: 'ios',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: (blah) => {
+            }
+          }, {
+            text: 'Sim',
+            handler: async () => {
+              this.navegacaoPaginaVistoria(viatura, idviatura)
+            }
+          }
+        ]
+      });
+      await alert.present();
+    } else {
+      this.navegacaoPaginaVistoria(viatura, idviatura)
+    }
+  }
+
+  async navegacaoPaginaVistoria(viatura?, idviatura?) {
     await this.presentLoading();
     let id = viatura !== null ? viatura.id : idviatura;
     this.router.navigate(['/vistoria', id,  'false'])
-
   }
 
   ionViewWillEnter() {
@@ -122,7 +148,7 @@ export class ViaturaMotoristaPage implements  AfterViewInit{
   
                     if (viatura.dataProximaRevisao != null) {
                       viatura.dataFormatadaProximaRevisao = this.transNumData(viatura.dataProximaRevisao);
-                      console.log(viatura.dataFormatadaProximaRevisao)
+                      console.log(viatura)
                     } 
                     viatura = this.viaturaService.verificarOdometroDataRevisao(viatura, this.dataHojeNumero)
                     
@@ -180,9 +206,9 @@ export class ViaturaMotoristaPage implements  AfterViewInit{
 
             if (viatura.dataProximaRevisao != null) {
               viatura.dataFormatadaProximaRevisao = this.transNumData(viatura.dataProximaRevisao);
-              console.log(viatura.dataFormatadaProximaRevisao)
+              console.log(viatura)
             }
-
+            this.animacaoPesquisa();
             viatura = this.viaturaService.verificarOdometroDataRevisao(viatura, this.dataHojeNumero)
             this.animPesquisa.play();
           })
@@ -228,13 +254,12 @@ export class ViaturaMotoristaPage implements  AfterViewInit{
       this.page++;
       this.listarViaturasUnidadeLoading();
       event.target.complete();
-      if (this.pageable.last === true) {
-        console.log('final')
-        event.target.disabled = true;
-      }
+      // if (this.pageable.last === true) {
+      //   console.log('final')
+      //   event.target.disabled = true;
+      // }
     }, 500);
   }
-
   
   animacaoPesquisa() {
     this.animPesquisa = this.animationCTRL.create('pesquisaViatura');

@@ -163,10 +163,10 @@ export class AdjuntoPage implements AfterViewInit{
       console.log(this.page);
       this.listarViaturasUnidadeLoading();
       event.target.complete();
-      if (this.pageable.last === true) {
-        console.log('final')
-        event.target.disabled = true;
-      }
+      // if (this.pageable.last === true) {
+      //   console.log('final')
+      //   event.target.disabled = true;
+      // }
     }, 500);
   }
 

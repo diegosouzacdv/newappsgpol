@@ -22,7 +22,7 @@ import { DadosResumoPolicial } from '../models/dados-resumo-policial';
 })
 export class HomePage implements OnInit, AfterViewInit {
 
-  @ViewChild('square', {static: false}) square: ElementRef;
+  @ViewChild('square', { static: false }) square: ElementRef;
   anim: Animation;
 
   public pages: Pages[];
@@ -53,7 +53,7 @@ export class HomePage implements OnInit, AfterViewInit {
     }
   ];
   public versions: Versao[] = [];
-  
+
 
 
   constructor(
@@ -84,11 +84,11 @@ export class HomePage implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.anim = this.animationCTRL.create('myanim');
     this.anim
-    .addElement(this.square.nativeElement)
-    .duration(400)
-    .easing('ease-out')
-    .fromTo('transform', 'translateX(300px)','translateX(0px)')
-    .fromTo('opacity', 0.2, 1)
+      .addElement(this.square.nativeElement)
+      .duration(400)
+      .easing('ease-out')
+      .fromTo('transform', 'translateX(300px)', 'translateX(0px)')
+      .fromTo('opacity', 0.2, 1)
   }
 
   getDatabase() {
@@ -104,8 +104,19 @@ export class HomePage implements OnInit, AfterViewInit {
   getPages() {
     this.subscribePages = this.route.data.subscribe((resolvedRouteData) => {
       this.pages = resolvedRouteData.pages;
-      this.dadosResumoPolicial = resolvedRouteData.user;
     })
+  }
+
+  public async dadosPagePessoal() {
+    const user = this.storage.getLocalUser();
+    if (user) {
+      await this.policialService.dadosResumoPolicial()
+        .subscribe(response => {
+          this.dadosResumoPolicial = response;
+        })
+    } else {
+      this.authService.logout();
+    }
   }
 
   public resolverUser() {
@@ -190,14 +201,14 @@ export class HomePage implements OnInit, AfterViewInit {
 
   public salvarSqliteAlerta(versao) {
     this.db.retorn.subscribe((response: Versao[]) => {
-        console.log(response)
-        if (response.length > 0) {
-          console.log(`Tem essa versão ${versao} no banco`)
-        } else {
-          console.log(`Não tem essa versão ${versao} no banco`)
-        }
-      })
-    
+      console.log(response)
+      if (response.length > 0) {
+        console.log(`Tem essa versão ${versao} no banco`)
+      } else {
+        console.log(`Não tem essa versão ${versao} no banco`)
+      }
+    })
+
 
   }
 
@@ -304,6 +315,7 @@ export class HomePage implements OnInit, AfterViewInit {
 
   public mudarClasse(pagina: string) {
     if (pagina == 'pessoal') {
+      this.dadosPagePessoal()
       this.classes.pessoal = !this.classes.pessoal;
       this.classes.sgf = false;
       this.classes.saude = false;

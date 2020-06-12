@@ -27,6 +27,7 @@
   .detalhes {
     font-size: 11px;
     outline: none;
+    color: #787878;
   }
 
   .detalhes:active {
@@ -35,9 +36,5 @@
 
   .card-viatura-unidade {
     box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.3);
-    transition: transform 300ms;
   }
 
-  .card-viatura-unidade:hover {
-    transform: scale(1.1);
-  }

@@ -1,10 +1,11 @@
   <ion-button size="small" disabled expand="block"
-    *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA" slot="end"
+    *ngIf="viatura?.status != situacaoViatura.CAUTELADA && viatura?.status != situacaoViatura.BAIXADA && viatura?.status != situacaoViatura.PARA_REVISAO" slot="end"
     [color]="viatura?.status === situacaoViatura.EM_VISTORIA ? 'warning' : 'primary'">
     {{viatura?.status === situacaoViatura.EM_VISTORIA ? 'AGUARDANDO LIBERAÇÃO DO ADJUNTO' : viatura?.status}}</ion-button>
   <ion-button size="small" disabled expand="block" *ngIf="viatura?.status === situacaoViatura.CAUTELADA" slot="end"
     [color]="viatura?.status === situacaoViatura.CAUTELADA ? 'success' : 'primary'">{{viatura?.status}}
   </ion-button>
-  <ion-button size="small" disabled expand="block" *ngIf="viatura?.status === situacaoViatura.BAIXADA" slot="end" color="danger">
+  <ion-button size="small" disabled expand="block" *ngIf="viatura?.status === situacaoViatura.BAIXADA || viatura?.status === situacaoViatura.PARA_REVISAO" slot="end" color="danger">
     {{viatura?.status}}
   </ion-button>
+  

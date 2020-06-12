@@ -1,21 +1,21 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar mode="ios" color="primary">
     <ion-buttons slot="start">
       <ion-back-button text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Entrada e Saída</ion-title>
-    <ion-buttons slot="end" (click)="logout()">
+    <ion-buttons slot="end" [routerLink]="['/home']" routerDirection="forward">
       <ion-chip mode="ios" outline color="light">
-        <ion-label><strong>Sair</strong></ion-label>
+        <ion-label><strong>Início</strong></ion-label>
       </ion-chip>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="dados-policial">
+  <ion-card class="cardAll">
     <app-dados-basico-policial></app-dados-basico-policial>
-  </div>
+  </ion-card>
 
   <app-pesquisa-viatura [viaturas]="viaturas" (responseImovel)="viaturasPesquisa($event)" (responseBusca)="buscaPesquisa($event)"></app-pesquisa-viatura>
 
@@ -69,8 +69,8 @@
     </ion-segment-button>
   </ion-segment>
   <ion-list >
-    <h6 class="ion-text-center ion-padding-start ion-padding-end" style="color: #86888f;">{{'Atenção! Controle de Entrada e Saída de Viatura feita pela Guarda!'}}</h6>
     <div *ngIf="page === 'patio'; else upmtemplate">
+      <h6 class="ion-text-center ion-padding-start ion-padding-end" style="color: #86888f;">{{'Atenção! Controle de Entrada e Saída de Viatura feita pela Guarda!'}}</h6>
       <div *ngIf="viaturasPatio.length !== 0; else semViaturaPatio">
         <ion-item *ngFor="let viatura of viaturasPatio">
           <ion-label class="ion-text-wrap" slot="start">

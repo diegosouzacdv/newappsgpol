@@ -1,12 +1,12 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar mode="ios" color="primary">
     <ion-buttons slot="start">
       <ion-back-button text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Prefixo: {{viatura?.prefixo}}</ion-title>
-    <ion-buttons slot="end" (click)="logout()">
+    <ion-buttons slot="end" [routerLink]="['/home']" routerDirection="forward">
       <ion-chip mode="ios" outline color="light">
-        <ion-label><strong>Sair</strong></ion-label>
+        <ion-label><strong>Início</strong></ion-label>
       </ion-chip>
     </ion-buttons>
   </ion-toolbar>
